@@ -1,0 +1,99 @@
+<%- include("../partials/header.ejs") -%>
+
+<body>
+    <%- include("../partials/navbar.ejs") %>
+
+    <div class="wrapper">
+        <div class="community-wrapper">
+            <div class="community-sidebar">
+                <div class="community-banner">
+                    <a href="/communities.html">
+                        <img src="/img/banners-ctr/<%= community.id %>.jpg" width="318px" height="137px">
+                    </a>
+                </div>
+                <div class="community-info-wrapper">
+                    <div class="community-info">
+                        <img class="icon" src="/img/icons/<%= community.id %>.jpg" width="55px">
+
+                        <div>
+                            <span class="community-type">Main Community</span>
+                            <span class="community-name"><%= community.name %></span>
+                            <span class="community-app-name"><%= community.app_name %></span>
+                        </div>
+                    </div>
+
+                    <div class="community-description-wrapper">
+                        <span><%= community.description %>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="community-content">
+                <div class="community-post-list popular">
+                    <div class="header">
+                        <span>Popular Posts</span>
+                    </div>
+
+                    <div class="list">
+                        <% for (const post of popular_posts) { %>
+                            <%- include("../partials/elements/posts.ejs", {
+                                post : post
+                            }) -%>
+                        <% } %>
+
+                        <% if (popular_posts.length <= 0) { %>
+                            <span class="no-posts">There are no posts yet.</span>
+                        <% } %>
+                    </div>   
+                </div>
+
+                <div class="community-post-list paintings">
+                    <div class="header">
+                        <span>Recent Drawings</span>
+                    </div>
+
+                    <div class="list">
+                        <% for (const drawing of recent_drawings) { %>
+                            <%- include("../partials/elements/posts.ejs", {
+                                post : drawing
+                            }) -%>
+                        <% } %>
+
+                        <% if (recent_drawings.length <= 0) { %>
+                            <span class="no-posts">There are no posts yet.</span>
+                        <% } %>
+                    </div>
+                </div>
+
+                <div class="community-post-list ingame">
+                    <div class="header">
+                        <span>In-Game Posts</span>
+                    </div>
+
+                    <div class="list">
+                        <% for (const post of ingame_posts) { %>
+                            <%- include("../partials/elements/posts.ejs", {
+                                post : post
+                            }) -%>
+                        <% } %>
+
+                        <% if (ingame_posts.length <= 0) { %>
+                            <span class="no-posts">There are no posts yet.</span>
+                        <% } %>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-wrapper">
+            <div>
+                <a href="https://github.com/AquamarineMiiverseTeam">GitHub</a>
+                <a href="https://discord.gg/6hATBGPSdu">Discord</a>
+            </div>
+        </div>
+    </footer>
+</body>
+
+</html>

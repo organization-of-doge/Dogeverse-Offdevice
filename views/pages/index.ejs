@@ -1,24 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aquamarine</title>
-
-    <link rel="stylesheet" href="./aqua-web.css">
-</head>
+<%- include("../partials/header.ejs") -%>
 
 <body>
-    <div class="upper-body">
-        <menu>
-            <li class="logo">
-                <a href="https://aquamarine.lol">
-                    <img src="./dummy-logo.png" width="165px">
-                </a>
-            </li>
-        </menu>
-    </div>
+    
+    <%- include("../partials/navbar.ejs") %>
 
     <div class="wrapper">
         <div class="about-aquamarine">
@@ -34,7 +18,7 @@
                 </div>
 
                 <div class="about-image">
-                    <img src="./AquamarineDemoWWP.png" width="500px">
+                    <img src="/img/AquamarineDemoWWP.png" width="500px">
                 </div>
             </div>
         </div>
@@ -49,5 +33,3 @@
         </div>
     </footer>
 </body>
-
-</html>

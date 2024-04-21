@@ -45,6 +45,7 @@
     --post-actions-text-color: rgb(160, 160, 160);
 
     --empathy-button-bg: rgb(255, 255, 255);
+    --empathy-button-disabled-text-color: rgb(150, 150, 150);
     --empathy-button-boxshadow-color: rgb(210, 210, 210);
 
     --topic_tag_color: rgb(23, 174, 179);
@@ -558,6 +559,16 @@ menu li a {
     cursor: pointer;
 
     box-shadow: 0px 1px 1px 0px var(--empathy-button-boxshadow-color);
+}
+
+.post .post-actions button.empathy.disabled span {
+    color: var(--empathy-button-disabled-text-color);
+}
+
+.post .post-actions button.empathy.disabled:hover {
+    cursor: auto;
+
+    box-shadow: none;
 }
 
 

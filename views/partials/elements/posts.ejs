@@ -1,0 +1,61 @@
+<div class="post <%= (post.title_owned) ? "ingame" : "" %>">
+    <% if (post.screenshot_cdn_url) { %>
+        <img src="<%= post.screenshot_cdn_url %>" width="285px">
+    <% } %>
+
+    <div class="post-content-wrapper">
+        <div class="user-info">
+            <a href="/users/nonamegiven">
+                    <% switch (post.feeling_id) {
+                        case 0:%>
+                            <img src="https://mii-secure.cdn.nintendo.net/<%= post.mii_hash %>_normal_face.png" class="user-icon" onerror="this.src='../../../img/mii_null.png'" height="42px">
+                            <% break;
+                        case 1:%>
+                            <img src="https://mii-secure.cdn.nintendo.net/<%= post.mii_hash %>_happy_face.png" class="user-icon" onerror="this.src='../../../img/mii_null.png'" height="42px">
+                            <% break;
+                        case 2:%>
+                            <img src="https://mii-secure.cdn.nintendo.net/<%= post.mii_hash %>_like_face.png" class="user-icon" onerror="this.src='../../../img/mii_null.png'" height="42px">
+                            <% break;
+                        case 3:%>
+                            <img src="https://mii-secure.cdn.nintendo.net/<%= post.mii_hash %>_surprised_face.png" class="user-icon" onerror="this.src='../../../img/mii_null.png'" height="42px">
+                            <% break;
+                        case 4:%>
+                            <img src="https://mii-secure.cdn.nintendo.net/<%= post.mii_hash %>_frustrated_face.png" class="user-icon" onerror="this.src='../../../img/mii_null.png'" height="42px">
+                            <% break;
+                        case 5:%>
+                            <img src="https://mii-secure.cdn.nintendo.net/<%= post.mii_hash %>_puzzled_face.png" class="user-icon" onerror="this.src='../../../img/mii_null.png'" height="42px">
+                            <% break;
+                        default:%>
+                            <img src="https://mii-secure.cdn.nintendo.net/<%= post.mii_hash %>_normal_face.png" class="user-icon" onerror="this.src='../../../img/mii_null.png'" height="42px">
+                            <% break;
+                    } %>
+            </a>
+            <div class="user-info-text">
+                <a class="name" href="/users/nonamegiven"><%= post.mii_name %></a>
+                <span class="timestamp">1 Hour Ago</span>
+            </div>
+        </div>
+
+        <div class="content">
+            <% if (post.topic_tag) { %>
+                <span class="topic_tag"><%= post.topic_tag %></span>
+            <% } %>
+            
+            <% if (post.body) { %>
+                <span><%= post.body %></span>
+            <% } else { %>
+                <img src="<%= post.painting_cdn_url %>">
+            <% } %>
+        </div>
+
+        <div class="post-actions">
+            <button class="empathy disabled" disabled="">
+                <span>Yeah!</span>
+            </button>
+
+            <span class="empathy-count"><%= post.empathy_count %></span>
+            <span class="reply-count">0</span>
+        </div>
+    </div>
+    
+</div>
