@@ -164,7 +164,7 @@ menu li a {
 .about-aquamarine {
     background-color: var(--gutter-bg);
 
-    height: 300px;
+    height: fit-content;
     width: 100%;
 
     padding-top: 15px;
@@ -208,6 +208,7 @@ menu li a {
 
 .about-image img {
     border-radius: 5px;
+    width: 500px;
 }
 
 .about-actions-wrapper {
@@ -653,6 +654,29 @@ button.empathy span::before {
 }
 
 @media (max-width: 750px) {
+    .about-image {
+        width: 90%;
+
+        margin: 0 auto;
+
+        margin-top: 15px;
+    }
+
+    .about-image img {
+        width: 100%;
+    }
+
+    .about-wrapper {
+        flex-direction: column;
+    }
+
+    .about-paragraph {
+        padding-right: 0px;
+        width: 90%;
+
+        margin: 0 auto;
+    }
+
     .community-wrapper {
         flex-direction: column;
         justify-content: center;
