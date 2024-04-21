@@ -290,9 +290,15 @@ menu li a {
     background-color: var(--community-info-bg);
     border: 1px solid var(--community-info-border-color);
 
+    border-radius: 6px;
+    
+    border-bottom: 2px solid var(--community-info-border-color);
+}
+
+.community-sidebar:has(.community-banner a img) .community-info-wrapper {
+    border-radius: 0px;
     border-bottom-left-radius: 6px;
     border-bottom-right-radius: 6px;
-    border-bottom: 2px solid var(--community-info-border-color);
 }
 
 .community-info-wrapper .icon {

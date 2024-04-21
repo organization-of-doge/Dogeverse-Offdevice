@@ -7,9 +7,11 @@
         <div class="community-wrapper">
             <div class="community-sidebar">
                 <div class="community-banner">
-                    <a href="/communities.html">
-                        <img src="<%= community.cdn_ctr_banner_url %>" width="318px" height="137px">
-                    </a>
+                    <% if (community.cdn_ctr_banner_url) { %>
+                        <a href="/communities.html">
+                            <img src="<%= community.cdn_ctr_banner_url %>" width="318px" height="137px">
+                        </a>
+                    <% } %>
                 </div>
                 <div class="community-info-wrapper">
                     <div class="community-info">
