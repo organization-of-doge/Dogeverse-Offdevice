@@ -472,6 +472,10 @@ menu li a {
     border-bottom: 1px solid var(--community-info-border-color);
 }
 
+.post img {
+    width: 285px;
+}
+
 .list .post div {
     width: 100%;
 }
@@ -483,6 +487,9 @@ menu li a {
 .post .user-info img {
     border-radius: 5px;
     border: 1px solid var(--community-info-border-color);
+
+    width: 42px;
+    height: 42px;
 }
 
 .user-info .user-info-text {
@@ -711,5 +718,13 @@ button.empathy span::before {
         width: 90%;
 
         margin: 0 auto;
+    }
+
+    .post > img {
+        width: 135px;
+    }
+
+    .post .reply-count::after {
+        display: none;
     }
 }
