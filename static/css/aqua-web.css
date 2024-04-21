@@ -363,6 +363,18 @@ menu li a {
     background-color: var(--community-type-badge-bg);
 }
 
+.community-add-post {
+    margin-top: 15px;
+
+    border: 1px solid var(--community-info-border-color);
+    border-bottom: 2px solid var(--community-info-border-color);
+    border-radius: 5px;
+
+    height: 200px;
+
+    background-color: var(--community-info-bg);
+}
+
 .community-content {
     width: 620px;
     max-width: 620px;

@@ -1,4 +1,8 @@
-<%- include("../partials/header.ejs") -%>
+<%- include("../partials/header.ejs", {
+    image_url : community.cdn_icon_url,
+    title : `Aquamarine - ${community.name}`,
+    description : community.description
+}) -%>
 
 <body>
     <%- include("../partials/navbar.ejs") %>
@@ -34,6 +38,10 @@
                         <span><%= community.description %>
                         </span>
                     </div>
+                </div>
+
+                <div class="community-add-post">
+
                 </div>
             </div>
             <div class="community-content">
