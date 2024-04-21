@@ -18,7 +18,13 @@
                         <img class="icon" src="<%= community.cdn_icon_url %>" width="55px">
 
                         <div>
-                            <span class="community-type">Main Community</span>
+                            <% if (community.type=="main" ) {%>
+                                <span class="community-type">Main Community</span>
+                            <%} else if (community.type=="sub" ) {%>
+                                <span class="community-type">Sub Community</span>
+                            <%} else if (community.type=="announcement" ) {%>
+                                <span class="community-type">Announcement Community</span>
+                            <%}%>
                             <span class="community-name"><%= community.name %></span>
                             <span class="community-app-name"><%= community.app_name %></span>
                         </div>
