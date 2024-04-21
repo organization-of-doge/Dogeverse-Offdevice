@@ -164,7 +164,7 @@ menu li a {
 .about-aquamarine {
     background-color: var(--gutter-bg);
 
-    height: 300px;
+    height: fit-content;
     width: 100%;
 
     padding-top: 15px;
@@ -208,6 +208,7 @@ menu li a {
 
 .about-image img {
     border-radius: 5px;
+    width: 500px;
 }
 
 .about-actions-wrapper {
@@ -275,13 +276,17 @@ menu li a {
 
 .community-banner a {
     display: block;
+    height: fit-content;
 
-    height: 137px;
+    position: relative;
+    top: 4px;
 }
 
 .community-banner a img {
     border-top-left-radius: 6px;
     border-top-right-radius: 6px;
+
+    width: 317px;
 }
 
 .community-info-wrapper {
@@ -290,9 +295,15 @@ menu li a {
     background-color: var(--community-info-bg);
     border: 1px solid var(--community-info-border-color);
 
+    border-radius: 6px;
+    
+    border-bottom: 2px solid var(--community-info-border-color);
+}
+
+.community-sidebar:has(.community-banner a img) .community-info-wrapper {
+    border-radius: 0px;
     border-bottom-left-radius: 6px;
     border-bottom-right-radius: 6px;
-    border-bottom: 2px solid var(--community-info-border-color);
 }
 
 .community-info-wrapper .icon {
@@ -300,6 +311,8 @@ menu li a {
     border: 1px solid var(--community-info-border-color);
 
     margin-right: 10px;
+
+    align-self: baseline;
 }
 
 .community-info {
@@ -355,6 +368,18 @@ menu li a {
 
     color: var(--community-type-color);
     background-color: var(--community-type-badge-bg);
+}
+
+.community-add-post {
+    margin-top: 15px;
+
+    border: 1px solid var(--community-info-border-color);
+    border-bottom: 2px solid var(--community-info-border-color);
+    border-radius: 5px;
+
+    height: 200px;
+
+    background-color: var(--community-info-bg);
 }
 
 .community-content {
@@ -431,7 +456,8 @@ menu li a {
     padding: 50px;
     display: block;
     text-align: center;
-    color: var(--community-no-posts-text-color)
+    color: var(--community-no-posts-text-color);
+    border-bottom: 1px solid var(--footer-border-top);
 }
 
 .list .post {
@@ -625,4 +651,65 @@ button.empathy span::before {
     font-weight: normal;
 
     margin-right: 5px;
+}
+
+@media (max-width: 750px) {
+    .about-image {
+        width: 90%;
+
+        margin: 0 auto;
+
+        margin-top: 15px;
+    }
+
+    .about-image img {
+        width: 100%;
+    }
+
+    .about-wrapper {
+        flex-direction: column;
+    }
+
+    .about-paragraph {
+        padding-right: 0px;
+        width: 90%;
+
+        margin: 0 auto;
+    }
+
+    .community-wrapper {
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .community-wrapper .community-sidebar {
+        min-width: 200px;
+        width: 90%;
+
+        margin: 0 auto;
+    }
+
+    .community-banner a img {
+        width: 100%;
+        height: auto;
+
+        display: block;
+    }
+
+    .community-banner a  {
+        top: 0px
+    }
+
+    .community-add-post {
+        margin-bottom: 15px;
+    }
+
+    .community-content {
+        min-width: 200px !important;
+        max-width: none;
+        width: 90%;
+
+        margin: 0 auto;
+    }
 }
