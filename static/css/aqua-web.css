@@ -54,6 +54,10 @@
     --topic_tag_color: rgb(23, 174, 179);
 }
 
+.trigger {
+    cursor: pointer;
+}
+
 html, body {
     margin: 0;
 
