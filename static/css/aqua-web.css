@@ -8,6 +8,9 @@
 
     --nav-bar-bg: rgb(255, 255, 255);
     --nav-bar-border-bottom: rgb(230, 230, 230);
+    --nav-bar-actions-border: rgb(200, 200, 200);
+    --nav-bar-actions-text-color: rgb(110, 110, 110);
+    --nav-bar-active-color: rgb(15, 205, 210);
 
     --gutter-bg: rgb(250, 250, 250);
 
@@ -56,14 +59,14 @@ html, body {
 
     font-family: Arial, Helvetica, sans-serif;
 
-    background-color: #f4f4f4;
+    background-color: #ecf5f4;
     background-repeat: repeat;
     background-attachment: fixed;
     background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAArUlEQVQoFYWQuwrCQBBFd42FlaYQRMRCO3vBNpA/8HNtBbt04gcItnaKoLKegRnYTRYzcLjzuLNh4kMILooh+SeqO6kYJOawhzE0cIBsDLRboRPwsIUFZMMWTM1UWNJWMx4ZPHV4Rq9to9U+OlpeHcHDhjmNF3LzHc01yBdPEOwvkXdiQ6fW7gp9QWM3aD+RWVI5N5X638KF+VuXvqjUru+GEs8SbnCH3gXxJPEDtBsiPW8IwCQAAAAASUVORK5CYII=");
 }
 
 menu {
-    display: block;
+    display: flex;
 
     width: 900px;
     height: 50px;
@@ -74,6 +77,108 @@ menu {
     margin-left: 25px;
 
     padding: 0;
+
+    justify-content: right;
+    align-items: center;
+}
+
+menu .logo {
+    margin-right: auto;
+}
+
+menu .user-profile {
+    height: 100%;
+    width: 135px;
+}
+
+menu li {
+    padding: 0;
+    list-style: none;
+
+    margin-left: 20px;
+}
+
+menu li:hover {
+    box-shadow: inset 0 -4px 0 -1px var(--nav-bar-active-color);
+
+    transition: 0.1s box-shadow;
+}
+
+menu li a {
+    display: flex;
+
+    width: 100%;
+    height: 100%;
+
+    text-decoration: none;
+    color: var(--nav-bar-actions-text-color);
+
+    font-weight: bold;
+    font-size: 14px;
+}
+
+menu li a span {
+    width: fit-content;
+    height: fit-content;
+
+    align-self: center;
+
+    margin-left: 8px;
+
+    height: 100%;
+
+    vertical-align: middle;
+    text-align: center;
+
+    line-height: 50px;
+}
+
+.user-image {
+    width: 35px;
+    height: 35px;
+
+    border-radius: 5px;
+
+    border: 1px solid var(--nav-bar-actions-border);
+
+    align-self: center;
+}
+
+menu li.messages a::before {
+    font-family: Symbols;
+    content: "m";
+
+    font-size: 30px;
+
+    line-height: 49px;
+
+    font-weight: normal;
+}
+
+menu li.communities a::before {
+    font-family: Symbols;
+    content: "c";
+
+    font-size: 30px;
+
+    line-height: 49px;
+
+    font-weight: normal;
+}
+
+menu li.activity-feed {
+    margin-left: 5px;
+}
+
+menu li.activity-feed a::before {
+    font-family: Symbols;
+    content: "a";
+
+    font-size: 30px;
+
+    line-height: 49px;
+
+    font-weight: normal;
 }
 
 footer {
@@ -143,22 +248,6 @@ footer .footer-wrapper div a:hover {
     width: 100%;
 
     padding-top: 50px;
-}
-
-menu li {
-    text-decoration: none;
-    list-style: none;
-
-    width: fit-content;
-    min-height: 45px;
-
-    padding-top: 10px;
-}
-
-menu li a {
-    height: 100%;
-    width: 100%;
-    display: block;
 }
 
 .about-aquamarine {
@@ -661,6 +750,10 @@ button.empathy span::before {
 }
 
 @media (max-width: 750px) {
+    menu li a span {
+        display: none;
+    }
+
     .about-image {
         width: 90%;
 
