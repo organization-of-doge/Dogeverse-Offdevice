@@ -1,0 +1,18 @@
+<%- include("../../partials/header.ejs", {
+    image_url : "",
+    title : "Aquamarine - Log In",
+    description : ""
+}) -%>
+
+<body>
+    <%- include("../../partials/navbar.ejs") %>
+
+    <div class="wrapper center">
+        <div class="login-wrapper">
+            <input type="text" required="true" name="username" placeholder="Enter your Network ID..">
+            <input type="password" required="true" name="password" placeholder="Enter your password..">
+
+            <button onclick="login()">Sign In!</button>
+        </div>
+    </div>
+</body>

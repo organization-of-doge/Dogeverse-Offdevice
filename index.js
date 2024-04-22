@@ -5,8 +5,14 @@ const logger = require('./middleware/log');
 const routes = require("./routes/index");
 const path = require("path")
 
+const auth = require("./middleware/auth")
+const cookie_parser = require("cookie-parser")
+
 logger.log("Using middleware.");
 app.use(logger.http_log);
+
+app.use(cookie_parser())
+app.use(auth)
 
 logger.log("Creating all web routes.");
 

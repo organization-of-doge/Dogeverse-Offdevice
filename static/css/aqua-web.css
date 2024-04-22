@@ -20,6 +20,9 @@
     --footer-text-size: 13px;
     --footer-border-top: rgb(215, 215, 215);
 
+    --login-bg: rgb(255, 255, 255);
+    --login-border: rgb(222, 222, 222);
+
     --aquamarine-text-color: rgb(74, 188, 216);
 
     --about-actions-text-color: rgb(255, 255, 255);
@@ -254,6 +257,24 @@ footer .footer-wrapper div a:hover {
     width: 100%;
 
     padding-top: 50px;
+}
+
+.center {
+    display: flex;
+    justify-content : center;
+}
+
+.login-wrapper {
+    width: 800px;
+    height: 500px;
+
+    margin-top: 35px;
+
+    border-radius: 5px;
+    border: 1px solid var(--login-border);
+    border-bottom: 2px solid var(--login-border);
+
+    background-color: var(--login-bg);
 }
 
 .about-aquamarine {
