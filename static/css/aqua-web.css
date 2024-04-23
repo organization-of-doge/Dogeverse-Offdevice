@@ -1031,6 +1031,20 @@ button.empathy span::before {
         margin: 0 auto;
     }
 
+    .index-communities-wrapper {
+        width: 90%;
+        margin: 0 auto;
+    }
+
+    .index-communities-wrapper > div {
+        flex-direction: column !important;
+        align-items: center;
+    }
+
+    .community {
+        margin-right: 0;
+    }
+
     .community-wrapper {
         flex-direction: column;
         justify-content: center;
