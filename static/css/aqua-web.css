@@ -8,6 +8,9 @@
 
     --nav-bar-bg: rgb(255, 255, 255);
     --nav-bar-border-bottom: rgb(230, 230, 230);
+    --nav-bar-actions-border: rgb(200, 200, 200);
+    --nav-bar-actions-text-color: rgb(110, 110, 110);
+    --nav-bar-active-color: rgb(15, 205, 210);
 
     --gutter-bg: rgb(250, 250, 250);
 
@@ -16,6 +19,10 @@
     --footer-text-hover: rgb(115, 115, 115);
     --footer-text-size: 13px;
     --footer-border-top: rgb(215, 215, 215);
+
+    --login-bg: rgb(255, 255, 255);
+    --login-border: rgb(222, 222, 222);
+    --login-slogan-text-color: rgb(150, 150, 150);
 
     --aquamarine-text-color: rgb(74, 188, 216);
 
@@ -51,19 +58,30 @@
     --topic_tag_color: rgb(23, 174, 179);
 }
 
+.trigger {
+    cursor: pointer;
+}
+
 html, body {
     margin: 0;
 
     font-family: Arial, Helvetica, sans-serif;
 
-    background-color: #f4f4f4;
+    background-color: #ecf5f4;
     background-repeat: repeat;
     background-attachment: fixed;
     background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAArUlEQVQoFYWQuwrCQBBFd42FlaYQRMRCO3vBNpA/8HNtBbt04gcItnaKoLKegRnYTRYzcLjzuLNh4kMILooh+SeqO6kYJOawhzE0cIBsDLRboRPwsIUFZMMWTM1UWNJWMx4ZPHV4Rq9to9U+OlpeHcHDhjmNF3LzHc01yBdPEOwvkXdiQ6fW7gp9QWM3aD+RWVI5N5X638KF+VuXvqjUru+GEs8SbnCH3gXxJPEDtBsiPW8IwCQAAAAASUVORK5CYII=");
 }
 
+body {
+    width: 100%;
+    height: 100%;
+
+    position: relative;
+}
+
 menu {
-    display: block;
+    display: flex;
 
     width: 900px;
     height: 50px;
@@ -74,17 +92,119 @@ menu {
     margin-left: 25px;
 
     padding: 0;
+
+    justify-content: right;
+    align-items: center;
+}
+
+menu .logo {
+    margin-right: auto;
+}
+
+menu .logo img {
+    align-self: center;
+}
+
+menu li {
+    padding: 0;
+    list-style: none;
+
+    margin-left: 20px;
+
+    min-width: 133px;
+    height: 100%;
+}
+
+menu li:hover {
+    box-shadow: inset 0 -4px 0 -1px var(--nav-bar-active-color);
+
+    transition: 0.2s box-shadow;
+}
+
+menu li a {
+    display: flex;
+
+    width: 100%;
+    height: 100%;
+
+    text-decoration: none;
+    color: var(--nav-bar-actions-text-color);
+
+    font-weight: bold;
+    font-size: 14px;
+}
+
+menu li a span {
+    width: fit-content;
+    height: fit-content;
+
+    align-self: center;
+
+    margin-left: 8px;
+
+    height: 100%;
+
+    vertical-align: middle;
+    text-align: center;
+
+    line-height: 50px;
+}
+
+.user-image {
+    width: 35px;
+    height: 35px;
+
+    border-radius: 5px;
+
+    border: 1px solid var(--nav-bar-actions-border);
+
+    align-self: center;
+}
+
+menu li.messages a::before {
+    font-family: Symbols;
+    content: "m";
+
+    font-size: 30px;
+
+    line-height: 49px;
+
+    font-weight: normal;
+}
+
+menu li.communities a::before {
+    font-family: Symbols;
+    content: "c";
+
+    font-size: 30px;
+
+    line-height: 49px;
+
+    font-weight: normal;
+}
+
+menu li.activity-feed {
+    margin-left: 5px;
+}
+
+menu li.activity-feed a::before {
+    font-family: Symbols;
+    content: "a";
+
+    font-size: 30px;
+
+    line-height: 49px;
+
+    font-weight: normal;
 }
 
 footer {
-    position: relative;
+    position: absolute;
     bottom: 0;
     left: 0;
 
     width: 100%;
     height: 65px;
-    
-    margin-top: 15px;
 
     background-color: var(--footer-bg);
     border-top: var(--footer-border-top);
@@ -143,22 +263,64 @@ footer .footer-wrapper div a:hover {
     width: 100%;
 
     padding-top: 50px;
+    padding-bottom: 85px;
 }
 
-menu li {
-    text-decoration: none;
-    list-style: none;
-
-    width: fit-content;
-    min-height: 45px;
-
-    padding-top: 10px;
+.center {
+    display: flex;
+    justify-content : center;
 }
 
-menu li a {
-    height: 100%;
-    width: 100%;
-    display: block;
+.login-wrapper {
+    width: 640px;
+    height: 300px;
+
+    margin-top: 35px;
+
+    border-radius: 5px;
+    border: 1px solid var(--login-border);
+    border-bottom: 2px solid var(--login-border);
+
+    background-color: var(--login-bg);
+
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+
+    margin-bottom: 250px;
+
+    padding-bottom: 25px;
+}
+
+.login-wrapper img {
+    margin-top: 30px;
+    margin-bottom: 0px;
+
+    width: 350px;
+}
+
+.login-wrapper span {
+    color: var(--login-slogan-text-color);
+
+    margin-bottom: 20px;
+}
+
+.login-wrapper button {
+    margin-top: 15px;
+
+    width: 120px;
+    height: 35px;
+
+    font-size: 20px;
+}
+
+.login-wrapper input {
+    width: 325px;
+    height: 35px;
+
+    font-size: 20px;
+
+    margin-bottom: 2px;
 }
 
 .about-aquamarine {
@@ -168,6 +330,8 @@ menu li a {
     width: 100%;
 
     padding-top: 15px;
+
+    border-bottom: 1px solid var(--nav-bar-border-bottom);
 }
 
 .about-wrapper {
@@ -472,6 +636,10 @@ menu li a {
     border-bottom: 1px solid var(--community-info-border-color);
 }
 
+.post img {
+    width: 285px;
+}
+
 .list .post div {
     width: 100%;
 }
@@ -483,6 +651,9 @@ menu li a {
 .post .user-info img {
     border-radius: 5px;
     border: 1px solid var(--community-info-border-color);
+
+    width: 42px;
+    height: 42px;
 }
 
 .user-info .user-info-text {
@@ -654,6 +825,40 @@ button.empathy span::before {
 }
 
 @media (max-width: 750px) {
+    menu {
+        justify-content: space-around;
+    }
+
+    menu li {
+        min-width: 0;
+
+        margin-left: 0;
+    }
+
+    menu li a span {
+        display: none;
+    }
+
+    menu li.logo:not(:only-child) {
+        display: none;
+    }
+
+    .login-wrapper {
+        width: 90%;
+
+        min-width: 347px;
+    }
+
+    .login-wrapper img {
+        width: 330px;
+    }
+
+    .login-wrapper span {
+        display: block;
+        width: 90%;
+        text-align: center;
+    }
+
     .about-image {
         width: 90%;
 
@@ -711,5 +916,13 @@ button.empathy span::before {
         width: 90%;
 
         margin: 0 auto;
+    }
+
+    .post > img {
+        width: 135px;
+    }
+
+    .post .reply-count::after {
+        display: none;
     }
 }
