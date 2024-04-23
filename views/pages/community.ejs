@@ -5,7 +5,7 @@
 }) -%>
 
 <body>
-    <%- include("../partials/navbar.ejs") %>
+    <%- include("../partials/elements/navbar.ejs") %>
 
     <div class="wrapper">
         <div class="community-wrapper">
@@ -52,7 +52,7 @@
 
                     <div class="list">
                         <% for (const post of popular_posts) { %>
-                            <%- include("../partials/elements/posts.ejs", {
+                            <%- include("../partials/elements/ugc/posts.ejs", {
                                 post : post
                             }) -%>
                         <% } %>
@@ -70,7 +70,7 @@
 
                     <div class="list">
                         <% for (const drawing of recent_drawings) { %>
-                            <%- include("../partials/elements/posts.ejs", {
+                            <%- include("../partials/elements/ugc/posts.ejs", {
                                 post : drawing
                             }) -%>
                         <% } %>
@@ -88,7 +88,7 @@
 
                     <div class="list">
                         <% for (const post of ingame_posts) { %>
-                            <%- include("../partials/elements/posts.ejs", {
+                            <%- include("../partials/elements/ugc/posts.ejs", {
                                 post : post
                             }) -%>
                         <% } %>
@@ -102,14 +102,7 @@
         </div>
     </div>
 
-    <footer>
-        <div class="footer-wrapper">
-            <div>
-                <a href="https://github.com/AquamarineMiiverseTeam">GitHub</a>
-                <a href="https://discord.gg/6hATBGPSdu">Discord</a>
-            </div>
-        </div>
-    </footer>
+    <%- include("../partials/elements/footer.ejs") -%>
 </body>
 
 </html>

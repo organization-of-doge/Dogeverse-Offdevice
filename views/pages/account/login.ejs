@@ -5,14 +5,19 @@
 }) -%>
 
 <body>
-    <%- include("../../partials/navbar.ejs") %>
+    <%- include("../../partials/elements/navbar.ejs") %>
 
     <div class="wrapper center">
         <div class="login-wrapper">
+            <img src="/img/dummy-logo.png">
+            <span>Sign into your Aquamarine Account to start interacting with others!</span>
+
             <input type="text" required="true" name="username" placeholder="Enter your Network ID..">
             <input type="password" required="true" name="password" placeholder="Enter your password..">
 
             <button onclick="login()">Sign In!</button>
         </div>
     </div>
+
+    <%- include("../../partials/elements/footer.ejs") -%>
 </body>

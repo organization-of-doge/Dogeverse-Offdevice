@@ -19,7 +19,7 @@ async function auth(req, res, next) {
 
     const account_data = (await db_con.account_db("accounts").where({id : user_data.data.account_id}))[0]
 
-    res.locales = account_data
+    res.locals.user = account_data
 
     return next();
 }
