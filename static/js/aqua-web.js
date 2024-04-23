@@ -1,3 +1,11 @@
+document.addEventListener("DOMContentLoaded", () => {
+    document.querySelectorAll("[data-href]").forEach((e) => {
+        e.addEventListener("click", () => {
+            window.location.href = e.getAttribute("data-href")
+        })
+    })
+})
+
 async function login() {
     const username = document.querySelector('input[name="username"]').value
     const password = document.querySelector('input[name="password"]').value

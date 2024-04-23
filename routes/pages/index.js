@@ -5,7 +5,7 @@ const moment = require('moment');
 const db_con = require("../../../shared_config/database_con")
 
 route.get("/", async (req, res) => {
-    const popular_communities = await db_con.env_db.select("*").from("communities AS c").where({ type: "main" }).orderBy(function () {
+    const popular_communities = await db_con.env_db.select("*").from("communities AS c").where({ type: "main" }).whereNot({id : 0}).orderBy(function () {
         this.count("community_id").from("posts").whereRaw("community_id = `c`.id").whereBetween("create_time", [moment().subtract(5, "days").format("YYYY-MM-DD HH:mm:ss"), moment().add(1, "day").format("YYYY-MM-DD HH:mm:ss")])
     }, "desc").limit(4)
 

@@ -28,7 +28,10 @@
 
     --about-actions-text-color: rgb(255, 255, 255);
     --about-actions-signin-bg: rgb(15, 205, 210);
-    --about-actions-installation-bg: rgb(65, 25, 25);
+    --about-actions-installation-bg: rgb(79, 202, 67);
+
+    --community-name-text-color: rgb(0, 0, 0);
+    --community-hover-bg: rgb(245, 245, 245);
 
     --community-info-bg: rgb(255, 255, 255);
     --community-info-border-color: rgb(222, 222, 222);
@@ -60,6 +63,16 @@
 
 .trigger {
     cursor: pointer;
+}
+
+.trigger:hover {
+    background-color: var(--community-hover-bg) !important;
+
+    transition: background-color 0.1s;
+}
+
+a.trigger:hover, span.trigger:hover {
+    text-decoration: underline;
 }
 
 html, body {
@@ -312,6 +325,8 @@ footer .footer-wrapper div a:hover {
     height: 35px;
 
     font-size: 20px;
+
+    font-family: Arial, Helvetica, sans-serif;
 }
 
 .login-wrapper input {
@@ -321,6 +336,8 @@ footer .footer-wrapper div a:hover {
     font-size: 20px;
 
     margin-bottom: 2px;
+
+    font-family: Arial, Helvetica, sans-serif;
 }
 
 .about-aquamarine {
@@ -412,6 +429,138 @@ footer .footer-wrapper div a:hover {
 
 .about-actions-wrapper a:nth-child(2) {
     background-color: var(--about-actions-installation-bg);
+}
+
+.index-communities-wrapper {
+    margin: 0 auto;
+    width: 900px;
+
+    display: flex;
+    flex-direction: row;
+}
+
+.index-communities-wrapper .popular-communities {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+
+    padding-top: 15px;
+
+    width: 645px;
+}
+
+.community {
+    margin-right: 15px;
+    margin-bottom: 15px;
+}
+
+.community a {
+    width: fit-content;
+    height: fit-content;
+
+    display: block;
+}
+
+.community a img.banner {
+    width: 305px;
+    display: block;
+
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    border: 1px solid var(--community-info-border-color);
+    border-bottom: none;
+}
+
+.community:has(img.banner) .community-info {
+    border-radius: 0px;
+    border-bottom-left-radius: 3px;
+    border-bottom-right-radius: 3px;
+}
+
+.community .community-info {
+    height: 75px;
+    max-height: 75px;
+
+    max-width: 305px;
+
+    display: flex;
+
+    background-color: var(--community-info-bg);
+    border: 1px solid var(--community-info-border-color);
+    border-bottom: 2px solid var(--community-info-border-color);
+    border-radius: 3px;
+}
+
+.community-info .icon-wrapper {
+    align-self: center;
+    padding-left: 10px;
+}
+
+.community-info .icon {
+    width: 52px;
+
+    border-radius: 3px;
+
+    border: 1px solid var(--community-info-border-color);
+
+    display: block;
+}
+
+.community-meta {
+    display: flex;
+    flex-direction: column;
+
+    justify-content: center;
+
+    align-self: center;
+
+    height: 54px;
+    width: 220px;
+
+    margin-left: 7px;
+}
+
+.community-meta .name {
+    font-weight: bold;
+    color: var(--community-name-text-color);
+
+    display: block;
+    width: fit-content;
+}
+
+.community-meta .platform {
+    color: var(--community-app-name-color);
+
+    display: inline-block;
+    width: fit-content;
+
+    font-size: 13px;
+
+    vertical-align: middle;
+
+    margin-top: 3px;
+}
+
+.platform::before {
+    display: inline-block;
+
+    background-repeat: no-repeat;
+    background-size:contain;
+    content: "";
+
+    width: 58px;
+    height: 12px;
+
+    position: relative;
+    top: 2px;
+}
+
+.platform.wiiu::before { 
+    background-image: url("/img/platform/platform-tag-wiiu.png");
+}
+
+.platform.\33 ds::before {
+    background-image: url("/img/platform/platform-tag-3ds.png");
 }
 
 .community-wrapper {
