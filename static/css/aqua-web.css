@@ -513,6 +513,8 @@ footer .footer-wrapper div a:hover {
     font-size: 15px;
 
     width: 90%;
+
+    background-color: transparent;
 }
 
 .extra-content form input[type="submit"] {
