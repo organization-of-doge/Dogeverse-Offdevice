@@ -512,7 +512,7 @@ footer .footer-wrapper div a:hover {
 
     font-size: 15px;
 
-    width: 285px;
+    width: 90%;
 }
 
 .extra-content form input[type="submit"] {
@@ -1131,6 +1131,19 @@ button.empathy span::before {
         margin: 0 auto;
 
         flex-direction: column-reverse;
+    }
+
+    .extra-content {
+        width: 100%;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .extra-content form {
+        width: 90%;
+        max-width: none;
     }
 
     .index-communities-wrapper .communities {
