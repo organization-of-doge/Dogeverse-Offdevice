@@ -617,6 +617,10 @@ div > .community:nth-child(even) {
 
     display: block;
     width: fit-content;
+
+    max-height: 38px;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .community-meta .platform {
