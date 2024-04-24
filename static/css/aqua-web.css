@@ -30,6 +30,9 @@
     --about-actions-signin-bg: rgb(15, 205, 210);
     --about-actions-installation-bg: rgb(79, 202, 67);
 
+    --search-bar-background: rgb(255, 255, 255);
+    --search-bar-border: rgb(215, 215, 215);
+
     --community-name-text-color: rgb(0, 0, 0);
     --community-hover-bg: rgb(245, 245, 245);
 
@@ -358,7 +361,7 @@ footer .footer-wrapper div a:hover {
     margin: 0 auto;
     height: 100%;
 
-    max-width: 900px;
+    max-width: 960px;
 }
 
 .about-paragraph {
@@ -433,10 +436,12 @@ footer .footer-wrapper div a:hover {
 
 .index-communities-wrapper {
     margin: 0 auto;
-    width: 900px;
+    width: 960px;
 
     display: flex;
     flex-direction: column;
+
+    justify-content: space-between;
 }
 
 .index-communities-wrapper .communities {
@@ -450,7 +455,7 @@ footer .footer-wrapper div a:hover {
 
     padding-top: 15px;
 
-    width: 645px;
+    width: 630px;
 }
 
 .index-communities-wrapper .newest-communities {
@@ -460,7 +465,7 @@ footer .footer-wrapper div a:hover {
 
     padding-top: 15px;
 
-    width: 645px;
+    width: 630px;
 }
 
 .newest-communities .community {
@@ -474,6 +479,59 @@ footer .footer-wrapper div a:hover {
     display: flex;
 }
 
+.extra-content {
+    padding-top: 15px;
+
+    width: 320px;
+}
+
+.extra-content form {
+    border: 3px solid var(--search-bar-border);
+    
+    background-color: var(--search-bar-background);
+
+    border-radius: 2px;
+
+    width: 314px;
+    max-width: 314px;
+
+    display: flex;
+    justify-content: space-between;
+}
+
+.extra-content form input[type="search"] {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+
+    border: none;
+
+    padding-left: 6px;
+    padding-top: 7px;
+    padding-bottom: 7px;
+
+    font-size: 15px;
+
+    width: 285px;
+}
+
+.extra-content form input[type="submit"] {
+    width: 34px;
+    height: 34px;
+
+    align-self: center;
+
+    border: none;
+    background-color: transparent;
+
+    font-size: 16px;
+    font-family: Symbols;
+    color: var(--common-text-color);
+    text-align: center;
+
+    cursor: pointer;
+}
+
 .community {
     margin-right: 15px;
     margin-bottom: 15px;
@@ -481,6 +539,10 @@ footer .footer-wrapper div a:hover {
     width: 307px;
 
     height: fit-content;
+}
+
+div > .community:nth-child(even) {
+    margin-right: 0px;
 }
 
 .community a {
@@ -1061,8 +1123,10 @@ button.empathy span::before {
     }
 
     .index-communities-wrapper {
-        width: 90%;
+        width: 95%;
         margin: 0 auto;
+
+        flex-direction: column-reverse;
     }
 
     .index-communities-wrapper .communities {
