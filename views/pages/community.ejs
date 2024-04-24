@@ -34,10 +34,11 @@
                         </div>
                     </div>
 
-                    <div class="community-description-wrapper">
-                        <span><%= community.description %>
-                        </span>
-                    </div>
+                    <% if (community.description) { %>
+                        <div class="community-description-wrapper">
+                            <span><%= community.description %></span>
+                        </div>
+                    <% } %>   
                 </div>
 
                 <div class="community-add-post">
