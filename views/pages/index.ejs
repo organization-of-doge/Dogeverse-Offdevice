@@ -29,43 +29,37 @@
         </div>
 
         <div class="index-communities-wrapper">
-            <div class="popular-communities">
-                <% for (const community of popular_communities) { %>
-                    <div class="community" id="community-<%= community.id %>" data-href="/communities/<%= community.id %>">
-                        <a href="/communities/<%= community.id %>">
-                            <img class="banner" src="<%= community.cdn_ctr_banner_url %>">
-                        </a>
+            <div class="communities">
+                <div class="popular-communities">
+                    <% for (const community of popular_communities) { %>
+                        <%- include("../partials/elements/database-elements/community.ejs", {
+                            community : community,
+                            include_banner : true
+                        }) %>
+                    <% } %>
+                </div>
+    
+                <div class="newest-communities wiiu">
+                    <% for (const community of newest_communities_wiiu) { %>
+                        <%- include("../partials/elements/database-elements/community.ejs", {
+                            community : community,
+                            include_banner : false
+                        }) %>
+                    <% } %>
+                </div>
 
-                        <div class="community-info trigger">
-                            <div class="icon-wrapper">
-                                <img class="icon" src="<%= community.cdn_icon_url %>">
-                            </div>
-                            <div class="community-meta">
-                                <span class="name trigger"><%= community.name %></span>
-                                <span class="platform <%= community.platform %>"><% switch (community.platform) {
-                                    case "wiiu":%>
-                                        Wii U Games
-                                        <%break;
-                                    case "3ds":%>
-                                        Nintendo 3DS Games
-                                        <%break;
-                                    case "both":%>
-                                        Wii U/3DS Games
-                                        <%break;
-                                    case "vc":%>
-                                        Virtual Console Games
-                                        <%break;
-                                    case "topic":%>
-                                        General Topic
-                                        <%break;
-                                    case "wii":%>
-                                        Wii Games
-                                        <%break;
-                                } %></span>
-                            </div>
-                        </div>
-                    </div>
-                <% } %>
+                <div class="newest-communities 3ds">
+                    <% for (const community of newest_communities_3ds) { %>
+                        <%- include("../partials/elements/database-elements/community.ejs", {
+                            community : community,
+                            include_banner : false
+                        }) %>
+                    <% } %>
+                </div>
+            </div>
+
+            <div class="extra-content">
+
             </div>
         </div>
     </div>

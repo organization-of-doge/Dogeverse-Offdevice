@@ -436,7 +436,11 @@ footer .footer-wrapper div a:hover {
     width: 900px;
 
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
+}
+
+.index-communities-wrapper .communities {
+    width: fit-content;
 }
 
 .index-communities-wrapper .popular-communities {
@@ -449,9 +453,34 @@ footer .footer-wrapper div a:hover {
     width: 645px;
 }
 
+.index-communities-wrapper .newest-communities {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+
+    padding-top: 15px;
+
+    width: 645px;
+}
+
+.newest-communities .community {
+    margin-bottom: 6px;
+}
+
+.index-communities-wrapper {
+    flex-direction: row;
+    flex-wrap: wrap;
+
+    display: flex;
+}
+
 .community {
     margin-right: 15px;
     margin-bottom: 15px;
+
+    width: 307px;
+
+    height: fit-content;
 }
 
 .community a {
@@ -1036,13 +1065,23 @@ button.empathy span::before {
         margin: 0 auto;
     }
 
-    .index-communities-wrapper > div {
-        flex-direction: column !important;
+    .index-communities-wrapper .communities {
+        width: 100%;
+
+        display: flex;
+        flex-direction: column;
         align-items: center;
     }
 
+    .index-communities-wrapper > .communities > div {
+        justify-content: center;
+        align-items: center;
+
+        width: fit-content;
+    }
+
     .community {
-        margin-right: 0;
+        margin-right: 5px;
     }
 
     .community-wrapper {
