@@ -127,7 +127,6 @@ menu li {
 
     margin-left: 20px;
 
-    min-width: 133px;
     height: 100%;
 }
 
@@ -197,10 +196,6 @@ menu li.communities a::before {
     line-height: 49px;
 
     font-weight: normal;
-}
-
-menu li.activity-feed {
-    margin-left: 5px;
 }
 
 menu li.activity-feed a::before {
