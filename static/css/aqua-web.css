@@ -676,6 +676,10 @@ div > .community:nth-child(even) {
     background-image: url("/img/platform/platform-tag-3ds.png");
 }
 
+.platform.topic::before {
+    background-image: url("/img/platform/platform-tag-general.png");
+}
+
 .community-wrapper {
     display: flex;
 

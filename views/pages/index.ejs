@@ -65,6 +65,18 @@
                         <% } %>
                     </div>
                 </div>
+
+                <div>
+                    <h1>Special Communities</h1>
+                    <div class="newest-communities 3ds">
+                        <% for (const community of special_communities) { %>
+                            <%- include("../partials/elements/database-elements/community.ejs", {
+                                community : community,
+                                include_banner : false
+                            }) %>
+                        <% } %>
+                    </div>
+                </div>
             </div>
 
             <div class="extra-content">
