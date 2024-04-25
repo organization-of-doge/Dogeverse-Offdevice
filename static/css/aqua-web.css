@@ -510,11 +510,13 @@ footer .footer-wrapper div a:hover {
     padding-top: 7px;
     padding-bottom: 7px;
 
-    font-size: 15px;
+    font-size: 16px;
 
     width: 90%;
 
     background-color: transparent;
+
+    font-family: Arial, Helvetica, sans-serif;
 }
 
 .extra-content form input[type="submit"] {
@@ -619,10 +621,6 @@ div > .community:nth-child(even) {
 
     display: block;
     width: fit-content;
-
-    max-height: 38px;
-    overflow: hidden;
-    text-overflow: ellipsis;
 }
 
 .community-meta .platform {
