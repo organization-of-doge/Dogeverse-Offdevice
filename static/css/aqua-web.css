@@ -30,6 +30,9 @@
     --about-actions-signin-bg: rgb(15, 205, 210);
     --about-actions-installation-bg: rgb(79, 202, 67);
 
+    --about-actions-signin-bg-hover: rgb(13, 178, 184);
+    --about-actions-installation-bg-hover: rgb(70, 182, 60);
+
     --search-bar-background: rgb(255, 255, 255);
     --search-bar-border: rgb(215, 215, 215);
 
@@ -427,6 +430,18 @@ footer .footer-wrapper div a:hover {
 
 .about-actions-wrapper a:nth-child(2) {
     background-color: var(--about-actions-installation-bg);
+}
+
+.about-actions-wrapper a:nth-child(1):hover {
+    background-color: var(--about-actions-signin-bg-hover);
+
+    transition: 0.1s background-color;
+}
+
+.about-actions-wrapper a:nth-child(2):hover {
+    background-color: var(--about-actions-installation-bg-hover);
+
+    transition: 0.1s background-color;
 }
 
 .index-communities-wrapper {
