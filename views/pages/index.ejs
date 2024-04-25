@@ -30,31 +30,40 @@
 
         <div class="index-communities-wrapper">
             <div class="communities">
-                <div class="popular-communities">
-                    <% for (const community of popular_communities) { %>
-                        <%- include("../partials/elements/database-elements/community.ejs", {
-                            community : community,
-                            include_banner : true
-                        }) %>
-                    <% } %>
+                <div>
+                    <h1>Popular Communities</h1>
+                    <div class="popular-communities">
+                        <% for (const community of popular_communities) { %>
+                            <%- include("../partials/elements/database-elements/community.ejs", {
+                                community : community,
+                                include_banner : true
+                            }) %>
+                        <% } %>
+                    </div>
                 </div>
-    
-                <div class="newest-communities wiiu">
-                    <% for (const community of newest_communities_wiiu) { %>
-                        <%- include("../partials/elements/database-elements/community.ejs", {
-                            community : community,
-                            include_banner : false
-                        }) %>
-                    <% } %>
+                
+                <div>
+                    <h1>Newest Communities (Wii U)</h1>
+                    <div class="newest-communities wiiu">
+                        <% for (const community of newest_communities_wiiu) { %>
+                            <%- include("../partials/elements/database-elements/community.ejs", {
+                                community : community,
+                                include_banner : false
+                            }) %>
+                        <% } %>
+                    </div>
                 </div>
 
-                <div class="newest-communities 3ds">
-                    <% for (const community of newest_communities_3ds) { %>
-                        <%- include("../partials/elements/database-elements/community.ejs", {
-                            community : community,
-                            include_banner : false
-                        }) %>
-                    <% } %>
+                <div>
+                    <h1>Newest Communities (Nintendo 3DS)</h1>
+                    <div class="newest-communities 3ds">
+                        <% for (const community of newest_communities_3ds) { %>
+                            <%- include("../partials/elements/database-elements/community.ejs", {
+                                community : community,
+                                include_banner : false
+                            }) %>
+                        <% } %>
+                    </div>
                 </div>
             </div>
 

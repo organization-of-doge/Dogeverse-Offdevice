@@ -24,7 +24,7 @@
     --login-border: rgb(222, 222, 222);
     --login-slogan-text-color: rgb(150, 150, 150);
 
-    --aquamarine-text-color: rgb(74, 188, 216);
+    --aquamarine-text-color: rgb(17, 206, 212);
 
     --about-actions-text-color: rgb(255, 255, 255);
     --about-actions-signin-bg: rgb(15, 205, 210);
@@ -35,6 +35,8 @@
 
     --search-bar-background: rgb(255, 255, 255);
     --search-bar-border: rgb(215, 215, 215);
+
+    --community-header-text-color: rgb(160, 160, 160);
 
     --community-name-text-color: rgb(0, 0, 0);
     --community-hover-bg: rgb(245, 245, 245);
@@ -463,17 +465,23 @@ footer .footer-wrapper div a:hover {
     flex-direction: row;
     flex-wrap: wrap;
 
-    padding-top: 15px;
-
     width: 630px;
+}
+
+.communities > div > h1 {
+    font-size: 17px;
+
+    margin-top: 15px;
+
+    color: var(--community-header-text-color);
+
+    max-width: 630px;
 }
 
 .index-communities-wrapper .newest-communities {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-
-    padding-top: 15px;
 
     width: 630px;
 }
@@ -1164,7 +1172,7 @@ button.empathy span::before {
         align-items: center;
     }
 
-    .index-communities-wrapper > .communities > div {
+    .index-communities-wrapper > .communities > div > div {
         justify-content: center;
         align-items: center;
 
