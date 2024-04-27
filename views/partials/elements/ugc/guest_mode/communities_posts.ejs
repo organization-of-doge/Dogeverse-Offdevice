@@ -1,0 +1,53 @@
+<div class="community-post-list popular">
+    <div class="header">
+        <span>Popular Posts</span>
+    </div>
+
+    <div class="list">
+        <% for (const post of popular_posts) { %>
+            <%- include("../posts.ejs", {
+                post : post
+            }) -%>
+        <% } %>
+
+        <% if (popular_posts.length <= 0) { %>
+            <span class="no-posts">There are no posts yet.</span>
+        <% } %>
+    </div>   
+</div>
+
+<div class="community-post-list paintings">
+    <div class="header">
+        <span>Recent Drawings</span>
+    </div>
+
+    <div class="list">
+        <% for (const drawing of recent_drawings) { %>
+            <%- include("../posts.ejs", {
+                post : drawing
+            }) -%>
+        <% } %>
+
+        <% if (recent_drawings.length <= 0) { %>
+            <span class="no-posts">There are no posts yet.</span>
+        <% } %>
+    </div>
+</div>
+
+<div class="community-post-list ingame">
+    <div class="header">
+        <span>In-Game Posts</span>
+    </div>
+
+    <div class="list">
+        <% for (const post of ingame_posts) { %>
+            <%- include("../posts.ejs", {
+                post : post
+            }) -%>
+        <% } %>
+
+        <% if (ingame_posts.length <= 0) { %>
+            <span class="no-posts">There are no posts yet.</span>
+        <% } %>
+    </div>
+</div>

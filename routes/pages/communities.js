@@ -6,7 +6,6 @@ const db_con = require("../../../shared_config/database_con")
 
 route.get("/:community_id", async (req, res) => {
     const community_id = req.params.community_id
-
     const community_data = (await db_con.env_db("communities").where({ id: community_id }))[0];
 
     const base_posts_query = db_con.env_db("posts")
@@ -21,20 +20,26 @@ route.get("/:community_id", async (req, res) => {
     .groupBy("posts.id")
     .innerJoin("account.accounts", "accounts.id", "=", "posts.account_id")
     .leftJoin("empathies", "posts.id", "=", "empathies.post_id")
-    .limit(5)
 
-    const popular_posts = await base_posts_query.orderBy("empathy_count", "desc")
+    var popular_posts, ingame_posts, recent_drawings, normal_posts;
 
-    const ingame_posts = await base_posts_query.whereNotNull("posts.app_data").orderBy("posts.create_time", "desc")
+    if (res.locals.guest_mode) {
+        popular_posts = await base_posts_query.orderBy("empathy_count", "desc").limit(5)
 
-    const recent_drawings = await base_posts_query.whereNotNull("posts.painting_cdn_url").orderBy("posts.create_time", "desc")
-
+        ingame_posts = await base_posts_query.whereNotNull("posts.app_data").orderBy("posts.create_time", "desc").limit(5)
+    
+        recent_drawings = await base_posts_query.whereNotNull("posts.painting_cdn_url").orderBy("posts.create_time", "desc").limit(5)
+    } else {
+        normal_posts = await base_posts_query.limit(15)
+    }
+    
     res.render("pages/community.ejs", {
         community: community_data,
 
         recent_drawings: recent_drawings,
         popular_posts: popular_posts,
-        ingame_posts: ingame_posts
+        ingame_posts: ingame_posts,
+        normal_posts : normal_posts
     })
 })
 

@@ -57,6 +57,7 @@
     --community-type-color: rgb(255, 255, 255);
     --community-content-bg: rgb(255, 255, 255);
 
+    --community-normal-color: rgb(17, 206, 212);
     --community-popular-color: rgb(90, 200, 0);
     --community-ingame-color: rgb(74, 188, 216);
     --community-paintings-color: rgb(235, 198, 48);
@@ -140,6 +141,8 @@ menu li {
     margin-left: 20px;
 
     height: 100%;
+    padding-left: 5px;
+    padding-right: 5px;
 }
 
 menu li:hover {
@@ -910,7 +913,7 @@ div > .community:nth-child(even) {
 
     border: 1px solid var(--community-info-border-color);
     border-bottom: 2px solid var(--community-info-border-color);
-    border-radius: 5px;
+    border-radius: 8px;
 
     background-color: var(--community-content-bg);
 }
@@ -929,9 +932,15 @@ div > .community:nth-child(even) {
 }
 
 .community-post-list .header {
-    padding: 10px;
-    padding-bottom: 5px;
     padding-left: 12px;
+    padding-top: 13px;
+    padding-bottom: 13px;
+}
+
+.normal .header {
+    border-bottom: 3px solid var(--community-normal-color);
+
+    color: var(--community-normal-color);
 }
 
 .popular .header {
@@ -950,6 +959,10 @@ div > .community:nth-child(even) {
     border-bottom: 3px solid var(--community-paintings-color);
 
     color: var(--community-paintings-color);
+}
+
+.normal .header span::before {
+    content: "p";
 }
 
 .paintings .header span::before {
