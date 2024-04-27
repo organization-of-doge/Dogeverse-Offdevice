@@ -13,11 +13,24 @@ route.get("/", async (req, res) => {
     const newest_communities_3ds = await db_con.env_db("communities").where({platform : "3ds", type : "main"}).orderBy("communities.create_time", "desc").limit(6)
     const special_communities = await db_con.env_db("communities").where({special_community : 1}).orderBy("communities.create_time", "desc").limit(6)
 
+    var user_favorites;
+
+    if (!res.locals.guest_mode) {
+        user_favorites = await db_con.env_db("favorites")
+            .select("favorites.*", "communities.name as community_name", "communities.id as community_id", "communities.cdn_icon_url")
+            .where({"favorites.account_id" : res.locals.user.id})
+            .innerJoin("communities", "communities.id", "=", "favorites.community_id")
+            .orderBy("favorites.create_time", "desc")
+            .limit(8)
+    }
+
     res.render("pages/index.ejs", {
         popular_communities : popular_communities,
         newest_communities_wiiu : newest_communities_wiiu,
         newest_communities_3ds : newest_communities_3ds,
-        special_communities : special_communities
+        special_communities : special_communities,
+
+        user_favorites : user_favorites
     })
 })
 

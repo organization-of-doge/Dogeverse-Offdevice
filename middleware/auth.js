@@ -12,9 +12,7 @@ async function auth(req, res, next) {
 
     //Error handling
     if (user_data.success === false && user_data.error) {
-        if (user_data.error instanceof jwt.TokenExpiredError) {
-
-        }
+        res.locals.guest_mode = true; return next();
     }
 
     const account_data = (await db_con.account_db("accounts").where({id : user_data.data.account_id}))[0]
