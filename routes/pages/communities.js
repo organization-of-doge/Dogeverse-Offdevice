@@ -30,7 +30,7 @@ route.get("/:community_id", async (req, res) => {
     
         recent_drawings = await base_posts_query.whereNotNull("posts.painting_cdn_url").orderBy("posts.create_time", "desc").limit(5)
     } else {
-        normal_posts = await base_posts_query.limit(15)
+        normal_posts = await base_posts_query.orderBy("posts.create_time", "desc").limit(15)
     }
     
     res.render("pages/community.ejs", {

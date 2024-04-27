@@ -60,6 +60,10 @@
                                     post : post
                                 }) -%>
                             <% } %>
+
+                            <% if (normal_posts.length <= 0) { %>
+                                <span class="no-posts">There are no posts yet.</span>
+                            <% } %>
                         </div>
                     </div>
                 <%} %>

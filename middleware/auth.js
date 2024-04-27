@@ -1,8 +1,11 @@
 const jwt = require("jsonwebtoken");
 const db_con = require("../../shared_config/database_con")
 const auth_token = require("../utils/auth_token")
+const moment = require("moment")
 
 async function auth(req, res, next) {
+    res.locals.moment = moment;
+
     //Getting all token data
     const token = req.cookies.jwt
 
@@ -17,6 +20,8 @@ async function auth(req, res, next) {
 
     const account_data = (await db_con.account_db("accounts").where({id : user_data.data.account_id}))[0]
 
+    //Finally, assigning the account data. While we're at it, we'll also give them the moment library so we can do
+    //time manipulation in client EJS.
     res.locals.user = account_data
 
     return next();

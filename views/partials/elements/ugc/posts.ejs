@@ -1,4 +1,4 @@
-<div class="post <%= (post.title_owned) ? "ingame" : "" %>">
+<div class="post <%= (post.title_owned) ? "ingame" : "" %>" id="post-<%= post.id %>">
     <% if (post.screenshot_cdn_url) { %>
         <img src="<%= post.screenshot_cdn_url %>">
     <% } %>
@@ -32,7 +32,7 @@
             </a>
             <div class="user-info-text">
                 <a class="name" href="/users/nonamegiven"><%= post.mii_name %></a>
-                <span class="timestamp">1 Hour Ago</span>
+                <span class="timestamp"><%= locals.moment(post.create_time).fromNow() %></span>
             </div>
         </div>
 
