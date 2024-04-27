@@ -38,7 +38,7 @@
 
     --community-favorites-bg: rgb(255, 255, 255);
     --community-favorites-border: rgb(222, 222, 222);
-    --community-favorites-empty-bg: rgb(220, 220, 220);
+    --community-favorites-empty-bg: rgb(225, 225, 225);
     --community-favorites-arrow-bg: rgb(238, 238, 238);
     --community-favorites-arrow-text-color: rgb(170, 170, 170);
     --community-favorites-arrow-bg-hover: rgb(220, 220, 220);
@@ -79,9 +79,8 @@
     --topic_tag_color: rgb(23, 174, 179);
 }
 
-.trigger {
-    cursor: pointer;
-}
+.trigger {cursor: pointer;}
+.none {display: none;}
 
 .trigger:hover {
     background-color: var(--community-hover-bg) !important;
@@ -98,7 +97,7 @@ html, body {
 
     font-family: Arial, Helvetica, sans-serif;
 
-    background-color: #ecf5f4;
+    background-color: #eaf5f2;
     background-repeat: repeat;
     background-attachment: fixed;
     background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAArUlEQVQoFYWQuwrCQBBFd42FlaYQRMRCO3vBNpA/8HNtBbt04gcItnaKoLKegRnYTRYzcLjzuLNh4kMILooh+SeqO6kYJOawhzE0cIBsDLRboRPwsIUFZMMWTM1UWNJWMx4ZPHV4Rq9to9U+OlpeHcHDhjmNF3LzHc01yBdPEOwvkXdiQ6fW7gp9QWM3aD+RWVI5N5X638KF+VuXvqjUru+GEs8SbnCH3gXxJPEDtBsiPW8IwCQAAAAASUVORK5CYII=");
@@ -995,6 +994,39 @@ div > .community:nth-child(even) {
     border-bottom: 1px solid var(--footer-border-top);
 }
 
+.add-new-post {
+    min-height: 100px;
+    max-height: 250px;
+
+    padding: 15px;
+
+    border-bottom: 1px solid var(--community-info-border-color);
+
+    display: flex;
+}
+
+.add-new-post textarea {
+    resize: vertical;
+
+    max-height: 200px;
+    min-height: 100px;
+
+    width: 100%;
+
+    padding: 10px;
+
+    font-family: Arial, Helvetica, sans-serif;
+
+    border-radius: 5px;
+
+    border: 1px solid var(--community-info-border-color);
+    box-shadow: inset 0px 1px 4px rgb(220, 220, 220);
+}
+
+.add-new-post.expanded {
+
+}
+
 .list .post {
     display: flex;
     flex-direction: row;
@@ -1009,8 +1041,6 @@ div > .community:nth-child(even) {
 
 .list .post:hover {
     background-color: var(--community-post-hover-bg);
-    
-    cursor: pointer;
 
     transition: background-color 0.2s;
 }

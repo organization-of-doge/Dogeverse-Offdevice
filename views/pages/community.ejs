@@ -40,10 +40,6 @@
                         </div>
                     <% } %>   
                 </div>
-
-                <div class="community-add-post">
-
-                </div>
             </div>
             <div class="community-content">
                 <% if (locals.guest_mode) { %>
@@ -55,6 +51,11 @@
                         </div>
                         
                         <div class="list">
+                            <div class="add-new-post">
+                                <div></div>
+                                <textarea data-expand minlength="5" maxlength="650" placeholder="Share your thoughts with the <%= community.name %> Community!"></textarea>
+                            </div>
+
                             <% for (const post of normal_posts) { %>
                                 <%- include("../partials/elements/ugc/posts.ejs", {
                                     post : post
