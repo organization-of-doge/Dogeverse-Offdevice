@@ -134,13 +134,15 @@ aquamarine.router.connect("^/communities/(\\d+)$", (community_id) => {
     console.log("Initializing file upload")
 
     file_upload.addEventListener("change", (file) => {
+        send_button.setAttribute("disabled", "true")
         var input = file.target
         const reader = new FileReader()
 
         reader.readAsDataURL(input.files[0])
 
-        reader.onload = (ev) => {
-            screenshot = ev.explicitOriginalTarget.result.replace("data:image/jpeg;base64,", "")
+        reader.onload = () => {
+            screenshot = reader.result.replace("data:image/jpeg;base64,", "")
+            send_button.removeAttribute("disabled")
         }
     })
 
