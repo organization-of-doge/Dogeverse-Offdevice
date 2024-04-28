@@ -50,12 +50,32 @@
                             <span>Posts</span>
                         </div>
                         
-                        <div class="list">
-                            <div class="add-new-post">
-                                <div></div>
-                                <textarea data-expand minlength="5" maxlength="650" placeholder="Share your thoughts with the <%= community.name %> Community!"></textarea>
+                        <div class="add-new-post">
+                            <form id="post-expandable" class="feeling-selector none">
+                                <input class="selected" type="radio" value="0">
+                                <input type="radio" value="1">
+                                <input type="radio" value="2">
+                                <input type="radio" value="3">
+                                <input type="radio" value="4">
+                                <input type="radio" value="5">
+                            </form>
+                            <div class="textarea-wrapper">
+                                <textarea autocomplete="off" data-expand="#post-expandable" minlength="5" maxlength="650" placeholder="Share your thoughts with the <%= community.name %> Community!"></textarea>
+                            </div>
+                            <div id="post-expandable" class="file-wrapper none">
+                                <div class="file">
+                                    <div>
+                                        <b>File</b>
+                                        <span>Upload Screenshot (.jpg)</span>
+                                    </div>
+                                    <input autocomplete="off" type="file" accept=".jpg" placeholder="">
+                                </div>
                             </div>
 
+                            <button disabled="true" id="post-expandable" class="post-button none">Send</button>
+                        </div>
+
+                        <div class="list" data-no-posts="<%= (normal_posts <= 0) ? 1 : 0 %>">
                             <% for (const post of normal_posts) { %>
                                 <%- include("../partials/elements/ugc/posts.ejs", {
                                     post : post

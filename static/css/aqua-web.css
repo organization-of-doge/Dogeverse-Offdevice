@@ -70,6 +70,10 @@
 
     --community-header-border-bottom-color: rgb(241, 241, 241);
 
+    --feeling-selector-selected-text-color: rgb(33, 213, 229);
+    --add-new-post-file-bg: rgb(235, 235, 235);
+    --file-allowed-text-color: rgb(100, 100, 100);
+
     --post-timestamp: rgb(110, 110, 110);
     --post-actions-text-color: rgb(160, 160, 160);
 
@@ -85,7 +89,7 @@
 }
 
 .none {
-    display: none;
+    display: none !important;
 }
 
 .trigger:hover:not(.no-bg) {
@@ -289,7 +293,6 @@ menu li.settings .settings-menu {
     right: -3px;
 
     width: 238px;
-    height: 250px;
 
     background-color: var(--nav-bar-settings-bg);
     border: 2px solid var(--nav-bar-border-bottom);
@@ -336,6 +339,10 @@ menu li.settings .settings-menu a {
 
     align-items: center;
     margin-bottom: 5px;
+}
+
+menu li.settings .settings-menu a:last-child {
+    margin: 0;
 }
 
 menu li.settings .settings-menu span {
@@ -1148,6 +1155,67 @@ div>.community:nth-child(even) {
     border-bottom: 1px solid var(--community-info-border-color);
 
     display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.feeling-selector {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+
+    height: 60px;
+    width: 100%;
+    margin-bottom: 15px;
+
+    border-radius: 4px;
+    background: linear-gradient(rgb(110, 110, 110), rgb(160, 160, 160));
+}
+
+.feeling-selector input {
+    appearance: none;
+
+    font-family: Symbols;
+    font-size: 45px;
+    color: #FFF;
+
+    cursor: pointer;
+
+    display: block;
+
+    text-shadow: 0px 0px 8px #060606;
+    text-align: center;
+    margin: 0;
+}
+
+.feeling-selector input.selected {
+    color: var(--feeling-selector-selected-text-color);
+}
+
+.feeling-selector input[value="0"]::before {
+    content: "C";
+}
+.feeling-selector input[value="1"]::before {
+    content: "H";
+}
+.feeling-selector input[value="2"]::before {
+    content: "L";
+}
+.feeling-selector input[value="3"]::before {
+    content: "O"
+}
+.feeling-selector input[value="4"]::before {
+    content: "G";
+}
+.feeling-selector input[value="5"]::before {
+    content: "U";
+}
+
+.add-new-post .textarea-wrapper {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
 }
 
 .add-new-post textarea {
@@ -1170,7 +1238,54 @@ div>.community:nth-child(even) {
     line-height: 1.4;
 }
 
-.add-new-post.expanded {}
+.add-new-post .file-wrapper {
+    width: 100%;
+    margin-top: 15px;
+
+    display: flex;
+    flex-direction: row;
+}
+
+.file-wrapper .file {
+    width: 100%;
+    height: fit-content;
+    padding: 10px;
+    background-color: var(--add-new-post-file-bg);
+    border-radius: 4px;
+
+    display: flex;
+    flex-direction: column;
+}
+
+.file input {
+    width: fit-content;
+    margin-top: 5px;
+}
+
+.file span {
+    font-size: 12px;
+    color: var(--file-allowed-text-color);
+}
+
+.file b {
+    font-size: 14px;
+    color: var(--file-allowed-text-color);
+}
+
+.add-new-post:has( #post-expandable:not(.none)) {
+    max-height: 500px;
+}
+
+.add-new-post .post-button {
+    width: 125px;
+    height: 40px;
+
+    margin-top: 15px;
+
+    font-weight: bold;
+    font-size: 15px;
+    font-family: Arial, Helvetica, sans-serif;
+}
 
 .list .post {
     display: flex;
@@ -1182,6 +1297,17 @@ div>.community:nth-child(even) {
     padding-bottom: 15px;
 
     border-bottom: 1px solid var(--community-info-border-color);
+}
+
+@keyframes transition {
+    from {opacity: 0}
+    to {opacity: 1}
+}
+
+.list .post.transition {
+    opacity: 1;
+    animation: transition;
+    animation-duration: 2s;
 }
 
 .list .post:hover {
@@ -1260,6 +1386,8 @@ div>.community:nth-child(even) {
     border-radius: 6px;
 
     align-self: flex-start;
+    max-height: 200px;
+    max-width: 300px;
 }
 
 .post>img+.post-content-wrapper .content img {
