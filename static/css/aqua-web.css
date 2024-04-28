@@ -1166,6 +1166,8 @@ div>.community:nth-child(even) {
 
     border: 1px solid var(--community-info-border-color);
     box-shadow: inset 0px 1px 4px rgb(220, 220, 220);
+
+    line-height: 1.4;
 }
 
 .add-new-post.expanded {}
@@ -1286,6 +1288,8 @@ div>.community:nth-child(even) {
     margin-top: auto;
 
     justify-self: end;
+
+    z-index: 9;
 }
 
 .post .post-actions span {
@@ -1302,6 +1306,7 @@ div>.community:nth-child(even) {
     border: 1px solid var(--community-info-border-color);
     font-size: 12px;
     max-width: 200px;
+    z-index: 9;
 }
 
 .post .post-actions button.empathy:hover {

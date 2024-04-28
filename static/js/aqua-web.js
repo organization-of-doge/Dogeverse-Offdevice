@@ -19,6 +19,13 @@ const aquamarine = {
             })
         })
 
+        document.querySelectorAll(".empathy:not(.disabled)").forEach((e) => {
+            e.addEventListener("click", (event) => {
+                event.stopPropagation()
+                aquamarine.actions.empathy(e.getAttribute("data-post-id"))
+            })
+        })
+
         document.querySelector("#settings-logout").addEventListener("click", () => {
             aquamarine.logout();
         })
@@ -46,15 +53,21 @@ const aquamarine = {
 
         if (token.success == false) { window.location.reload(); return; }
 
-        document.cookie = `jwt=${token.token}; Path=/; Secure; SameSite=Strict`
+        document.cookie = `jwt=${token.token}; Path=/; Secure; SameSite=None`
 
         window.location.href = "/"
     },
 
     logout: function () {
         console.log("Logging out of current account.")
-        document.cookie = "jwt=;"
+        document.cookie = "jwt=; expires=Thu, 01 Jan 1970 00:00:00 UTC;"
         window.location.href = "/"
+    },
+
+    actions : {
+        empathy : async function (post_id) {
+            console.log(post_id)
+        }
     }
 }
 

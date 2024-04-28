@@ -12,7 +12,7 @@ route.get("/:community_id", async (req, res) => {
     .select("posts.*",
         "accounts.mii_name",
         "accounts.mii_hash",
-        "accounts.id",
+        "accounts.id as account_id",
         "accounts.nnid",
         "accounts.admin",
         db_con.env_db.raw("COUNT(empathies.post_id) as empathy_count"))
