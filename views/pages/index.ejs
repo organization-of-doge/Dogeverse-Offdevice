@@ -5,111 +5,103 @@
 }) -%>
 
 <body>
-    <%- include("../partials/elements/navbar.ejs") %>
+	<%- include("../partials/elements/navbar.ejs") %>
 
-    <div class="wrapper">
-        <% if (locals.guest_mode) { %>
-            <div class="about-aquamarine">
-                <div class="about-wrapper">
-                    <div class="about-paragraph">
-                        <h1>Welcome to Aquamarine!</h1>
-                        <p>Aquamarine is a Miiverse Revival aiming to replicate both the feel, and look of Miiverse, while still retaining features of modern social media. Aquamarine's signature color, aqua, represents a refreshing experience for all walks of life.</p>
-    
-                        <div class="about-actions-wrapper">
-                        
-                            <a href="/login"><span>Sign in</span></a>
-                            
-                            <a href=""><span>Installation</span></a>
-                        </div>
-                    </div>
-    
-                    <div class="about-image">
-                        <img src="/img/AquamarineDemoWWP.png">
-                    </div>
-                </div>
-            </div>
-        <% } %>
-        
+	<div class="wrapper">
+		<% if (locals.guest_mode) { %>
+		<div class="about-aquamarine">
+			<div class="about-wrapper">
+				<div class="about-paragraph">
+					<h1>Welcome to Aquamarine!</h1>
+					<p>Aquamarine is a Miiverse Revival aiming to replicate both the feel, and look of Miiverse, while still retaining features of modern social media. Aquamarine's signature color, aqua, represents a refreshing experience for all walks of life.</p>
 
-        <div class="index-communities-wrapper">
-            <div class="communities">
-                <% if (!locals.guest_mode) { %>
-                    <div class="community-favorites">
-                        <% for (const favorite of user_favorites) { %>
-                            <div class="favorite">
-                                <a href="/communities/<%= favorite.community_id %>">
-                                    <img src="<%= favorite.cdn_icon_url %>">
-                                </a>
-                            </div>
-                        <% } %>
+					<div class="about-actions-wrapper">
 
-                        <% for (let i = 0; i < 8 - user_favorites.length; i++) { %>
-                            <div class="favorite empty"></div>
-                        <% } %>
+						<a href="/login"><span>Sign in</span></a>
 
-                        <a class="next-arrow" href="/users/@me/communities">
-                            A
-                        </a>
-                    </div>
-                <% } %>
+						<a href=""><span>Installation</span></a>
+					</div>
+				</div>
 
-                <div>
-                    <h1>Popular Communities</h1>
-                    <div class="popular-communities">
-                        <% for (const community of popular_communities) { %>
-                            <%- include("../partials/elements/database-elements/community.ejs", {
+				<div class="about-image">
+					<img src="/img/AquamarineDemoWWP.png">
+				</div>
+			</div>
+		</div>
+		<% } %>
+
+
+		<div class="index-communities-wrapper">
+			<div class="communities">
+				<% if (!locals.guest_mode) { %>
+				<div class="community-favorites">
+					<% for (const favorite of user_favorites) { %>
+					<div class="favorite">
+						<a href="/communities/<%= favorite.community_id %>">
+							<img src="<%= favorite.cdn_icon_url %>">
+						</a>
+					</div>
+					<% } %>
+
+					<% for (let i = 0; i < 8 - user_favorites.length; i++) { %>
+					<div class="favorite empty"></div>
+					<% } %>
+
+					<a class="next-arrow" href="/users/@me/favorites">
+						A
+					</a>
+				</div>
+				<% } %>
+
+				<h1>Popular Communities</h1>
+				<div>
+					<% for (const community of popular_communities) { %>
+					<%- include("../partials/elements/database-elements/community.ejs", {
                                 community : community,
                                 include_banner : true
                             }) %>
-                        <% } %>
-                    </div>
-                </div>
-                
-                <div>
-                    <h1>Newest Communities (Wii U)</h1>
-                    <div class="newest-communities wiiu">
-                        <% for (const community of newest_communities_wiiu) { %>
-                            <%- include("../partials/elements/database-elements/community.ejs", {
+					<% } %>
+				</div>
+
+				<h1>Newest Communities (Wii U)</h1>
+				<div>
+					<% for (const community of newest_communities_wiiu) { %>
+					<%- include("../partials/elements/database-elements/community.ejs", {
                                 community : community,
                                 include_banner : false
                             }) %>
-                        <% } %>
-                    </div>
-                </div>
+					<% } %>
+				</div>
 
-                <div>
-                    <h1>Newest Communities (Nintendo 3DS)</h1>
-                    <div class="newest-communities 3ds">
-                        <% for (const community of newest_communities_3ds) { %>
-                            <%- include("../partials/elements/database-elements/community.ejs", {
+				<h1>Newest Communities (Nintendo 3DS)</h1>
+				<div>
+					<% for (const community of newest_communities_3ds) { %>
+					<%- include("../partials/elements/database-elements/community.ejs", {
                                 community : community,
                                 include_banner : false
                             }) %>
-                        <% } %>
-                    </div>
-                </div>
+					<% } %>
+				</div>
 
-                <div>
-                    <h1>Special Communities</h1>
-                    <div class="newest-communities 3ds">
-                        <% for (const community of special_communities) { %>
-                            <%- include("../partials/elements/database-elements/community.ejs", {
+				<h1>Newest Special Communities</h1>
+				<div>
+					<% for (const community of special_communities) { %>
+					<%- include("../partials/elements/database-elements/community.ejs", {
                                 community : community,
                                 include_banner : false
                             }) %>
-                        <% } %>
-                    </div>
-                </div>
-            </div>
+					<% } %>
+				</div>
+			</div>
 
-            <div class="extra-content">
-                <form action="/search" method="get">
-                    <input type="search" name="query" placeholder="Search Communities" maxlength="30" minlength="3">
-                    <input type="submit" value="q" title="Search">
-                </form>
-            </div>
-        </div>
-    </div>
+			<div class="extra-content">
+				<form action="/search" method="get">
+					<input type="search" name="query" placeholder="Search Communities" maxlength="30" minlength="3">
+					<input type="submit" value="q" title="Search">
+				</form>
+			</div>
+		</div>
+	</div>
 
-    <%- include("../partials/elements/footer.ejs") -%>
+	<%- include("../partials/elements/footer.ejs") -%>
 </body>

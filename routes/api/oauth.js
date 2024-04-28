@@ -11,7 +11,7 @@ route.post("/retrieve_token", async (req, res) => {
 
     //Verifying the nnid and password are correct
     const account = (await db_con.account_db("accounts").where({nnid : nnid}))[0];
-    if (!account) { res.sendStatus(404); logger.error(`No account found for nnid: ${nnid}`); return; }
+    if (!account) { res.status(404).send({success : false, error : "NO_ACCOUNT_FOUND"}); logger.error(`No account found for nnid: ${nnid}`); return; }
     const passwordHash = crypto.createHash('sha256').update(password + account.password_salt).digest('hex');
 
     //If they are, then generate the new token, and send it to the client.

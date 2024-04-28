@@ -1,4 +1,4 @@
-<div class="post <%= (post.title_owned) ? "ingame" : "" %>" id="post-<%= post.id %>" data-href="/posts/<%= post.id %>">
+<div class="post trigger <%= (post.title_owned) ? "ingame" : "" %>" id="post-<%= post.id %>" data-href="/posts/<%= post.id %>">
     <% if (post.screenshot_cdn_url) { %>
         <img src="<%= post.screenshot_cdn_url %>">
     <% } %>
