@@ -1,4 +1,4 @@
-<div class="post <%= (post.title_owned) ? "ingame" : "" %>">
+<div class="post trigger <%= (post.title_owned) ? "ingame" : "" %>" id="post-<%= post.id %>" data-href="/posts/<%= post.id %>">
     <% if (post.screenshot_cdn_url) { %>
         <img src="<%= post.screenshot_cdn_url %>">
     <% } %>
@@ -31,8 +31,8 @@
                     } %>
             </a>
             <div class="user-info-text">
-                <a class="name" href="/users/nonamegiven"><%= post.mii_name %></a>
-                <span class="timestamp">1 Hour Ago</span>
+                <a class="name" href="/users/<%= post.nnid %>"><%= post.mii_name %></a>
+                <span class="timestamp"><%= locals.moment(post.create_time).fromNow() %></span>
             </div>
         </div>
 
@@ -49,9 +49,16 @@
         </div>
 
         <div class="post-actions">
-            <button class="empathy disabled" disabled="">
-                <span>Yeah!</span>
-            </button>
+            <% if (locals.guest_mode || post.account_id == locals.user.id) { %>
+                <button class="empathy disabled" disabled="true" data-post-id="<%= post.id %>">
+                    <span>Yeah!</span>
+                </button>
+            <% } else { %>
+                <button class="empathy" data-post-id="<%= post.id %>">
+                    <span>Yeah!</span>
+                </button>
+            <% } %>
+            
 
             <span class="empathy-count"><%= post.empathy_count %></span>
             <span class="reply-count">0</span>

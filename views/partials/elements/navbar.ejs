@@ -1,36 +1,59 @@
 <div class="upper-body">
-    <menu>
-        <li class="logo">
-            <a href="/">
-                <img src="/img/dummy-logo.png" width="165px">
-            </a>
-        </li>
+	<menu>
+		<li class="logo">
+			<a href="/">
+				<img src="/img/aquamarine_long.png" width="165px">
+			</a>
+		</li>
 
-        <% if (!locals.guest_mode) { %>
-            <li class="user-profile">
-                <a href="/">
-                    <img class="user-image" src="https://mii-secure.cdn.nintendo.net/<%= locals.user.mii_hash %>_normal_face.png">
-                    <span>User Page</span>
-                </a>
-            </li>
-    
-            <li class="activity-feed">
-                <a href="/">
-                    <span>Activity Feed</span>
-                </a>
-            </li>
-    
-            <li class="communities">
-                <a href="/">
-                    <span>Communities</span>
-                </a>
-            </li>
-    
-            <li class="messages">
-                <a href="/">
-                    <span>Messages</span>
-                </a>
-            </li>
-        <% } %>
-    </menu>
+		<% if (!locals.guest_mode) { %>
+		<li class="user-profile">
+			<a href="/">
+				<img class="user-image" src="https://mii-secure.cdn.nintendo.net/<%= locals.user.mii_hash %>_normal_face.png">
+				<span>User Page</span>
+			</a>
+		</li>
+
+		<li class="activity-feed">
+			<a href="/">
+				<span>Activity Feed</span>
+			</a>
+		</li>
+
+		<li class="communities">
+			<a href="/">
+				<span>Communities</span>
+			</a>
+		</li>
+
+		<li class="messages">
+			<a href="/">
+				<span>Messages</span>
+			</a>
+		</li>
+
+		<li class="settings">
+			<a id="settings-button">
+				<span>j</span>
+			</a>
+
+			<div class="settings-menu none">
+				<div>
+                    <a class="code-of-conduct" href="/rules">
+						<span class="trigger no-bg">Aquamarine Rules</span>
+					</a>
+                    <a class="code-of-conduct" href="/guides/installation">
+						<span class="trigger no-bg">Installation</span>
+					</a>
+                    <a class="code-of-conduct" href="/guides/donation">
+						<span class="trigger no-bg">Donate to Aquamarine</span>
+					</a>
+					<a class="logout">
+						<span id="settings-logout" class="trigger no-bg">Log Out</span>
+					</a>
+				</div>
+			</div>
+		</li>
+		<% } %>
+	</menu>
 </div>

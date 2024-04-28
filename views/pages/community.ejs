@@ -12,14 +12,14 @@
             <div class="community-sidebar">
                 <div class="community-banner">
                     <% if (community.cdn_ctr_banner_url) { %>
-                        <a href="/communities.html">
+                        <a href="/communities/<%= community.id %>">
                             <img src="<%= community.cdn_ctr_banner_url %>" height="137px">
                         </a>
                     <% } %>
                 </div>
                 <div class="community-info-wrapper">
                     <div class="community-info">
-                        <img class="icon" src="<%= community.cdn_icon_url %>" width="55px">
+                        <img class="icon trigger" src="<%= community.cdn_icon_url %>" width="55px" data-href="/communities/<%= community.id %>">
 
                         <div>
                             <% if (community.type=="main" ) {%>
@@ -34,70 +34,60 @@
                         </div>
                     </div>
 
-                    <div class="community-description-wrapper">
-                        <span><%= community.description %>
-                        </span>
-                    </div>
-                </div>
-
-                <div class="community-add-post">
-
+                    <% if (community.description) { %>
+                        <div class="community-description-wrapper">
+                            <span><%= community.description %></span>
+                        </div>
+                    <% } %>   
                 </div>
             </div>
             <div class="community-content">
-                <div class="community-post-list popular">
-                    <div class="header">
-                        <span>Popular Posts</span>
+                <% if (locals.guest_mode) { %>
+                    <%- include("../partials/elements/ugc/guest_mode/communities_posts.ejs") -%>
+                <% } else { %>
+                    <div class="community-post-list normal">
+                        <div class="header">
+                            <span>Posts</span>
+                        </div>
+                        
+                        <div class="add-new-post">
+                            <form id="post-expandable" class="feeling-selector none">
+                                <input class="selected" type="radio" value="0">
+                                <input type="radio" value="1">
+                                <input type="radio" value="2">
+                                <input type="radio" value="3">
+                                <input type="radio" value="4">
+                                <input type="radio" value="5">
+                            </form>
+                            <div class="textarea-wrapper">
+                                <textarea autocomplete="off" data-expand="#post-expandable" minlength="5" maxlength="650" placeholder="Share your thoughts with the <%= community.name %> Community!"></textarea>
+                            </div>
+                            <div id="post-expandable" class="file-wrapper none">
+                                <div class="file">
+                                    <div>
+                                        <b>File</b>
+                                        <span>Upload Screenshot (.jpg)</span>
+                                    </div>
+                                    <input autocomplete="off" type="file" accept=".jpg" placeholder="">
+                                </div>
+                            </div>
+
+                            <button disabled="true" id="post-expandable" class="post-button none">Send</button>
+                        </div>
+
+                        <div class="list" data-no-posts="<%= (normal_posts <= 0) ? 1 : 0 %>">
+                            <% for (const post of normal_posts) { %>
+                                <%- include("../partials/elements/ugc/posts.ejs", {
+                                    post : post
+                                }) -%>
+                            <% } %>
+
+                            <% if (normal_posts.length <= 0) { %>
+                                <span class="no-posts">There are no posts yet.</span>
+                            <% } %>
+                        </div>
                     </div>
-
-                    <div class="list">
-                        <% for (const post of popular_posts) { %>
-                            <%- include("../partials/elements/ugc/posts.ejs", {
-                                post : post
-                            }) -%>
-                        <% } %>
-
-                        <% if (popular_posts.length <= 0) { %>
-                            <span class="no-posts">There are no posts yet.</span>
-                        <% } %>
-                    </div>   
-                </div>
-
-                <div class="community-post-list paintings">
-                    <div class="header">
-                        <span>Recent Drawings</span>
-                    </div>
-
-                    <div class="list">
-                        <% for (const drawing of recent_drawings) { %>
-                            <%- include("../partials/elements/ugc/posts.ejs", {
-                                post : drawing
-                            }) -%>
-                        <% } %>
-
-                        <% if (recent_drawings.length <= 0) { %>
-                            <span class="no-posts">There are no posts yet.</span>
-                        <% } %>
-                    </div>
-                </div>
-
-                <div class="community-post-list ingame">
-                    <div class="header">
-                        <span>In-Game Posts</span>
-                    </div>
-
-                    <div class="list">
-                        <% for (const post of ingame_posts) { %>
-                            <%- include("../partials/elements/ugc/posts.ejs", {
-                                post : post
-                            }) -%>
-                        <% } %>
-
-                        <% if (ingame_posts.length <= 0) { %>
-                            <span class="no-posts">There are no posts yet.</span>
-                        <% } %>
-                    </div>
-                </div>
+                <%} %>
             </div>
         </div>
     </div>

@@ -6,6 +6,10 @@ const logger = {
         console.log(`[INFO] (${moment().format("HH:mm:ss")}) ${msg}`.green);
     },
 
+    info: function info(msg) {
+        console.log(`[INFO] (${moment().format("HH:mm:ss")}) ${msg}`.blue);
+    },
+
     warn: function warn(msg) {
         console.log(`[WARN] (${moment().format("HH:mm:ss")}) ${msg}`.yellow);
     },

@@ -12,5 +12,10 @@ module.exports = [
     {
         path: "/api/oauth",
         route: require("./api/oauth")
+    },
+
+    {
+        path: "/api/posts",
+        route: require("./api/posts")
     }
 ]
