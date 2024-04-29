@@ -1,0 +1,41 @@
+<%- include("../../partials/header.ejs", {
+    image_url : "",
+    title : `Aquamarine - Rules`,
+    description : ""
+}) -%>
+
+<body>
+	<%- include("../../partials/elements/navbar.ejs") -%>
+
+	<div class="wrapper">
+		<div class="user-wrapper">
+			<div class="user-info-wrapper">
+				<%- include("../../partials/elements/ugc/user_side_panel.ejs", {
+                    account : locals.user
+                }) -%>
+			</div>
+
+			<div class="guide-wrapper">
+				<div class="header guide">
+					<span>Donate to Aquamarine</span>
+				</div>
+				<div class="spacer">
+					<h1 class="opening">Become a Aquamarine Donator</h1>
+					<p>
+						Hello there. Would you like to give a small amount of money to the Aquamarine developers for putting in their time and effort into this project?
+						<br><br>
+						Well, this page is the right one for you!
+					</p>
+					<h2 class="num1">How can I donate?</h2>
+					<p>
+						Currently, you can't. Sorry! We'll make this a feature as soon as we can.
+						<br><br>
+						For now, feedback is the best way to support Aquamarine and make this project the best it can be!
+					</p>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<%- include("../../partials/elements/footer.ejs") -%>
+</body>
