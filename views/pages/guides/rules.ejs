@@ -1,0 +1,61 @@
+<%- include("../../partials/header.ejs", {
+    image_url : "",
+    title : `Aquamarine - Rules`,
+    description : ""
+}) -%>
+
+<body>
+	<%- include("../../partials/elements/navbar.ejs") -%>
+
+	<div class="wrapper">
+		<div class="user-wrapper">
+			<div class="user-info-wrapper">
+				<%- include("../../partials/elements/ugc/user_side_panel.ejs", {
+                    account : locals.user
+                }) -%>
+			</div>
+
+			<div class="guide-wrapper">
+				<div class="header guide">
+					<span>Aquamarine Rules</span>
+				</div>
+				<div class="spacer">
+					<h1 class="opening">Aquamarine Rules</h1>
+					<p>
+						To keep Aquamarine safe and welcome to all walks of life, there are some rules we would like you, the user, to follow.
+					</p>
+					<h2 class="num1">Posts can be read by anyone around the world</h2>
+					<p>
+						All the posts that are written on Aquamarine, including drawings and text posts, and both, can be seen by any person over 13.
+						<br><br>
+						Keep in mind, that if you want to talk to someone you know, like a friend, about a more private theme, you can do this with a direct message.
+						<br><br>
+						This is why it is advised to keep everything in an appropiate level, NSFW drawings, hate speech, and anything that is considered offensive, racist, and inappropriate, is not allowed at all on Aquamarine, and any post containing this will be moderated and the account can/will be given punishment.
+					</p>
+					<h2 class="num2">Be nice to one another</h2>
+					<p>
+						In order to keep Aquamarine an fun place for everyone, we ask you to be considerate to other users.
+						<br><br>
+						Treat users as the same way you want them to treat you, do not insult or offend anyone, and if someone is being offensive to you or another user, you can report them from their latest post.
+					</p>
+					<h2 class="num3">Do not share personal information</h2>
+					<p>
+						Remember that meeting people on Aquamarine is not the same as meeting them in real life.
+						<br><br>
+						Never share your personal e-mail address, social medias, address, school, or private information to anyone you meet in Aquamarine, and if someone asks you for such, tell them that it is not allowed as said in the Aquamarine COC (Code Of Conduct), if they keep insisting, you can feel free to report them in their latest post.
+					</p>
+					<h2 class="num4">Have common sense</h2>
+					<p>
+						And that is the final rule, just have common sense.
+						<br><br>
+						Enjoy Aquamarine and feel free to post about anything you want, but have common sense before posting or commenting. Think about what other people might think of your content from an outsider perspective.
+                        <br><br>
+                        And most importantly, have fun using Aquamarine!
+					</p>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<%- include("../../partials/elements/footer.ejs") -%>
+</body>

@@ -1,0 +1,9 @@
+<div class="user-info">
+    <a href="/users/<%= account.nnid %>">
+        <img src="https://mii-secure.cdn.nintendo.net/<%= account.mii_hash %>_normal_face.png">
+    </a>
+    <div class="user-meta">
+        <a class="mii_name trigger no-bg" href="/users/<%= account.nnid %>"><%= account.mii_name %></a>
+        <span class="nnid"><%= account.nnid %></span>
+    </div>
+</div>

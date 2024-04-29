@@ -17,5 +17,10 @@ module.exports = [
     {
         path: "/api/posts",
         route: require("./api/posts")
+    },
+
+    {
+        path : "/guides",
+        route : require("./pages/guides")
     }
 ]
