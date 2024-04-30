@@ -9,18 +9,24 @@
 
 	<div class="wrapper">
 		<div class="user-wrapper">
-			<div class="user-info-wrapper">
-				<%- include("../../partials/elements/ugc/user_side_panel.ejs", {
-                    account : locals.user
-                }) -%>
-			</div>
+			<% if (locals.user) { %>
+				<div class="user-info-wrapper">
+					<%- include("../../partials/elements/ugc/user_side_panel.ejs", {
+						account : locals.user
+					}) -%>
+				</div>
+			<% } else { %>
+				<div class="user-info-wrapper">
+					<%- include("../../partials/elements/guides/sign_in.ejs") -%>
+				</div>
+			<% } %>
 
 			<div class="guide-wrapper">
 				<div class="header guide">
 					<span>Aquamarine Rules</span>
 				</div>
 				<div class="spacer">
-					<h1 class="opening">Aquamarine Rules</h1>
+					<h1 class="opening">Aquamarine Code of Conduct</h1>
 					<p>
 						To keep Aquamarine safe and welcome to all walks of life, there are some rules we would like you, the user, to follow.
 					</p>

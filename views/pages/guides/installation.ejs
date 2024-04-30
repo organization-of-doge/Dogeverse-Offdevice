@@ -1,0 +1,93 @@
+<%- include("../../partials/header.ejs", {
+    image_url : "",
+    title : `Aquamarine - Installation`,
+    description : ""
+}) -%>
+
+<body>
+	<%- include("../../partials/elements/navbar.ejs") -%>
+
+	<div class="wrapper">
+		<div class="user-wrapper">
+			<% if (locals.user) { %>
+				<div class="user-info-wrapper">
+					<%- include("../../partials/elements/ugc/user_side_panel.ejs", {
+						account : locals.user
+					}) -%>
+				</div>
+			<% } else { %>
+				<div class="user-info-wrapper">
+					<%- include("../../partials/elements/guides/sign_in.ejs") -%>
+				</div>
+			<% } %>
+
+			<div class="guide-wrapper">
+				<div class="header guide">
+					<span>Aquamarine Installation</span>
+				</div>
+				<div class="spacer">
+					<h1 class="opening">Aquamarine Installation</h1>
+					<p>
+						Aquamarine, while being a web based social media platform, can also be installed on a Wii U or Nintendo 3DS console!
+						<br><br>
+						By the end of this guide, you should be able to use Aquamarine on a Wii U or Nintendo 3DS
+
+						<br><br>
+						<b>Note: You do not need to install Aquamarine on a console to use Aquamarine.</b>
+						<br><br>
+						<b>Note: Currently, this guide is outdated. Do not use it right now.</b>
+					</p>
+					<h2 class="num1">What is the point of installing?</h2>
+					<p>
+						Installing Aquamarine on a console can give much more life into your system! Original Miiverse usage can be replaced with Aquamarine usage. We'll give an example. Ever wonder where those Mii's in Nintendo Land Plaza were gotten? Those were from Miiverse! And Aquamarine is able to replace them!
+					</p>
+					<img src="/img/guides/example1.jpg">
+					<p>
+						Aquamarine supports a wide range of games, some notable ones including:
+					</p>
+					<ul>
+						<li>GAME & WARIO</li>
+						<li>New Super Mario Bros U.</li>
+						<li>Nintendo Land</li>
+						<li>Badge Arcade</li>
+						<li>Rayman Legends</li>
+						<li>SONIC LOST WORLD</li>
+						<li>Wii Fit U</li>
+						<li>Splatoon</li>
+						<li>And many more..</li>
+					</ul>
+					<p>
+						Now with that, let's get started with the process.
+					</p>
+					<h2 class="num4">How to install? (Wii U)</h2>
+					<p style="margin-bottom: 0px;">
+						Installing Aquamarine to your Wii U is as easy as putting a plugin in the plugins folder of your Wii U's SD Card! Head over to the GitHub page and download the latest release of Inkay-Aquamarine.wps <a href="https://github.com/AquamarineMiiverseTeam/InkayAquamarine/releases/latest">Here</a>
+						<br><br>
+						Then place the plugin in:
+					</p>
+					<code>SD:\wiiu\environments\aroma\plugins\Inkay-Aquamarine.wps</code>
+					<p>
+						Once you're done with that, simply boot up your Wii U, and enable the plugin! Then, you should be all good to go to enjoy Aquamarine!
+						<br><br>
+						<b>Note: you will need to disable all other Inkay plugins.</b>
+					</p>
+					<h2 class="num3">How to install? (3DS)</h2>
+					<p style="margin-bottom: 0px;">
+						Installing Aquamarine to your 3DS is as simple as extracting files to the root of your 3DS's SD card. <a href="https://github.com/AquamarineMiiverseTeam/AquamarineMiiverse3DS/releases/latest">Here</a>
+						<br><br>
+						Extract all files into their neccesary spots:
+						<code style="margin-top: 5px;">SD:\3ds\aquamarine.pem</code>
+						<code>SD:\3ds\juxt-prod.pem</code>
+						<code>SD:\luma\titles\000400300000BC02\code.ips</code>
+						<code>SD:\luma\titles\000400300000BD02\code.ips</code>
+						<code>SD:\luma\titles\000400300000BE02\code.ips</code>
+
+						Once you're all done, make sure game patching is enabled in your Luma 3DS settings. Then, you should be all good to go to enjoy Aquamarine!
+					</p>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<%- include("../../partials/elements/footer.ejs") -%>
+</body>

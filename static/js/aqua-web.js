@@ -69,9 +69,12 @@ const aquamarine = {
 
         if (token.success == false) { window.location.reload(); return; }
 
-        document.cookie = `jwt=${token.token}; Path=/; Secure; SameSite=None`
+        document.cookie = `jwt=${token.token}; Secure; SameSite=None`
 
-        window.location.href = "/"
+        const redirect = (new URLSearchParams(window.location.search)).get("redirect")
+
+        if (redirect) { window.location.href = redirect } else { window.location.href = "/"}
+        
     },
 
     logout: function () {
