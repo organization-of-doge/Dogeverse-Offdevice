@@ -1597,6 +1597,7 @@ button.empathy span::before {
 
 .guide-wrapper {
     max-width: 627px;
+    min-width: 200px;
 
     margin-top: 15px;
 
@@ -1674,6 +1675,8 @@ button.empathy span::before {
     text-indent: 5px;
 
     background-color: var(--community-description-bg);
+    text-wrap: wrap;
+    word-break: break-all;
 }
 
 .guide-wrapper p:last-child {
