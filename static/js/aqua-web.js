@@ -189,7 +189,8 @@ aquamarine.router.connect("^/communities/(\\d+)$", (community_id) => {
             post_list.innerHTML = request_json.html + post_list.innerHTML
             post_list.children[0].classList.add("transition")
             textarea.value = "";
-            file_upload.value = null;
+            file_upload.value = "";
+            file_upload.files[0] = "";
 
             setTimeout(() => {
                 post_list.children[0].classList.remove("transition")
