@@ -69,18 +69,23 @@ const aquamarine = {
 
         if (token.success == false) { window.location.reload(); return; }
 
-        document.cookie = `jwt=${token.token}; Secure; SameSite=None`
+        document.cookie = `jwt=${token.token}; Path=/; Secure; SameSite=None`
 
         const redirect = (new URLSearchParams(window.location.search)).get("redirect")
 
         if (redirect) { window.location.href = redirect } else { window.location.href = "/"}
-        
     },
 
     logout: function () {
-        console.log("Logging out of current account.")
-        document.cookie = "jwt=; expires=Thu, 01 Jan 1970 00:00:00 UTC;"
-        window.location.href = "/"
+        console.log("Logging out of current account.");
+    
+        var currentURL = window.location.href;
+    
+        document.cookie = "jwt=; Path=/; Secure; SameSite=None; expires=Thu, 01 Jan 1970 00:00:01 GMT;";
+    
+        setTimeout(() => {
+            window.location.href = currentURL;
+        }, 100);
     },
 
     actions: {
