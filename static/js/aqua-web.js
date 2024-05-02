@@ -205,3 +205,29 @@ aquamarine.router.connect("^/login$", () => {
     document.querySelector('button[data-role="signin"]').addEventListener("click", aquamarine.login);
     console.log("Initialized Login");
 });
+
+aquamarine.router.connect("^/signup$", () => {
+    const main_password_input = document.querySelector('input[name="password"]');
+    const confirm_password_input = document.getElementById("confirm");
+    const sign_up_button = document.querySelector('input[type="submit"]')
+
+    main_password_input.addEventListener("input", (e) => {
+        if (main_password_input.value === confirm_password_input.value) {
+            sign_up_button.classList.remove("disabled");
+            sign_up_button.removeAttribute("disabled");
+        } else {
+            sign_up_button.classList.add("disabled");
+            sign_up_button.setAttribute("disabled", true);
+        }
+    })
+
+    confirm_password_input.addEventListener("input", (e) => {
+        if (main_password_input.value === confirm_password_input.value) {
+            sign_up_button.classList.remove("disabled");
+            sign_up_button.removeAttribute("disabled");
+        } else {
+            sign_up_button.classList.add("disabled");
+            sign_up_button.setAttribute("disabled", true);
+        }
+    })
+})

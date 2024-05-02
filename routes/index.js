@@ -1,15 +1,5 @@
 module.exports = [
     {
-        path: "/",
-        route: require("./pages/index")
-    },
-
-    {
-        path: "/communities",
-        route: require("./pages/communities")
-    },
-
-    {
         path: "/api/oauth",
         route: require("./api/oauth")
     },
@@ -20,7 +10,22 @@ module.exports = [
     },
 
     {
-        path : "/guides",
-        route : require("./pages/guides")
+        path: "/guides",
+        route: require("./pages/guides")
+    },
+
+    {
+        path: "/",
+        route: require("./pages/index")
+    },
+
+    {
+        path: "/communities",
+        route: require("./pages/communities")
+    },
+
+    {
+        path: "/errors",
+        route: require("./pages/errors")
     }
 ]

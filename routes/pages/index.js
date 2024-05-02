@@ -41,4 +41,11 @@ route.get("/login", (req, res) => {
     res.render("pages/account/login.ejs")
 })
 
+route.get("/signup", (req, res) => {
+    //Check to make sure the user isn't already logged in.
+    if (res.locals.user) {res.redirect("/")}
+
+    res.render("pages/account/signup.ejs")
+})
+
 module.exports = route
