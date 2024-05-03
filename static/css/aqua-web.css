@@ -1840,7 +1840,7 @@ button.empathy span::before {
         width: 300px;
     }
 
-    .login-wrapper input:not([type="submit"]) {
+    .login-wrapper input:not([type="submit"]):not([type="checkbox"]) {
         width: 300px
     }
 
