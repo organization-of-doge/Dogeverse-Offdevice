@@ -15,10 +15,12 @@ async function auth(req, res, next) {
 
     //Error handling
     if (user_data.success === false && user_data.error) {
-        res.locals.guest_mode = true; return next();
+        res.locals.guest_mode = true; console.log(error); return next();
     }
 
     const account_data = (await db_con.account_db("accounts").where({id : user_data.data.account_id}))[0]
+
+    if (!account_data) { res.locals.guest_mode = true; return next(); }
 
     //Finally, assigning the account data. While we're at it, we'll also give them the moment library so we can do
     //time manipulation in client EJS.

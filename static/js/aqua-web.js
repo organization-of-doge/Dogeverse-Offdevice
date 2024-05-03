@@ -54,6 +54,8 @@ const aquamarine = {
     login: async function () {
         const username = document.querySelector('input[name="username"]').value
         const password = document.querySelector('input[name="password"]').value
+        const error_text = document.querySelector("span.error-text")
+        const signin = document.querySelector('button[data-role="signin"]');
 
         if (!username || !password) { return; }
 
@@ -67,17 +69,56 @@ const aquamarine = {
 
         const token = (await token_data.json())
 
-        if (token.success == false) { window.location.reload(); return; }
+        if (token.success == false) {
+            error_text.classList.remove("none")
+            error_text.classList.add("transition")
+            signin.classList.add("disabled")
+            signin.setAttribute("disabled", true)
+            switch (token.error) {
+                case "NO_ACCOUNT_FOUND":
+                    error_text.innerHTML = error_text.getAttribute("data-no-account")
+                    break;
+                case "PASSWORD_MISMATCH":
+                    error_text.innerHTML = error_text.getAttribute("data-password-mismatch")
+                    break;
+                default:
+                    error_text.innerHTML = error_text.getAttribute("data-default")
+                    break;
+            }
 
-        document.cookie = `jwt=${token.token}; Path=/; Secure; SameSite=None`
+            setTimeout(() => {
+                error_text.classList.remove("transition")
+                signin.classList.remove("disabled")
+                signin.removeAttribute("disabled")
+            }, 2100)
+            return;
+        }
 
-        window.location.href = "/"
+        if (document.querySelector('input[type="checkbox"]').checked) {
+            var date = new Date();
+            date.setTime(date.getTime() + (30 * 24 * 60 * 60 * 1000));
+            console.log(date.getUTCDate())
+
+            document.cookie = `jwt=${token.token}; Path=/; Secure; SameSite=None; expires=${date.toUTCString()};`
+        } else {
+            document.cookie = `jwt=${token.token}; Path=/; Secure; SameSite=None`
+        }
+
+        const redirect = (new URLSearchParams(window.location.search)).get("redirect")
+
+        if (redirect) { window.location.href = redirect } else { window.location.href = "/" }
     },
 
     logout: function () {
-        console.log("Logging out of current account.")
-        document.cookie = "jwt=; expires=Thu, 01 Jan 1970 00:00:00 UTC;"
-        window.location.href = "/"
+        console.log("Logging out of current account.");
+
+        var currentURL = window.location.href;
+
+        document.cookie = "jwt=; Path=/; Secure; SameSite=None; expires=Thu, 01 Jan 1970 00:00:01 GMT;";
+
+        setTimeout(() => {
+            window.location.href = currentURL;
+        }, 100);
     },
 
     actions: {
@@ -97,7 +138,7 @@ aquamarine.router.connect("^/communities/(\\d+)$", (community_id) => {
     const send_button = document.querySelector(".add-new-post button")
     const textarea = document.querySelector("textarea")
     const file_upload = document.querySelector('input[type="file"]')
-    var screenshot
+    var screenshot, screenshot_MIME
 
     document.querySelectorAll("[data-expand]").forEach((e) => {
         e.addEventListener("click", open_expandable)
@@ -141,7 +182,8 @@ aquamarine.router.connect("^/communities/(\\d+)$", (community_id) => {
         reader.readAsDataURL(input.files[0])
 
         reader.onload = () => {
-            screenshot = reader.result.replace("data:image/jpeg;base64,", "")
+            screenshot = (reader.result.split(","))[1]
+            screenshot_MIME = input.files[0].type
             send_button.removeAttribute("disabled")
         }
     })
@@ -152,20 +194,20 @@ aquamarine.router.connect("^/communities/(\\d+)$", (community_id) => {
         const feeling_id = document.querySelector("input.selected").value
 
         const data = {
-            body : textarea.value,
-            spoiler : 0,
-            owns_title : 0,
-            community_id : community_id,
-            feeling_id : feeling_id
+            body: textarea.value,
+            spoiler: 0,
+            owns_title: 0,
+            community_id: community_id,
+            feeling_id: feeling_id
         }
 
-        if (screenshot) {data.screenshot = screenshot}
+        if (screenshot) { data.screenshot = screenshot; data.screenshot_MIME = screenshot_MIME }
 
         const request = await fetch("/api/posts", {
-            method : "POST",
-            body : JSON.stringify(data),
-            headers : {
-                "Content-Type" : "application/json"
+            method: "POST",
+            body: JSON.stringify(data),
+            headers: {
+                "Content-Type": "application/json"
             }
         })
 
@@ -182,6 +224,8 @@ aquamarine.router.connect("^/communities/(\\d+)$", (community_id) => {
             post_list.children[0].classList.add("transition")
             textarea.value = "";
             file_upload.value = null;
+            screenshot = null;
+            screenshot_MIME = null;
 
             setTimeout(() => {
                 post_list.children[0].classList.remove("transition")
@@ -193,6 +237,40 @@ aquamarine.router.connect("^/communities/(\\d+)$", (community_id) => {
 })
 
 aquamarine.router.connect("^/login$", () => {
-    document.querySelector('button[data-role="signin"]').addEventListener("click", aquamarine.login);
+    const signin = document.querySelector('button[data-role="signin"]')
+    signin.addEventListener("click", aquamarine.login);
+
+    const inputs = [document.querySelector('input[name="username"]'), document.querySelector('input[name="password"]')]
+    inputs.forEach((e) => {
+        e.addEventListener("input", (a) => {
+            console.log(a.value)
+
+            if (inputs[0].value.length > 1 && inputs[1].value.length > 1) {
+                signin.classList.remove("disabled")
+                signin.removeAttribute("disabled")
+            } else {
+                signin.classList.add("disabled")
+                signin.setAttribute("disabled", true)
+            }
+        })
+    })
     console.log("Initialized Login");
 });
+
+aquamarine.router.connect("^/signup$", () => {
+    const main_password_input = document.querySelector('input[name="password"]');
+    const confirm_password_input = document.getElementById("confirm");
+    const sign_up_button = document.querySelector('input[type="submit"]');
+
+    [main_password_input, confirm_password_input].forEach((e) => {
+        e.addEventListener("input", (a) => {
+            if (main_password_input.value === confirm_password_input.value) {
+                sign_up_button.removeAttribute("disabled")
+                sign_up_button.classList.remove("disabled")
+            } else {
+                sign_up_button.setAttribute("disabled", true)
+                sign_up_button.classList.add("disabled")
+            }
+        })
+    })
+})

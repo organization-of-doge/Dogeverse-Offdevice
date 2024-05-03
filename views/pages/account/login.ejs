@@ -9,13 +9,23 @@
 
     <div class="wrapper center">
         <div class="login-wrapper">
-            <img src="/img/dummy-logo.png">
+            <img src="/img/aquamarine_long.png">
             <span>Sign into your Aquamarine Account to start interacting with others!</span>
 
-            <input type="text" required="true" name="username" placeholder="Enter your Network ID..">
-            <input type="password" required="true" name="password" placeholder="Enter your password..">
+            <span class="error-text none"
+            data-no-account="No account could be found with the given Nintendo Network ID."
+            data-password-mismatch="The given password is incorrect."
+            data-default="Unknown error."></span>
+            <input type="text" required="true" name="username" placeholder="Enter your Network ID.." autocomplete="off">
+            <input type="password" required="true" name="password" placeholder="Enter your password.." autocomplete="off">
+            <div>
+                <input type="checkbox" name="remember_me" id="remember_me">
+                <label for="remember_me">Remember Me?</label>
+            </div>
 
-            <button data-role="signin">Sign In!</button>
+            <button class="black-button disabled" data-role="signin" disabled="true">Sign In!</button>
+
+            <span class="question">Don't have an account? Sign up <a href="/signup">here</a>!</span>
         </div>
     </div>
 

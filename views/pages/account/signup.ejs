@@ -1,0 +1,29 @@
+<%- include("../../partials/header.ejs", {
+    image_url : "",
+    title : "Aquamarine - Sign Up",
+    description : ""
+}) -%>
+
+<body>
+    <%- include("../../partials/elements/navbar.ejs") %>
+
+    <div class="wrapper center">
+        <div class="login-wrapper">
+            <img src="/img/aquamarine_long.png">
+            <span>Create a new Aquamarine account and get started interacting with others!</span>
+
+            <form method="post" action="/api/oauth/create" enctype="multipart/form-data">
+                <input type="text" required="true" name="username" placeholder="Enter your Nintendo Network ID.." minlength="6" maxlength="16">
+                <input type="email" required="true" name="email" placeholder="Enter your email.." minlength="2" maxlength="255">
+                <input type="password" required="true" name="password" placeholder="Enter your password.." minlength="2">
+                <input type="password" required="true" placeholder="Confirm password.." id="confirm" minlength="2">
+
+                <input class="black-button disabled" disabled type="submit" placeholder="Sign Up!" value="Sign Up!">
+            </form>
+
+            <span class="question">Already have an account? Log in <a href="/login">here</a>!</span>
+        </div>
+    </div>
+
+    <%- include("../../partials/elements/footer.ejs") -%>
+</body>
