@@ -105,7 +105,7 @@ aquamarine.router.connect("^/communities/(\\d+)$", (community_id) => {
     const send_button = document.querySelector(".add-new-post button")
     const textarea = document.querySelector("textarea")
     const file_upload = document.querySelector('input[type="file"]')
-    var screenshot
+    var screenshot, screenshot_MIME
 
     document.querySelectorAll("[data-expand]").forEach((e) => {
         e.addEventListener("click", open_expandable)
@@ -149,7 +149,8 @@ aquamarine.router.connect("^/communities/(\\d+)$", (community_id) => {
         reader.readAsDataURL(input.files[0])
 
         reader.onload = () => {
-            screenshot = reader.result.replace("data:image/jpeg;base64,", "")
+            screenshot = (reader.result.split(","))[1]
+            screenshot_MIME = input.files[0].type
             send_button.removeAttribute("disabled")
         }
     })
@@ -167,7 +168,7 @@ aquamarine.router.connect("^/communities/(\\d+)$", (community_id) => {
             feeling_id : feeling_id
         }
 
-        if (screenshot) {data.screenshot = screenshot}
+        if (screenshot) {data.screenshot = screenshot; data.screenshot_MIME = screenshot_MIME}
 
         const request = await fetch("/api/posts", {
             method : "POST",
@@ -189,8 +190,9 @@ aquamarine.router.connect("^/communities/(\\d+)$", (community_id) => {
             post_list.innerHTML = request_json.html + post_list.innerHTML
             post_list.children[0].classList.add("transition")
             textarea.value = "";
-            file_upload.value = "";
-            file_upload.files[0] = "";
+            file_upload.value = null;
+            screenshot = null;
+            screenshot_MIME = null;
 
             setTimeout(() => {
                 post_list.children[0].classList.remove("transition")
