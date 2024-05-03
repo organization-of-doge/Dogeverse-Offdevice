@@ -11,6 +11,7 @@ const cdn_upload = require("../../utils/cdn_upload")
 const moment = require("moment")
 const multer = require("multer")
 const ejs = require("ejs")
+const disallow_guest = require("../../middleware/disallow_guest")
 
 route.post("/", bodyParser.json({ limit: "5mb" }), async (req, res) => {
     const community_id = req.body.community_id;
@@ -118,6 +119,26 @@ route.post("/", bodyParser.json({ limit: "5mb" }), async (req, res) => {
     res.status(201).send({ success: true, post_id: post_id, html: html })
 })
 
+route.post("/:post_id/empathy", disallow_guest, async (req, res) => {
+    const post = (await db_con.env_db("posts").where({ id: req.params.post_id }))[0]
+    if (!post) { res.status(404).send({ success: false, error: "NULL_POST" }); return; }
 
+    const current_empathy = (await db_con.env_db("empathies").where({ post_id: req.params.post_id, account_id: res.locals.user.id }))[0]
+
+    if (current_empathy) {
+        //Deleting the current empathy
+        await db_con.env_db("empathies").where({ post_id: req.params.post_id, account_id: res.locals.user.id }).delete();
+
+        res.status(200).send({ success: true, empathy_status: "DELETED" })
+    } else {
+        //Creating a new empathy
+        await db_con.env_db("empathies").insert({
+            post_id: req.params.post_id,
+            account_id: res.locals.user.id
+        })
+
+        res.status(201).send({ success: true, empathy_status: "CREATED" })
+    }
+})
 
 module.exports = route

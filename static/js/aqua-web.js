@@ -19,36 +19,34 @@ const aquamarine = {
     },
 
     initialize: function () {
-        nav_bar_initialize()
-
         document.querySelectorAll("[data-href]").forEach((e) => {
             e.addEventListener("click", () => {
                 window.location.href = e.getAttribute("data-href")
             })
         })
 
+        const logout = document.querySelector("#settings-logout")
+        const settings = document.querySelector("#settings-button")
+
+        if (logout) {
+            logout.addEventListener("click", () => {
+                aquamarine.logout();
+            })
+        }
+        if (settings) {
+            settings.addEventListener("click", () => {
+                document.querySelector(".settings-menu").classList.toggle("none")
+            })
+        }
+    },
+
+    initialize_empathies: function () {
         document.querySelectorAll(".empathy:not(.disabled)").forEach((e) => {
             e.addEventListener("click", (event) => {
                 event.stopPropagation()
                 aquamarine.actions.empathy(e.getAttribute("data-post-id"))
             })
         })
-
-        function nav_bar_initialize() {
-            const logout = document.querySelector("#settings-logout")
-            const settings = document.querySelector("#settings-button")
-
-            if (logout) {
-                logout.addEventListener("click", () => {
-                    aquamarine.logout();
-                })
-            }
-            if (settings) {
-                settings.addEventListener("click", () => {
-                    document.querySelector(".settings-menu").classList.toggle("none")
-                })
-            }
-        }
     },
 
     login: async function () {
@@ -123,7 +121,38 @@ const aquamarine = {
 
     actions: {
         empathy: async function (post_id) {
-            console.log(post_id)
+            const post_yeah_button = document.querySelector(`#post-${post_id} .post-content-wrapper .post-actions .empathy`)
+            const post_yeah_button_text = document.querySelector(`#post-${post_id} .post-content-wrapper .post-actions .empathy span`)
+            const post_empathy_count = document.querySelector(`#post-${post_id} .post-content-wrapper .post-actions span.empathy-count`)
+
+            post_yeah_button.setAttribute("disabled", true)
+            post_yeah_button.classList.add("disabled")
+
+            const empathy_request = await fetch(`/api/posts/${post_id}/empathy`, {
+                method: "POST"
+            })
+
+            const empathy_data = await empathy_request.json()
+
+            if (empathy_data.success == false) {
+                console.log(empathy_data.error)
+
+                return;
+            }
+
+            switch (empathy_data.empathy_status) {
+                case "CREATED":
+                    post_yeah_button_text.innerHTML = post_yeah_button.getAttribute("data-unyeah-text")
+                    post_empathy_count.innerHTML = Number(post_empathy_count.innerHTML) + 1
+                    break;
+                case "DELETED":
+                    post_yeah_button_text.innerHTML = post_yeah_button.getAttribute("data-yeah-text")
+                    post_empathy_count.innerHTML = Number(post_empathy_count.innerHTML) - 1
+                    break;
+            }
+
+            post_yeah_button.removeAttribute("disabled")
+            post_yeah_button.classList.remove("disabled")
         }
     }
 }
@@ -234,6 +263,9 @@ aquamarine.router.connect("^/communities/(\\d+)$", (community_id) => {
     }
 
     send_button.addEventListener("click", make_post)
+
+    console.log("Initialzing empathies")
+    aquamarine.initialize_empathies()
 })
 
 aquamarine.router.connect("^/login$", () => {
