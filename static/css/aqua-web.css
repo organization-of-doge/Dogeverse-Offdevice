@@ -1203,9 +1203,9 @@ div>.community:nth-child(even) {
 }
 
 .header {
-    padding-left: 15px;
-    padding-top: 13px;
-    padding-bottom: 13px;
+    padding: 13px;
+    padding-top: 10px;
+    padding-bottom: 8px;
 }
 
 .normal .header,
