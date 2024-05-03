@@ -24,6 +24,7 @@
     --login-bg: rgb(255, 255, 255);
     --login-border: rgb(222, 222, 222);
     --login-slogan-text-color: rgb(150, 150, 150);
+    --login-error-text-color: rgb(232, 49, 67);
 
     --aquamarine-text-color: rgb(17, 206, 212);
 
@@ -107,6 +108,16 @@
 a.trigger:hover,
 span.trigger:hover {
     text-decoration: underline;
+}
+
+@keyframes transition {
+    from {
+        opacity: 0
+    }
+
+    to {
+        opacity: 1
+    }
 }
 
 .black-button {
@@ -510,7 +521,7 @@ footer .footer-wrapper div a:hover {
 .login-wrapper span {
     color: var(--login-slogan-text-color);
 
-    margin-bottom: 20px;
+    margin-bottom: 10px;
 }
 
 .login-wrapper input[type="submit"],
@@ -539,6 +550,48 @@ footer .footer-wrapper div a:hover {
 .login-wrapper .question {
     margin: 0;
     margin-top: 22px;
+}
+
+.login-wrapper span.error-text {
+    color: var(--login-error-text-color);
+    font-weight: bold;
+    margin-bottom: 10px;
+    font-size: 14px;
+}
+
+.login-wrapper span.error-text.transition {
+    opacity: 1;
+    animation: transition;
+    animation-duration: 2s;
+}
+
+.login-wrapper span.error-text::before {
+    font-family: Symbols;
+    content: "U";
+    font-size: 15px;
+    font-weight: normal;
+    vertical-align: middle;
+    margin-right: 5px;
+    position: relative;
+    bottom: 1px;
+}
+
+.login-wrapper input[type="checkbox"] {
+    width: 15px;
+    height: 15px;
+    margin-right: 5px;
+}
+
+.login-wrapper label {
+    font-weight: bold;
+    color: var(--login-slogan-text-color);
+}
+
+.login-wrapper > div {
+    display: flex;
+    align-items: center;
+    margin-top: 5px;
+    margin-bottom: 5p;
 }
 
 .error-wrapper {
@@ -1374,16 +1427,6 @@ div>.community:nth-child(even) {
     padding-bottom: 15px;
 
     border-bottom: 1px solid var(--community-info-border-color);
-}
-
-@keyframes transition {
-    from {
-        opacity: 0
-    }
-
-    to {
-        opacity: 1
-    }
 }
 
 .list .post.transition {
