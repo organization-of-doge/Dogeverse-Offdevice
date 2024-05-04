@@ -10,6 +10,12 @@ module.exports = [
     },
 
     {
+        path: "/api/communities",
+        route: require("./api/communities")
+    },
+
+
+    {
         path: "/guides",
         route: require("./pages/guides")
     },

@@ -6,7 +6,22 @@ const db_con = require("../../../shared_config/database_con")
 
 route.get("/:community_id", async (req, res) => {
     const community_id = req.params.community_id
-    const community_data = (await db_con.env_db("communities").where({ id: community_id }))[0];
+    const community_data_query = db_con.env_db("communities")
+        .select("communities.*")
+        .where({ "communities.id": community_id })
+
+    if (!res.locals.guest_mode) {
+        community_data_query.select(db_con.env_db.raw(`
+            EXISTS (
+                SELECT 1
+                FROM favorites
+                WHERE favorites.account_id=?
+                AND favorites.community_id=communities.id
+            ) AS is_favorited
+        `, [res.locals.user.id]))
+    }
+
+    const community_data = (await community_data_query)[0];
 
     const base_posts_query = db_con.env_db("posts")
         .select("posts.*",

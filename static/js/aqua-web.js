@@ -70,7 +70,6 @@ const aquamarine = {
         if (token.success == false) {
             error_text.classList.remove("none")
             error_text.classList.add("transition")
-            signin.classList.add("disabled")
             signin.setAttribute("disabled", true)
             switch (token.error) {
                 case "NO_ACCOUNT_FOUND":
@@ -86,7 +85,6 @@ const aquamarine = {
 
             setTimeout(() => {
                 error_text.classList.remove("transition")
-                signin.classList.remove("disabled")
                 signin.removeAttribute("disabled")
             }, 2100)
             return;
@@ -150,6 +148,48 @@ const aquamarine = {
             }
 
             post_yeah_button.removeAttribute("disabled")
+        },
+
+        favorite: async function (community_id) {
+            const community_favorite_button = document.querySelector("button.favorite-button")
+            const error_text = document.querySelector(".community-actions span.error-text")
+
+            community_favorite_button.setAttribute("disabled", true)
+            
+            const favorite_request = await fetch(`/api/communities/${community_id}/favorite`, {
+                method : "POST"
+            })
+
+            const favorite_data = await favorite_request.json()
+
+            if (favorite_data.success == false) {
+                error_text.classList.remove("none")
+                error_text.classList.add("transition")
+
+                switch (favorite_data.error) {
+                    case "NULL_COMMUNITY":
+                        error_text.innerHTML = error_text.getAttribute("data-null-community-id")
+                        break;
+                    default:
+                        error_text.innerHTML = error_text.getAttribute("data-default")
+                        break;
+                }
+
+                setTimeout(() => {
+                    error_text.classList.remove("transition")
+                    community_favorite_button.removeAttribute("disabled")
+                }, 2100)
+                return;
+            }
+
+            if (favorite_data.favorite_status == "CREATED") {
+                community_favorite_button.classList.add("selected")
+            } else {
+                community_favorite_button.classList.remove("selected")
+            }
+
+            error_text.classList.add("none")
+            community_favorite_button.removeAttribute("disabled")
         }
     }
 }
@@ -264,8 +304,13 @@ aquamarine.router.connect("^/communities/(\\d+)$", (community_id) => {
 
     send_button.addEventListener("click", make_post)
 
-    console.log("Initialzing empathies")
+    console.log("Initializing empathies")
     aquamarine.initialize_empathies()
+
+    console.log("Initializing favorites")
+    document.querySelector("button.favorite-button").addEventListener("click", (e) => {
+        aquamarine.actions.favorite(document.querySelector("button.favorite-button").getAttribute("data-community-id"))
+    })
 })
 
 aquamarine.router.connect("^/login$", () => {

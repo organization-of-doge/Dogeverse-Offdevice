@@ -38,7 +38,16 @@
                         <div class="community-description-wrapper">
                             <span><%= community.description %></span>
                         </div>
-                    <% } %>   
+                    <% } %>  
+                    
+                    <% if (!locals.guest_mode) { %>
+                        <div class="community-actions">
+                            <span class="error-text none" data-null-community-id="Community ID is invalid." data-default="There was an error favoriting <%= community.name %>.">This is a error favoriting..</span>
+                            <button class="favorite-button <%= (community.is_favorited) ? "selected" : "" %>" data-community-id="<%= community.id %>">
+                                <span>Favorite</span>
+                            </button>
+                        </div>  
+                    <% } %>
                 </div>
             </div>
             <div class="community-content">

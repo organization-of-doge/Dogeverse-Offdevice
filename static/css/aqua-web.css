@@ -4,7 +4,10 @@
 }
 
 :root {
-    --common-text-color: #323232;
+    --common-text-color: rgb(50, 50, 50);
+    --common-button-bg: rgb(245, 245, 245);
+    --common-button-border: rgb(210, 210, 210);
+    --common-disabled-text-color: rgb(130, 130, 130);
 
     --nav-bar-bg: rgb(255, 255, 255);
     --nav-bar-border-bottom: rgb(230, 230, 230);
@@ -58,6 +61,7 @@
     --community-type-badge-bg: rgb(15, 205, 210);
     --community-type-color: rgb(255, 255, 255);
     --community-content-bg: rgb(255, 255, 255);
+    --community-favorite-color: rgb(247, 188, 38);
 
     --community-normal-color: rgb(17, 206, 212);
     --community-popular-color: rgb(90, 200, 0);
@@ -167,7 +171,7 @@ body {
 menu {
     display: flex;
 
-    width: 900px;
+    width: 950px;
     height: 50px;
 
     margin: 0;
@@ -556,19 +560,22 @@ footer .footer-wrapper div a:hover {
 }
 
 .login-wrapper span.error-text {
+    margin-bottom: 10px;
+}
+
+span.error-text {
     color: var(--login-error-text-color);
     font-weight: bold;
-    margin-bottom: 10px;
     font-size: 14px;
 }
 
-.login-wrapper span.error-text.transition {
+span.error-text.transition {
     opacity: 1;
     animation: transition;
     animation-duration: 2s;
 }
 
-.login-wrapper span.error-text::before {
+span.error-text::before {
     font-family: Symbols;
     content: "U";
     font-size: 15px;
@@ -1165,6 +1172,62 @@ div>.community:nth-child(even) {
 
     color: var(--community-type-color);
     background-color: var(--community-type-badge-bg);
+}
+
+.community-actions {
+    width: 100%;
+
+    margin-top: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.community-actions .error-text {
+    justify-self: center;
+    align-self: center;
+
+    margin-bottom: 5px;
+}
+
+.community-actions .favorite-button {
+    width: 85%;
+    height: 43px;
+
+    border: 1px solid var(--common-button-border);
+    border-radius: 5px;
+
+    background-color: var(--common-button-bg);
+}
+
+.favorite-button:disabled span {
+    color: var(--common-disabled-text-color);
+}
+
+.favorite-button:not(:disabled):hover {
+    cursor: pointer;
+    box-shadow: 0px 1px 5px rgb(209, 209, 209);
+    transition: box-shadow 0.1s;
+}
+
+.favorite-button span {
+    color: var(--common-text-color);
+    vertical-align: middle;
+}
+
+.favorite-button span::before {
+    content: "P";
+    margin-right: 7px;
+    font-family: Symbols;
+    font-size: 25px;
+    vertical-align: middle;
+    color: var(--community-favorite-color);
+    position: relative;
+    bottom: 2px;
+}
+
+.favorite-button.selected span::before {
+    content: "s";
 }
 
 .community-add-post {
