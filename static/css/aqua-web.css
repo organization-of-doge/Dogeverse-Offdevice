@@ -839,14 +839,16 @@ span.error-text::before {
     width: 620px;
 }
 
-.communities>h1 {
-    font-size: 17px;
+.communities>h1, .extra-content>h1 {
+    font-size: 16px;
 
     margin-top: 15px;
+    margin-left: 2px;
+    margin-right: auto;
 
     color: var(--community-header-text-color);
 
-    width: 100%;
+    width: fit-content;
 }
 
 .index-communities-wrapper .newest-communities {
@@ -872,6 +874,9 @@ span.error-text::before {
     padding-top: 15px;
 
     width: 320px;
+
+    display: flex;
+    flex-direction: column;
 }
 
 .extra-content form {
@@ -923,6 +928,134 @@ span.error-text::before {
     text-align: center;
 
     cursor: pointer;
+}
+
+.extra-content .small-posts {
+    display: flex;
+    flex-direction: column;
+
+    width: 100%;
+    height: fit-content;
+}
+
+.small-posts .small-post-wrapper {
+    display: flex;
+
+    width: 100%;
+    height: fit-content;
+}
+
+.small-post-wrapper .mii-icon, .small-post-wrapper .mii-icon .user-icon {
+    display: block;
+    width: 36px;
+    height: 36px;
+
+    background-color: var(--community-info-bg);
+    border-radius: 5px;
+}
+
+.small-post-wrapper .mii-icon {
+    border: 1px solid var(--community-info-border-color);
+    border-bottom: 2px solid var(--community-info-border-color);
+
+    align-self: baseline;
+}
+
+.small-post {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    width: 100%;
+    margin-left: 6px;
+    margin-bottom: 15px;
+
+    min-height: 131px;
+    height: fit-content;
+
+    background-color: var(--community-info-bg);
+
+    border: 1px solid var(--community-info-border-color);
+    border-bottom: 0px;
+
+    border-radius: 5px;
+}
+
+.small-post .content-wrapper {
+    padding: 10px;
+}
+
+.small-post .content-wrapper span {
+    font-size: 14px;
+
+    display: block;
+
+    max-height: 500px;
+}
+
+.small-post .content-wrapper img {
+    max-width: 250px;
+    min-width: 150px;
+    width: 100%;
+    margin: 0 auto;
+    display: block;
+}
+
+.small-post:has(.content-wrapper img) .post-actions {
+    display: none;
+}
+
+.small-post .post-actions {
+    display: flex;
+    justify-content: right;
+    
+    height: 20px;
+    padding: 5px;
+
+    color: var(--post-actions-text-color);
+
+    margin-top: auto;
+}
+
+.small-post .post-actions span {
+    color: var(--post-actions-text-color);
+    font-size: 13px;
+}
+
+.small-post .small-community-wrapper {
+    display: flex;
+    align-items: center;
+
+    border-top: 1px solid var(--community-info-border-color);
+    border-bottom: 2px solid var(--community-info-border-color);
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px;
+
+    background-color: var(--community-description-bg);
+
+    height: 29px;
+
+    padding-left: 6px;
+    padding-right: 6px;
+}
+
+.small-post .small-community-wrapper img {
+    width: 20px;
+    height: 20px;
+
+    border-radius: 2px;
+}
+
+.small-post .small-community-wrapper .community_name {
+    font-size: 12px;
+    color: var(--community-description-text-color);
+    margin-left: 6px;
+
+    text-decoration: none;
+}
+
+.small-post .small-community-wrapper .community_name:hover {
+    text-decoration: underline;
 }
 
 .community {
@@ -1602,7 +1735,7 @@ div>.community:nth-child(even) {
 
     justify-content: right;
 
-    color: var(--post-actions-text-color);
+    color: var(--post-actions-text-color) !important;
 
     margin-top: auto;
 
@@ -1900,6 +2033,10 @@ button.empathy span::before {
         min-width: 304px;
     }
 
+    #small_featured_drawings, #small_featured_posts {
+        display: none;
+    }
+
     .community {
         width: 100%;
 
@@ -2006,6 +2143,10 @@ button.empathy span::before {
     .extra-content form {
         width: 100%;
         max-width: none;
+    }
+
+    #small-featured-drawings, #small-featured-posts {
+        display: none;
     }
 
     .index-communities-wrapper .communities {

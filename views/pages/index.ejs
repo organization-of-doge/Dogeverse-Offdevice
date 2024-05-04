@@ -99,6 +99,39 @@
 					<input type="search" name="query" placeholder="Search Communities" maxlength="30" minlength="3">
 					<input type="submit" value="q" title="Search">
 				</form>
+
+				<% if (announcement_posts.length >= 1) { %>
+					<h1>Latest Announcements</h1>
+					<div class="small-posts" id="small_announcements">
+						<% for (const post of announcement_posts) { %>
+							<%- include("../partials/elements/ugc/small_posts", {
+								post : post
+							}) -%>
+						<% } %>
+					</div>
+				<% } %>
+
+				<% if (featured_paintings.length >= 1) { %>
+					<h1 id="small_featured_drawings">Featured Drawings</h1>
+					<div class="small-posts" id="small_featured_drawings">
+						<% for (const post of featured_paintings) { %>
+							<%- include("../partials/elements/ugc/small_posts", {
+								post : post
+							}) -%>
+						<% } %>
+					</div>
+				<% } %>
+
+				<% if (featured_posts.length >= 1) { %>
+					<h1 id="small_featured_posts">Featured Posts</h1>
+					<div class="small-posts" id="small_featured_posts">
+						<% for (const post of featured_posts) { %>
+							<%- include("../partials/elements/ugc/small_posts", {
+								post : post
+							}) -%>
+						<% } %>
+					</div>
+				<% } %>
 			</div>
 		</div>
 	</div>

@@ -13,6 +13,27 @@ route.get("/", async (req, res) => {
     const newest_communities_3ds = await db_con.env_db("communities").where({platform : "3ds", type : "main"}).orderBy("communities.create_time", "desc").limit(6)
     const special_communities = await db_con.env_db("communities").where({special_community : 1}).orderBy("communities.create_time", "desc").limit(6)
 
+    const base_posts_query = db_con.env_db("posts").select(
+        "posts.*",
+        "accounts.mii_name",
+        "accounts.nnid",
+        "accounts.mii_hash",
+        "accounts.admin",
+        "communities.name as community_name",
+        "communities.cdn_icon_url",
+        "communities.id as community_id",
+        db_con.env_db.raw("COUNT(empathies.post_id) as empathy_count")
+    ).groupBy("posts.id")
+    .innerJoin("account.accounts", "accounts.id", "=", "posts.account_id")
+    .innerJoin("communities", "communities.id", "=", "posts.community_id")
+    .leftJoin("empathies", "posts.id", "=", "empathies.post_id")
+    .orderBy("posts.create_time", "desc")
+    .limit(5)
+
+    const announcement_posts = await base_posts_query.clone().where({"communities.type" : "announcement", "accounts.admin" : 1})
+    const featured_paintings = await base_posts_query.clone().where({"posts.featured" : 1}).whereNotNull("posts.painting_cdn_url")
+    const featured_posts = await base_posts_query.clone().where({"posts.featured" : 1}).whereNull("posts.painting_cdn_url")
+
     var user_favorites;
 
     if (!res.locals.guest_mode) {
@@ -29,6 +50,10 @@ route.get("/", async (req, res) => {
         newest_communities_wiiu : newest_communities_wiiu,
         newest_communities_3ds : newest_communities_3ds,
         special_communities : special_communities,
+
+        announcement_posts : announcement_posts,
+        featured_paintings : featured_paintings,
+        featured_posts : featured_posts,
 
         user_favorites : user_favorites
     })

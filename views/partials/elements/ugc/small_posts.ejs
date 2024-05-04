@@ -1,0 +1,47 @@
+<div class="small-post-wrapper">
+    <a class="mii-icon" href="/users/<%= post.nnid %>">
+        <% switch (post.feeling_id) {
+            case 0:%>
+                <img src="https://mii-secure.cdn.nintendo.net/<%= post.mii_hash %>_normal_face.png" class="user-icon" onerror="this.src='../../../img/mii_null.png'">
+                <% break;
+            case 1:%>
+                <img src="https://mii-secure.cdn.nintendo.net/<%= post.mii_hash %>_happy_face.png" class="user-icon" onerror="this.src='../../../img/mii_null.png'">
+                <% break;
+            case 2:%>
+                <img src="https://mii-secure.cdn.nintendo.net/<%= post.mii_hash %>_like_face.png" class="user-icon" onerror="this.src='../../../img/mii_null.png'">
+                <% break;
+            case 3:%>
+                <img src="https://mii-secure.cdn.nintendo.net/<%= post.mii_hash %>_surprised_face.png" class="user-icon" onerror="this.src='../../../img/mii_null.png'">
+                <% break;
+            case 4:%>
+                <img src="https://mii-secure.cdn.nintendo.net/<%= post.mii_hash %>_frustrated_face.png" class="user-icon" onerror="this.src='../../../img/mii_null.png'">
+                <% break;
+            case 5:%>
+                <img src="https://mii-secure.cdn.nintendo.net/<%= post.mii_hash %>_puzzled_face.png" class="user-icon" onerror="this.src='../../../img/mii_null.png'">
+                <% break;
+            default:%>
+                <img src="https://mii-secure.cdn.nintendo.net/<%= post.mii_hash %>_normal_face.png" class="user-icon" onerror="this.src='../../../img/mii_null.png'">
+                <% break;
+        } %>
+    </a>
+
+    <div class="small-post trigger no-bg" data-href="/posts/<%= post.id %>">
+        <div class="content-wrapper">
+            <% if (post.body) { %>
+                <span><%= post.body %></span>
+            <% } else { %>
+                <img src="<%= post.painting_cdn_url %>">
+            <% } %>
+        </div>
+
+        <div class="post-actions">
+            <span class="empathy-count"><%= post.empathy_count %></span>
+            <span class="reply-count">0</span>
+        </div>
+
+        <div class="small-community-wrapper">
+            <img src="<%= post.cdn_icon_url %>">
+            <a class="community_name trigger" href="/communities/<%= post.community_id %>"><%= post.community_name %></a>
+        </div>
+    </div>
+</div>
