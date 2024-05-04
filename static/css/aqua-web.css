@@ -6,7 +6,7 @@
 :root {
     --common-text-color: rgb(50, 50, 50);
     --common-button-bg: rgb(245, 245, 245);
-    --common-button-border: rgb(210, 210, 210);
+    --common-button-border: rgb(220, 220, 220);
     --common-disabled-text-color: rgb(130, 130, 130);
 
     --nav-bar-bg: rgb(255, 255, 255);
@@ -546,6 +546,7 @@ footer .footer-wrapper div a:hover {
     border-radius: 3px;
 
     font-family: Arial, Helvetica, sans-serif;
+    text-indent: 2px;
 }
 
 .login-wrapper form {
@@ -966,7 +967,6 @@ div>.community:nth-child(even) {
     height: 75px;
     max-height: 75px;
 
-    max-width: 513px;
     min-width: 304px;
 
     display: flex;
@@ -1877,6 +1877,45 @@ button.empathy span::before {
     margin-bottom: 5px;
 }
 
+@media (max-width: 660px) {
+    .communities > div:not(.community-favorites) {
+        flex-direction: column;
+        align-items: center;
+
+        width: 100%;
+    }
+
+    .index-communities-wrapper .communities {
+        width: 95%;
+        margin: 0 auto;
+    }
+
+    .extra-content {
+        width: 95% !important;
+        margin: 0 auto;
+    }
+
+    .extra-content form {
+        width: 100% !important;
+        min-width: 304px;
+    }
+
+    .community {
+        width: 100%;
+
+        margin-right: 0 !important;
+    }
+
+    .community a img.banner {
+        width: 100%;
+    }
+
+    .community > a, .community > div {
+        margin: 0 auto;
+        max-width: none;
+    }
+}
+
 @media (max-width: 970px) {
     menu {
         justify-content: space-around;
@@ -1962,12 +2001,10 @@ button.empathy span::before {
         margin: 0 auto;
 
         display: flex;
-        justify-content: center;
-        align-items: center;
     }
 
     .extra-content form {
-        width: 90%;
+        width: 100%;
         max-width: none;
     }
 
