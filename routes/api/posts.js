@@ -45,7 +45,7 @@ route.post("/", bodyParser.json({ limit: "5mb" }), async (req, res) => {
 
     if (community.post_type == "text" && painting) { res.status(400).send({ success: false, error: "TEXT_ONLY" }); logger.error("Text only community!"); return; }
     if (community.post_type == "memo" && body) { res.status(400).send({ success: false, error: "PAINTING_ONLY" }); logger.error("Memo only community!"); return; }
-    if (community.type == "announcement" && res.locals.user.admin == 0) { res.status(400).send({ success: false, error: "ANNOUNCEMENT_COMMUNITY" }); logger.error(`${req.account[0].nnid} tried to post to ${community.name}`); return; }
+    if (community.type == "announcement" && res.locals.user.admin == 0) { res.status(400).send({ success: false, error: "ANNOUNCEMENT_COMMUNITY" }); logger.error(`${res.locals.user.nnid} tried to post to ${community.name}`); return; }
 
     platform = "web"
 
