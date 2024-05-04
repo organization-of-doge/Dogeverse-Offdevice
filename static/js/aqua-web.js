@@ -95,7 +95,6 @@ const aquamarine = {
         if (document.querySelector('input[type="checkbox"]').checked) {
             var date = new Date();
             date.setTime(date.getTime() + (30 * 24 * 60 * 60 * 1000));
-            console.log(date.getUTCDate())
 
             document.cookie = `jwt=${token.token}; Path=/; Secure; SameSite=None; expires=${date.toUTCString()};`
         } else {
@@ -126,7 +125,6 @@ const aquamarine = {
             const post_empathy_count = document.querySelector(`#post-${post_id} .post-content-wrapper .post-actions span.empathy-count`)
 
             post_yeah_button.setAttribute("disabled", true)
-            post_yeah_button.classList.add("disabled")
 
             const empathy_request = await fetch(`/api/posts/${post_id}/empathy`, {
                 method: "POST"
@@ -152,7 +150,6 @@ const aquamarine = {
             }
 
             post_yeah_button.removeAttribute("disabled")
-            post_yeah_button.classList.remove("disabled")
         }
     }
 }
@@ -232,6 +229,8 @@ aquamarine.router.connect("^/communities/(\\d+)$", (community_id) => {
 
         if (screenshot) { data.screenshot = screenshot; data.screenshot_MIME = screenshot_MIME }
 
+        send_button.setAttribute("disabled", true)
+
         const request = await fetch("/api/posts", {
             method: "POST",
             body: JSON.stringify(data),
@@ -250,6 +249,7 @@ aquamarine.router.connect("^/communities/(\\d+)$", (community_id) => {
             }
 
             post_list.innerHTML = request_json.html + post_list.innerHTML
+            aquamarine.initialize_empathies()
             post_list.children[0].classList.add("transition")
             textarea.value = "";
             file_upload.value = null;
@@ -270,18 +270,19 @@ aquamarine.router.connect("^/communities/(\\d+)$", (community_id) => {
 
 aquamarine.router.connect("^/login$", () => {
     const signin = document.querySelector('button[data-role="signin"]')
-    signin.addEventListener("click", aquamarine.login);
+    const username = document.querySelector('input[name="username"]')
+    const password = document.querySelector('input[name="password"]')
 
-    const inputs = [document.querySelector('input[name="username"]'), document.querySelector('input[name="password"]')]
-    inputs.forEach((e) => {
+    signin.addEventListener("click", (e) => {
+        signin.setAttribute("disabled", true)
+        aquamarine.login()
+    });
+
+    [username, password].forEach((e) => {
         e.addEventListener("input", (a) => {
-            console.log(a.value)
-
-            if (inputs[0].value.length > 1 && inputs[1].value.length > 1) {
-                signin.classList.remove("disabled")
+            if (username.value.length > 1 && password.value.length > 1) {
                 signin.removeAttribute("disabled")
             } else {
-                signin.classList.add("disabled")
                 signin.setAttribute("disabled", true)
             }
         })
@@ -289,20 +290,33 @@ aquamarine.router.connect("^/login$", () => {
     console.log("Initialized Login");
 });
 
-aquamarine.router.connect("^/signup$", () => {
+aquamarine.router.connect("^/signup$", async () => {
     const main_password_input = document.querySelector('input[name="password"]');
     const confirm_password_input = document.getElementById("confirm");
+    const network_id_input = document.querySelector('input[name="username"]');
+    const email_input = document.querySelector('input[name="email"]')
     const sign_up_button = document.querySelector('input[type="submit"]');
+    const form = document.querySelector('form')
 
-    [main_password_input, confirm_password_input].forEach((e) => {
+    const inputs = [main_password_input, confirm_password_input, network_id_input, email_input]
+
+    await inputs.forEach((e) => {
         e.addEventListener("input", (a) => {
-            if (main_password_input.value === confirm_password_input.value) {
+            if (main_password_input.value.length > 2
+                && confirm_password_input.value.length > 2
+                && network_id_input.value.length > 2
+                && email_input.value.length > 2
+                && confirm_password_input.value == main_password_input.value) {
                 sign_up_button.removeAttribute("disabled")
-                sign_up_button.classList.remove("disabled")
             } else {
                 sign_up_button.setAttribute("disabled", true)
-                sign_up_button.classList.add("disabled")
             }
         })
+    })
+
+    form.addEventListener("submit", (e) => {
+        e.preventDefault()
+        sign_up_button.setAttribute("disabled", true)
+        form.submit()
     })
 })

@@ -136,11 +136,11 @@ span.trigger:hover {
     border-radius: 5px;
 }
 
-.black-button.disabled {
+.black-button:disabled {
     border-color: #c4c4c4;
     color: #919191;
     text-shadow: 0 1px 0 #fff;
-    cursor: default;
+    cursor: default !important;
     background: -webkit-linear-gradient(top, #ddd 0%, #ddd 96%, #d0d0d0 100%);
 }
 
@@ -536,7 +536,10 @@ footer .footer-wrapper div a:hover {
 
     font-size: 20px;
 
+    border: 2px solid var(--login-border);
     margin-bottom: 2px;
+
+    border-radius: 3px;
 
     font-family: Arial, Helvetica, sans-serif;
 }
@@ -1516,7 +1519,7 @@ div>.community:nth-child(even) {
 }
 
 .post>img+.post-content-wrapper .content img {
-    width: 200px;
+    max-width: 100%;
 }
 
 .post .content img {
@@ -1568,11 +1571,11 @@ div>.community:nth-child(even) {
     box-shadow: 0px 1px 1px 0px var(--empathy-button-boxshadow-color);
 }
 
-.post .post-actions button.empathy.disabled span {
+.post .post-actions button.empathy:disabled span {
     color: var(--empathy-button-disabled-text-color);
 }
 
-.post .post-actions button.empathy.disabled:hover {
+.post .post-actions button.empathy:disabled:hover {
     cursor: auto;
 
     box-shadow: none;
