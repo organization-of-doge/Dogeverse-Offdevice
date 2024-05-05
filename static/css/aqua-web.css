@@ -699,7 +699,7 @@ span.error-text::before {
 
     padding-top: 5px;
     padding-bottom: 5px;
-    padding-left: 35px;
+    padding-left: 25px;
     padding-right: 35px;
 
     text-align: center;
@@ -710,8 +710,19 @@ span.error-text::before {
     border-radius: 15px;
 
     margin-bottom: 8px;
-
+    position: relative;
     font-size: 15px;
+}
+
+.about-actions-wrapper a:after {
+    font-family: Symbols;
+    font-size: 10px;
+    content: 'A';
+    color: #fff;
+    position: absolute;
+    right: 13px;
+    top: 16px;
+    margin-top: -9px;
 }
 
 .about-actions-wrapper a:nth-child(1) {
@@ -924,7 +935,7 @@ span.error-text::before {
 
     font-size: 16px;
     font-family: Symbols;
-    color: var(--common-text-color);
+    color: var(--community-app-name-color);
     text-align: center;
 
     cursor: pointer;
@@ -965,20 +976,44 @@ span.error-text::before {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-
     width: 100%;
     margin-left: 6px;
     margin-bottom: 15px;
-
     min-height: 131px;
     height: fit-content;
-
     background-color: var(--community-info-bg);
-
     border: 1px solid var(--community-info-border-color);
     border-bottom: 0px;
-
     border-radius: 5px;
+    position: relative;
+}
+
+.small-post:before {
+    content: "";
+    position: absolute;
+    top: 20px;
+    display: block;
+    width: 0px;
+    height: 0px;
+    border-style: solid;
+    border-color: transparent #ddd transparent transparent;
+    border-width: 5px;
+    margin-top: -5px;
+    left: -10px;
+}
+
+.small-post:after {
+    content: "";
+    position: absolute;
+    top: 20px;
+    display: block;
+    width: 0px;
+    height: 0px;
+    border-style: solid;
+    border-color: transparent #fff transparent transparent;
+    border-width: 4px;
+    margin-top: -4px;
+    left: -7px;
 }
 
 .small-post .content-wrapper {
@@ -987,10 +1022,9 @@ span.error-text::before {
 
 .small-post .content-wrapper span {
     font-size: 14px;
-
     display: block;
-
     max-height: 500px;
+    line-height: 1.4;
 }
 
 .small-post .content-wrapper img {
@@ -1011,6 +1045,7 @@ span.error-text::before {
     
     height: 20px;
     padding: 5px;
+    padding-right: 8px;
 
     color: var(--post-actions-text-color);
 
@@ -1044,6 +1079,15 @@ span.error-text::before {
     height: 20px;
 
     border-radius: 2px;
+
+    display: block;
+}
+
+.small-post .small-community-wrapper a:has(img) {
+    height: 20px;
+    width: 20px;
+
+    display: block;
 }
 
 .small-post .small-community-wrapper .community_name {
@@ -1097,13 +1141,9 @@ div>.community:nth-child(even) {
 }
 
 .community .community-info {
-    height: 75px;
-    max-height: 75px;
-
+    min-height: 75px;
     min-width: 304px;
-
     display: flex;
-
     background-color: var(--community-info-bg);
     border: 1px solid var(--community-info-border-color);
     border-bottom: 2px solid var(--community-info-border-color);
@@ -1128,15 +1168,12 @@ div>.community:nth-child(even) {
 .community-meta {
     display: flex;
     flex-direction: column;
-
     justify-content: center;
-
     align-self: center;
-
-    height: 54px;
     width: 220px;
-
     margin-left: 7px;
+    padding-top: 10px;
+    padding-bottom: 10px;
 }
 
 .community-meta .name {
@@ -1361,6 +1398,73 @@ div>.community:nth-child(even) {
 
 .favorite-button.selected span::before {
     content: "s";
+}
+
+.share-platforms {
+    width: 100%;
+    margin-top: 15px;
+
+    display: flex;
+}
+
+.share-platforms a {
+    width: 100%;
+    margin-right: 10px;
+    
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 7px;
+    padding-bottom: 7px;
+}
+
+.share-platforms a:nth-child(2) {
+    margin-right: 0;
+}
+
+.share-platforms .x-platform {
+    background-color: rgb(30, 30, 30);
+    color: #FFF;
+    border-radius: 3px;
+    font-size: 12px;
+    text-align: center;
+
+    text-decoration: none;
+}
+
+.share-platforms .facebook-platform {
+    background-color: rgb(59, 89, 152);
+
+    color: #FFF;
+    border-radius: 3px;
+    font-size: 12px;
+    text-align: center;
+
+    text-decoration: none;
+}
+
+.share-platforms .facebook-platform::before {
+    filter: invert(100%) sepia(100%) saturate(0%) hue-rotate(242deg) brightness(107%) contrast(104%);
+    background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="%23000000" height="800px" width="800px" version="1.1" id="Layer_1" viewBox="0 0 310 310" xml:space="preserve"><g id="XMLID_834_"><path id="XMLID_835_" d="M81.703,165.106h33.981V305c0,2.762,2.238,5,5,5h57.616c2.762,0,5-2.238,5-5V165.765h39.064 c2.54,0,4.677-1.906,4.967-4.429l5.933-51.502c0.163-1.417-0.286-2.836-1.234-3.899c-0.949-1.064-2.307-1.673-3.732-1.673h-44.996 V71.978c0-9.732,5.24-14.667,15.576-14.667c1.473,0,29.42,0,29.42,0c2.762,0,5-2.239,5-5V5.037c0-2.762-2.238-5-5-5h-40.545 C187.467,0.023,186.832,0,185.896,0c-7.035,0-31.488,1.381-50.804,19.151c-21.402,19.692-18.427,43.27-17.716,47.358v37.752H81.703 c-2.762,0-5,2.238-5,5v50.844C76.703,162.867,78.941,165.106,81.703,165.106z"/></g></svg>');
+}
+
+.share-platforms .x-platform::before {
+    background-image: url("data:image/svg+xml,%3C%3Fxml version='1.0' encoding='utf-8'%3F%3E%3Csvg viewBox='0 0 32 32' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='32' height='32' fill='none'/%3E%3Cpath d='M17.9686 14.1623L26.7065 4H24.6358L17.0488 12.8238L10.9891 4H4L13.1634 17.3432L4 28H6.07069L14.0827 18.6817L20.4822 28H27.4714L17.9681 14.1623H17.9686ZM15.1326 17.4607L14.2041 16.132L6.81679 5.55961H9.99723L15.9589 14.0919L16.8873 15.4206L24.6368 26.5113H21.4564L15.1326 17.4612V17.4607Z' fill='white'/%3E%3C/svg%3E%0A");
+}
+
+.share-platforms a span {
+    vertical-align: middle;
+}
+
+.share-platforms a::before {
+    margin-right: 5px;
+    content: '';
+    display: inline-block;
+    vertical-align: middle;
+    width: 14px;
+    height: 14px;
+
+    background-repeat: no-repeat;
+    background-size: contain;
 }
 
 .community-add-post {

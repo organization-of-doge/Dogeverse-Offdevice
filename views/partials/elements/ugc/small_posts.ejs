@@ -39,8 +39,8 @@
             <span class="reply-count">0</span>
         </div>
 
-        <div class="small-community-wrapper">
-            <img src="<%= post.cdn_icon_url %>">
+        <div class="small-community-wrapper" data-href="/communities/<%= post.community_id %>">
+            <a href="/communities/<%= post.community_id %>"><img src="<%= post.cdn_icon_url %>"></a>
             <a class="community_name trigger" href="/communities/<%= post.community_id %>"><%= post.community_name %></a>
         </div>
     </div>

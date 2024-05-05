@@ -39,11 +39,11 @@ route.get("/:community_id", async (req, res) => {
     var popular_posts, ingame_posts, recent_drawings, normal_posts;
 
     if (res.locals.guest_mode) {
-        popular_posts = await base_posts_query.orderBy("empathy_count", "desc").limit(5)
+        popular_posts = await base_posts_query.clone().orderBy("empathy_count", "desc").limit(5)
 
-        ingame_posts = await base_posts_query.whereNotNull("posts.app_data").orderBy("posts.create_time", "desc").limit(5)
+        ingame_posts = await base_posts_query.clone().whereNotNull("posts.app_data").orderBy("posts.create_time", "desc").limit(5)
 
-        recent_drawings = await base_posts_query.whereNotNull("posts.painting_cdn_url").orderBy("posts.create_time", "desc").limit(5)
+        recent_drawings = await base_posts_query.clone().whereNotNull("posts.painting_cdn_url").orderBy("posts.create_time", "desc").limit(5)
     } else {
         normal_posts = await base_posts_query
             .select(db_con.env_db.raw(`CASE WHEN empathies.account_id = ${res.locals.user.id} THEN TRUE ELSE FALSE END AS empathied_by_user`))

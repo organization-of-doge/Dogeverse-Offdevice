@@ -49,6 +49,11 @@
                         </div>  
                     <% } %>
                 </div>
+
+                <div class="share-platforms">
+                    <a class="x-platform" href="https://twitter.com/intent/tweet?url=https://aquamarine.lol/communities/<%= community.id %>"><span>Tweet</span></a>
+                    <a class="facebook-platform" href="https://www.facebook.com/sharer.php?u=https://aquamarine.lol/communities/<%= community.id %>"><span>Share</span></a>
+                </div>
             </div>
             <div class="community-content">
                 <% if (locals.guest_mode) { %>
