@@ -3,9 +3,14 @@ const route = express.Router();
 const moment = require("moment");
 
 const db_con = require("../../../shared_config/database_con");
+const ejs = require("ejs");
 
 route.get("/:community_id", async (req, res) => {
     const community_id = req.params.community_id;
+    const offset = parseInt(req.query["offset"]) || 0;
+    const limit = parseInt(req.query["limit"]) || 8;
+    const raw_html = req.query["raw"];
+
     const community_data_query = db_con
         .env_db("communities")
         .select("communities.*")
@@ -72,7 +77,39 @@ route.get("/:community_id", async (req, res) => {
                 )
             )
             .orderBy("posts.create_time", "desc")
-            .limit(15);
+            .limit(limit)
+            .offset(offset);
+
+        if (raw_html) {
+            if (normal_posts.length <= 0) {
+                res.sendStatus(204);
+                return;
+            }
+
+            var html = "",
+                show_community,
+                last_community_id;
+
+            for (const post of normal_posts) {
+                if (post.community_id === last_community_id) {
+                    show_community = true;
+                } else {
+                    show_community = false;
+                }
+
+                html += await ejs.renderFile(
+                    __dirname + "/../../views/partials/elements/ugc/posts.ejs",
+                    {
+                        post: post,
+                        locals: res.locals,
+                        show_community: show_community,
+                    }
+                );
+            }
+
+            res.status(200).send(html);
+            return;
+        }
     }
 
     res.render("pages/community.ejs", {

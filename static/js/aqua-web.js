@@ -362,6 +362,40 @@ aquamarine.router.connect("^/communities/(\\d+)$", (community_id) => {
                     .getAttribute("data-community-id")
             );
         });
+
+    console.log("Initializing downloading");
+
+    var last_request_status = 200;
+    var currently_downloading;
+
+    const post_list = document.querySelector(".list");
+    const loading = document.querySelector(".loading");
+    document.addEventListener("scroll", async (e) => {
+        if (
+            last_request_status !== 200 ||
+            currently_downloading ||
+            !(
+                Math.round(window.scrollY + window.innerHeight) >=
+                document.body.scrollHeight
+            )
+        ) {
+            return;
+        }
+
+        currently_downloading = true;
+        loading.classList.remove("none");
+
+        const offset = post_list.children.length;
+
+        const posts_request = await fetch(`?raw=1&offset=${offset}&limit=8`);
+
+        const posts_html = await posts_request.text();
+
+        post_list.innerHTML += posts_html;
+        last_request_status = posts_request.status;
+        currently_downloading = false;
+        loading.classList.add("none");
+    });
 });
 
 aquamarine.router.connect("^/search", async () => {
