@@ -41,7 +41,7 @@
     --search-bar-background: rgb(255, 255, 255);
     --search-bar-border: rgb(215, 215, 215);
 
-    --small-post-community-bg: rgb(245, 245, 245);
+    --small-post-community-bg: rgb(250, 250, 250);
 
     --community-favorites-bg: rgb(255, 255, 255);
     --community-favorites-border: rgb(222, 222, 222);
@@ -85,7 +85,7 @@
     --post-actions-text-color: rgb(160, 160, 160);
 
     --empathy-button-bg: rgb(255, 255, 255);
-    --empathy-button-disabled-text-color: rgb(150, 150, 150);
+    --empathy-button-disabled-text-color: rgb(185, 185, 185);
     --empathy-button-boxshadow-color: rgb(210, 210, 210);
 
     --topic_tag_color: rgb(23, 174, 179);
@@ -1116,7 +1116,7 @@ form.search input[type="submit"] {
 
 .small-post .small-community-wrapper .community_name {
     font-size: 12px;
-    color: var(--community-description-text-color);
+    color: var(--community-app-name-color);
     margin-left: 6px;
 
     text-decoration: none;
@@ -1124,6 +1124,8 @@ form.search input[type="submit"] {
 
 .small-post .small-community-wrapper .community_name:hover {
     text-decoration: underline;
+    color: var(--community-description-text-color);
+    transition: color 0.1s;
 }
 
 .communities div .community {

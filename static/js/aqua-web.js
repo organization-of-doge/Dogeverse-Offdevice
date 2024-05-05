@@ -374,6 +374,7 @@ aquamarine.router.connect("^/communities/(\\d+)$", (community_id) => {
         if (
             last_request_status !== 200 ||
             currently_downloading ||
+            post_list.children.length === 0 ||
             !(
                 Math.round(window.scrollY + window.innerHeight) >=
                 document.body.scrollHeight
@@ -410,6 +411,7 @@ aquamarine.router.connect("^/search", async () => {
         if (
             last_request_status !== 200 ||
             currently_downloading ||
+            post_list.children.length === 0 ||
             !(
                 Math.round(window.scrollY + window.innerHeight) >=
                 document.body.scrollHeight
