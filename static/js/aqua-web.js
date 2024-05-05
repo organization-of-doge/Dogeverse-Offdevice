@@ -364,8 +364,45 @@ aquamarine.router.connect("^/communities/(\\d+)$", (community_id) => {
         });
 });
 
-aquamarine.router.connect("^/search", () => {
+aquamarine.router.connect("^/search", async () => {
     aquamarine.initialize_empathies();
+
+    var last_request_status = 200;
+    var currently_downloading;
+
+    const post_list = document.querySelector(".list");
+    const loading = document.querySelector(".loading");
+    document.addEventListener("scroll", async (e) => {
+        if (
+            last_request_status !== 200 ||
+            currently_downloading ||
+            !(
+                Math.round(window.scrollY + window.innerHeight) >=
+                document.body.scrollHeight
+            )
+        ) {
+            return;
+        }
+
+        currently_downloading = true;
+        loading.classList.remove("none");
+
+        const offset = post_list.children.length;
+        const current_query = new URLSearchParams(window.location.search).get(
+            "q"
+        );
+
+        const posts_request = await fetch(
+            `?q=${current_query}&raw=1&offset=${offset}&limit=8`
+        );
+
+        const posts_html = await posts_request.text();
+
+        post_list.innerHTML += posts_html;
+        last_request_status = posts_request.status;
+        currently_downloading = false;
+        loading.classList.add("none");
+    });
 });
 
 aquamarine.router.connect("^/login$", () => {

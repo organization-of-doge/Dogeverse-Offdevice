@@ -105,6 +105,21 @@
     display: none !important;
 }
 
+.loading {
+    margin: 0 auto;
+    margin-top: 15px;
+    margin-bottom: 15px;
+
+    background-image: url("/img/loading.gif");
+    background-repeat: no-repeat;
+    background-size: contain;
+    display: block;
+    content: '';
+
+    width: 28px;
+    height: 28px;
+}
+
 .trigger:hover:not(.no-bg) {
     background-color: var(--community-hover-bg) !important;
 

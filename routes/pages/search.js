@@ -1,10 +1,13 @@
 const route = require("express").Router();
 const db_con = require("../../../shared_config/database_con");
+const ejs = require("ejs");
 
 route.get("/", async (req, res) => {
     const query = `%${req.query["q"].toLowerCase()}%`;
     const original_query = req.query["q"];
-    const offset = req.query["offset"] || 0;
+    const offset = parseInt(req.query["offset"]) || 0;
+    const limit = parseInt(req.query["limit"]) || 8;
+    const raw_html = req.query["raw"];
 
     if (!query) {
         res.status(404).render("pages/errors/search/no_query.ejs");
@@ -37,7 +40,8 @@ route.get("/", async (req, res) => {
         .innerJoin("account.accounts", "accounts.id", "=", "posts.account_id")
         .innerJoin("communities", "communities.id", "=", "posts.community_id")
         .leftJoin("empathies", "posts.id", "=", "empathies.post_id")
-        .orderBy("posts.create_time", "desc");
+        .orderBy("posts.create_time", "desc")
+        .limit(limit);
 
     if (!res.locals.guest_mode) {
         searched_posts_query.select(
@@ -60,6 +64,37 @@ route.get("/", async (req, res) => {
         .orWhereLike(db_con.env_db.raw("LOWER(app_name)"), query)
         .orderBy("create_time", "desc")
         .limit(5);
+
+    if (raw_html) {
+        if (searched_posts.length <= 0) {
+            res.sendStatus(204);
+            return;
+        }
+
+        var html = "",
+            show_community,
+            last_community_id;
+
+        for (const post of searched_posts) {
+            if (post.community_id === last_community_id) {
+                show_community = true;
+            } else {
+                show_community = false;
+            }
+
+            html += await ejs.renderFile(
+                __dirname + "/../../views/partials/elements/ugc/posts.ejs",
+                {
+                    post: post,
+                    locals: res.locals,
+                    show_community: show_community,
+                }
+            );
+        }
+
+        res.status(200).send(html);
+        return;
+    }
 
     res.render("pages/search.ejs", {
         searched_accounts: searched_accounts,
