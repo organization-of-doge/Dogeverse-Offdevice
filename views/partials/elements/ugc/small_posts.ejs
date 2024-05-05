@@ -2,25 +2,25 @@
     <a class="mii-icon" href="/users/<%= post.nnid %>">
         <% switch (post.feeling_id) {
             case 0:%>
-                <img src="https://mii-secure.cdn.nintendo.net/<%= post.mii_hash %>_normal_face.png" class="user-icon" onerror="this.src='../../../img/mii_null.png'">
+                <img src="https://mii-secure.cdn.nintendo.net/<%= post.mii_hash %>_normal_face.png" class="user-icon" onerror="this.src='../../../img/mii_null.png'" alt="<%= post.mii_name %>">
                 <% break;
             case 1:%>
-                <img src="https://mii-secure.cdn.nintendo.net/<%= post.mii_hash %>_happy_face.png" class="user-icon" onerror="this.src='../../../img/mii_null.png'">
+                <img src="https://mii-secure.cdn.nintendo.net/<%= post.mii_hash %>_happy_face.png" class="user-icon" onerror="this.src='../../../img/mii_null.png'" alt="<%= post.mii_name %>">
                 <% break;
             case 2:%>
-                <img src="https://mii-secure.cdn.nintendo.net/<%= post.mii_hash %>_like_face.png" class="user-icon" onerror="this.src='../../../img/mii_null.png'">
+                <img src="https://mii-secure.cdn.nintendo.net/<%= post.mii_hash %>_like_face.png" class="user-icon" onerror="this.src='../../../img/mii_null.png'" alt="<%= post.mii_name %>">
                 <% break;
             case 3:%>
-                <img src="https://mii-secure.cdn.nintendo.net/<%= post.mii_hash %>_surprised_face.png" class="user-icon" onerror="this.src='../../../img/mii_null.png'">
+                <img src="https://mii-secure.cdn.nintendo.net/<%= post.mii_hash %>_surprised_face.png" class="user-icon" onerror="this.src='../../../img/mii_null.png'" alt="<%= post.mii_name %>">
                 <% break;
             case 4:%>
-                <img src="https://mii-secure.cdn.nintendo.net/<%= post.mii_hash %>_frustrated_face.png" class="user-icon" onerror="this.src='../../../img/mii_null.png'">
+                <img src="https://mii-secure.cdn.nintendo.net/<%= post.mii_hash %>_frustrated_face.png" class="user-icon" onerror="this.src='../../../img/mii_null.png'" alt="<%= post.mii_name %>">
                 <% break;
             case 5:%>
-                <img src="https://mii-secure.cdn.nintendo.net/<%= post.mii_hash %>_puzzled_face.png" class="user-icon" onerror="this.src='../../../img/mii_null.png'">
+                <img src="https://mii-secure.cdn.nintendo.net/<%= post.mii_hash %>_puzzled_face.png" class="user-icon" onerror="this.src='../../../img/mii_null.png'" alt="<%= post.mii_name %>">
                 <% break;
             default:%>
-                <img src="https://mii-secure.cdn.nintendo.net/<%= post.mii_hash %>_normal_face.png" class="user-icon" onerror="this.src='../../../img/mii_null.png'">
+                <img src="https://mii-secure.cdn.nintendo.net/<%= post.mii_hash %>_normal_face.png" class="user-icon" onerror="this.src='../../../img/mii_null.png'" alt="<%= post.mii_name %>">
                 <% break;
         } %>
     </a>
@@ -30,7 +30,7 @@
             <% if (post.body) { %>
                 <span><%= post.body %></span>
             <% } else { %>
-                <img src="<%= post.painting_cdn_url %>">
+                <img src="<%= post.painting_cdn_url %>" alt="Painting from <%= post.mii_name %>">
             <% } %>
         </div>
 
@@ -40,7 +40,7 @@
         </div>
 
         <div class="small-community-wrapper" data-href="/communities/<%= post.community_id %>">
-            <a href="/communities/<%= post.community_id %>"><img src="<%= post.cdn_icon_url %>"></a>
+            <a href="/communities/<%= post.community_id %>"><img alt="<%= post.community_name %>" src="<%= post.cdn_icon_url %>"></a>
             <a class="community_name trigger" href="/communities/<%= post.community_id %>"><%= post.community_name %></a>
         </div>
     </div>

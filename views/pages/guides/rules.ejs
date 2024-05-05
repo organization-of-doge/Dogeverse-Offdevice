@@ -10,15 +10,15 @@
 	<div class="wrapper">
 		<div class="user-wrapper">
 			<% if (locals.user) { %>
-				<div class="user-info-wrapper">
-					<%- include("../../partials/elements/ugc/user_side_panel.ejs", {
+			<div class="user-info-wrapper">
+				<%- include("../../partials/elements/ugc/user_side_panel.ejs", {
 						account : locals.user
-					}) -%>
-				</div>
+				}) -%>
+			</div>
 			<% } else { %>
-				<div class="user-info-wrapper">
-					<%- include("../../partials/elements/guides/sign_in.ejs") -%>
-				</div>
+			<div class="user-info-wrapper">
+				<%- include("../../partials/elements/guides/sign_in.ejs") -%>
+			</div>
 			<% } %>
 
 			<div class="guide-wrapper">
@@ -55,8 +55,8 @@
 						And that is the final rule, just have common sense.
 						<br><br>
 						Enjoy Aquamarine and feel free to post about anything you want, but have common sense before posting or commenting. Think about what other people might think of your content from an outsider perspective.
-                        <br><br>
-                        And most importantly, have fun using Aquamarine!
+						<br><br>
+						And most importantly, have fun using Aquamarine!
 					</p>
 				</div>
 			</div>

@@ -5,110 +5,111 @@
 }) -%>
 
 <body>
-    <%- include("../partials/elements/navbar.ejs") %>
+	<%- include("../partials/elements/navbar.ejs") %>
 
-    <div class="wrapper">
-        <div class="community-wrapper">
-            <div class="community-sidebar">
-                <div class="community-banner">
-                    <% if (community.cdn_ctr_banner_url) { %>
-                        <a href="/communities/<%= community.id %>">
-                            <img src="<%= community.cdn_ctr_banner_url %>" height="137px">
-                        </a>
-                    <% } %>
-                </div>
-                <div class="community-info-wrapper">
-                    <div class="community-info">
-                        <img class="icon trigger" src="<%= community.cdn_icon_url %>" width="55px" data-href="/communities/<%= community.id %>">
+	<div class="wrapper">
+		<div class="community-wrapper">
+			<div class="community-sidebar">
+				<div class="community-banner">
+					<% if (community.cdn_ctr_banner_url) { %>
+					<a href="/communities/<%= community.id %>">
+						<img src="<%= community.cdn_ctr_banner_url %>" height="137px">
+					</a>
+					<% } %>
+				</div>
+				<div class="community-info-wrapper">
+					<div class="community-info">
+						<img class="icon trigger" src="<%= community.cdn_icon_url %>" width="55px" data-href="/communities/<%= community.id %>">
 
-                        <div>
-                            <% if (community.type=="main" ) {%>
-                                <span class="community-type">Main Community</span>
-                            <%} else if (community.type=="sub" ) {%>
-                                <span class="community-type">Sub Community</span>
-                            <%} else if (community.type=="announcement" ) {%>
-                                <span class="community-type">Announcement Community</span>
-                            <%}%>
+						<div>
+							<% if (community.type=="main" ) {%>
+							<span class="community-type">Main Community</span>
+							<%} else if (community.type=="sub" ) {%>
+							<span class="community-type">Sub Community</span>
+							<%} else if (community.type=="announcement" ) {%>
+							<span class="community-type">Announcement Community</span>
+							<%}%>
                             <span class="community-name"><%= community.name %></span>
-                            <span class="community-app-name"><%= community.app_name %></span>
-                        </div>
-                    </div>
+							<span class="community-app-name"><%= community.app_name %></span>
+						</div>
+					</div>
 
-                    <% if (community.description) { %>
-                        <div class="community-description-wrapper">
-                            <span><%= community.description %></span>
-                        </div>
-                    <% } %>  
-                    
-                    <% if (!locals.guest_mode) { %>
-                        <div class="community-actions">
-                            <span class="error-text none" data-null-community-id="Community ID is invalid." data-default="There was an error favoriting <%= community.name %>.">This is a error favoriting..</span>
-                            <button class="favorite-button <%= (community.is_favorited) ? "selected" : "" %>" data-community-id="<%= community.id %>">
-                                <span>Favorite</span>
-                            </button>
-                        </div>  
-                    <% } %>
-                </div>
+					<% if (community.description) { %>
+					<div class="community-description-wrapper">
+						<span><%= community.description %></span>
+					</div>
+					<% } %>
 
-                <div class="share-platforms">
-                    <a class="x-platform" href="https://twitter.com/intent/tweet?url=https://aquamarine.lol/communities/<%= community.id %>"><span>Tweet</span></a>
-                    <a class="facebook-platform" href="https://www.facebook.com/sharer.php?u=https://aquamarine.lol/communities/<%= community.id %>"><span>Share</span></a>
-                </div>
-            </div>
-            <div class="community-content">
-                <% if (locals.guest_mode) { %>
-                    <%- include("../partials/elements/ugc/guest_mode/communities_posts.ejs") -%>
-                <% } else { %>
-                    <div class="community-post-list normal">
-                        <div class="header">
-                            <span>Posts</span>
-                        </div>
-                        
-                        <% if (!(community.type == "announcement" && locals.user.admin == 0)) { %>
-                            <div class="add-new-post">
-                                <form id="post-expandable" class="feeling-selector none">
-                                    <input class="selected" type="radio" value="0">
-                                    <input type="radio" value="1">
-                                    <input type="radio" value="2">
-                                    <input type="radio" value="3">
-                                    <input type="radio" value="4">
-                                    <input type="radio" value="5">
-                                </form>
-                                <div class="textarea-wrapper">
-                                    <textarea autocomplete="off" data-expand="#post-expandable" minlength="5" maxlength="650" placeholder="Share your thoughts with the <%= community.name %> Community!"></textarea>
-                                </div>
-                                <div id="post-expandable" class="file-wrapper none">
-                                    <div class="file">
-                                        <div>
-                                            <b>File</b>
-                                            <span>Upload Screenshot (.jpg, .png, .webp, .gif)</span>
-                                        </div>
-                                        <input autocomplete="off" type="file" accept=".jpg, .png, .webp, .gif" placeholder="">
-                                    </div>
-                                </div>
-    
-                                <button disabled="true" id="post-expandable" class="post-button black-button none trigger">Send</button>
-                            </div>
-                        <% } %>
-                        
-                        <div class="list" data-no-posts="<%= (normal_posts <= 0) ? 1 : 0 %>">
-                            <% for (const post of normal_posts) { %>
-                                <%- include("../partials/elements/ugc/posts.ejs", {
-                                    post : post
-                                }) -%>
-                            <% } %>
+					<% if (!locals.guest_mode) { %>
+					<div class="community-actions">
+						<span class="error-text none" data-null-community-id="Community ID is invalid." data-default="There was an error favoriting <%= community.name %>.">This is a error favoriting..</span>
+						<button class="favorite-button <%= (community.is_favorited) ? "selected" : "" %>" data-community-id="<%= community.id %>">
+							<span>Favorite</span>
+						</button>
+					</div>
+					<% } %>
+				</div>
 
-                            <% if (normal_posts.length <= 0) { %>
-                                <span class="no-posts">There are no posts yet.</span>
-                            <% } %>
-                        </div>
-                    </div>
-                <%} %>
-            </div>
-        </div>
-    </div>
+				<div class="share-platforms">
+					<a class="x-platform" href="https://twitter.com/intent/tweet?url=https://aquamarine.lol/communities/<%= community.id %>"><span>Tweet</span></a>
+					<a class="facebook-platform" href="https://www.facebook.com/sharer.php?u=https://aquamarine.lol/communities/<%= community.id %>"><span>Share</span></a>
+				</div>
+			</div>
+			<div class="community-content">
+				<% if (locals.guest_mode) { %>
+				<%- include("../partials/elements/ugc/guest_mode/communities_posts.ejs") -%>
+				<% } else { %>
+				<div class="community-post-list normal">
+					<div class="header">
+						<span>Posts</span>
+					</div>
 
-    <%- include("../partials/elements/footer.ejs") -%>
+					<% if (!(community.type == "announcement" && locals.user.admin == 0)) { %>
+					<div class="add-new-post">
+						<form id="post-expandable" class="feeling-selector none">
+							<input class="selected" type="radio" value="0">
+							<input type="radio" value="1">
+							<input type="radio" value="2">
+							<input type="radio" value="3">
+							<input type="radio" value="4">
+							<input type="radio" value="5">
+						</form>
+						<div class="textarea-wrapper">
+							<textarea autocomplete="off" data-expand="#post-expandable" minlength="5" maxlength="650" placeholder="Share your thoughts with the <%= community.name %> Community!"></textarea>
+						</div>
+						<div id="post-expandable" class="file-wrapper none">
+							<div class="file">
+								<div>
+									<b>File</b>
+									<span>Upload Screenshot (.jpg, .png, .webp, .gif)</span>
+								</div>
+								<input autocomplete="off" type="file" accept=".jpg, .png, .webp, .gif" placeholder="">
+							</div>
+						</div>
+
+						<button disabled="true" id="post-expandable" class="post-button black-button none trigger">Send</button>
+					</div>
+					<% } %>
+
+					<div class="list" data-no-posts="<%= (normal_posts <= 0) ? 1 : 0 %>">
+						<% for (const post of normal_posts) { %>
+						<%- include("../partials/elements/ugc/posts.ejs", {
+                                post : post,
+								show_community : false
+                            }) -%>
+						<% } %>
+
+						<% if (normal_posts.length <= 0) { %>
+						<span class="no-posts">There are no posts yet.</span>
+						<% } %>
+					</div>
+				</div>
+				<%} %>
+			</div>
+		</div>
+	</div>
+
+	<%- include("../partials/elements/footer.ejs") -%>
 </body>
 
 </html>

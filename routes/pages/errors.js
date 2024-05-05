@@ -1,5 +1,5 @@
-const express = require("express")
-const route = express.Router()
+const express = require("express");
+const route = express.Router();
 
 route.get("/account/:error_id", async (req, res) => {
     switch (req.params.error_id) {
@@ -15,6 +15,6 @@ route.get("/account/:error_id", async (req, res) => {
         default:
             res.sendStatus(404);
     }
-})
+});
 
-module.exports = route
+module.exports = route;

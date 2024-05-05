@@ -10,15 +10,15 @@
 	<div class="wrapper">
 		<div class="user-wrapper">
 			<% if (locals.user) { %>
-				<div class="user-info-wrapper">
-					<%- include("../../partials/elements/ugc/user_side_panel.ejs", {
+			<div class="user-info-wrapper">
+				<%- include("../../partials/elements/ugc/user_side_panel.ejs", {
 						account : locals.user
 					}) -%>
-				</div>
+			</div>
 			<% } else { %>
-				<div class="user-info-wrapper">
-					<%- include("../../partials/elements/guides/sign_in.ejs") -%>
-				</div>
+			<div class="user-info-wrapper">
+				<%- include("../../partials/elements/guides/sign_in.ejs") -%>
+			</div>
 			<% } %>
 
 			<div class="guide-wrapper">

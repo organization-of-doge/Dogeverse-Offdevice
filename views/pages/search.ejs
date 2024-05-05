@@ -1,0 +1,114 @@
+<%- include("../partials/header.ejs", { image_url : "" , title : "Aquamarine - Search" , description : "" }) -%>
+
+<body>
+	<%- include("../partials/elements/navbar.ejs") %>
+
+	<div class="wrapper">
+		<div class="search-wrapper">
+			<div class="search-sidebar">
+				<form class="search" action="/search" method="get">
+					<input type="search" name="q" placeholder="Search" maxlength="30" minlength="3" value="<%= original_query %>">
+					<input type="submit" value="q" title="Search">
+				</form>
+
+				<div class="users-wrapper">
+					<div class="header users">
+						<span>Users</span>
+					</div>
+
+					<div class="searched-users">
+						<% for (const user of searched_accounts) { %>
+						<div class="user trigger" id="account-<%= user.id %>" data-href="/users/<%= user.nnid %>">
+							<img src="https://mii-secure.cdn.nintendo.net/<%= user.mii_hash %>_normal_face.png" class="user-icon" onerror="this.src='../../../img/mii_null.png'" alt="<%= user.mii_name %>">
+							<div class="user-meta">
+								<span class="mii_name trigger no-bg"><%= user.mii_name %></span>
+								<span class="nnid"><%= user.nnid %></span>
+								<span class="bio"><%= user.bio %></span>
+							</div>
+						</div>
+						<% } %>
+
+						<% if (searched_accounts.length <= 0) { %>
+						<span class="no-posts">No users were found.</span>
+						<% } %>
+					</div>
+				</div>
+
+				<div class="communities-wrapper">
+					<div class="header users">
+						<span>Communities</span>
+					</div>
+					<div class="searched-communities">
+						<% for (const community of searched_communities) { %>
+						<div class="community">
+							<% if (community.cdn_ctr_banner_url) { %>
+							<a href="/communities/<%= community.id %>">
+								<img class="banner" src="<%= community.cdn_ctr_banner_url %>" alt="<%= community.name %>">
+							</a>
+
+							<div class="community-info trigger" data-href="/communities/<%= community.id %>">
+								<img src="<%= community.cdn_icon_url %>" alt="<%= community.name %>">
+
+								<div class="community-meta">
+									<span class="name"><%= community.name %></span>
+									<span class="app-name"><%= community.app_name %></span>
+
+									<span class="platform <%= community.platform %>"><% switch (community.platform) {
+                					case "wiiu":%>
+										Wii U Games
+										<%break;
+                					case "3ds":%>
+										Nintendo 3DS Games
+										<%break;
+                					case "both":%>
+										Wii U/3DS Games
+										<%break;
+                					case "vc":%>
+										Virtual Console Games
+										<%break;
+                					case "topic":%>
+										General Topic
+										<%break;
+                					case "wii":%>
+										Wii Games
+										<%break;
+            						} %></span>
+								</div>
+							</div>
+							<%} %>
+						</div>
+						<% } %>
+
+						<% if (searched_communities.length <= 0) { %>
+						<span class="no-posts">No communities were found.</span>
+						<% } %>
+					</div>
+				</div>
+			</div>
+
+			<div class="search-main">
+				<div class="posts-wrapper">
+					<div class="header users">
+						<span>Posts</span>
+					</div>
+
+					<div class="list">
+						<% var last_community_id; var show_community; for (const post of searched_posts) {
+							if (last_community_id === post.community_id) { show_community = false } else { show_community = true } %>
+						<%- include("../partials/elements/ugc/posts.ejs", {
+                                post : post,
+								show_community : show_community
+                        }) -%>
+						<% last_community_id = post.community_id } %>
+
+						<% if (searched_posts.length <= 0) { %>
+						<span class="no-posts">No posts were found.</span>
+						<% } %>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<%- include("../partials/elements/footer.ejs") -%>
+</body>
