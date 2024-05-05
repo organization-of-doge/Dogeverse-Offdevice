@@ -2534,4 +2534,45 @@ button.empathy span::before {
         margin-right: 0;
         align-self: auto;
     }
+
+    .post .community-wrapper {
+        margin: 0;
+        flex-direction: row;
+    }
+
+    .search-wrapper {
+        flex-direction: column;
+    }
+
+    .search-wrapper .search-sidebar {
+        width: 100%;
+    }
+
+    .search-sidebar form.search {
+        width: auto;
+        max-width: 100%;
+    }
+
+    .users-wrapper, .communities-wrapper, .posts-wrapper {
+        width: auto;
+    }
+
+    .search-sidebar .communities-wrapper .searched-communities .community {
+        margin: 0;
+    }
+
+    .search-sidebar .communities-wrapper .searched-communities .community a {
+        max-width: none;
+    }
+
+    .search-wrapper .search-main {
+        margin: 0;
+        width: 100%;
+    }
+
+    .search-main .posts-wrapper {
+        width: 100%;
+
+        margin-top: 15px;
+    }
 }
