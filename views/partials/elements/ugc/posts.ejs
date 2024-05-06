@@ -8,7 +8,7 @@
 
 	<div class="post-content-wrapper">
 		<div class="user-info">
-			<a href="/users/nonamegiven">
+			<a href="/users/<%= post.nnid %>">
 				<% switch (post.feeling_id) {
                         case 0:%>
 				<img src="https://mii-secure.cdn.nintendo.net/<%= post.mii_hash %>_normal_face.png" class="user-icon" onerror="this.src='../../../img/mii_null.png'" alt="<%= post.mii_name %>">

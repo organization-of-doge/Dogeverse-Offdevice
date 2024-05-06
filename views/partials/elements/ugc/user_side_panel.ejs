@@ -1,9 +1,36 @@
 <div class="user-info">
-    <a href="/users/<%= account.nnid %>">
-        <img src="https://mii-secure.cdn.nintendo.net/<%= account.mii_hash %>_normal_face.png">
-    </a>
-    <div class="user-meta">
-        <a class="mii_name trigger no-bg" href="/users/<%= account.nnid %>"><%= account.mii_name %></a>
-        <span class="nnid"><%= account.nnid %></span>
-    </div>
+	<div>
+		<a href="/users/<%= account.nnid %>">
+			<img src="https://mii-secure.cdn.nintendo.net/<%= account.mii_hash %>_normal_face.png">
+		</a>
+		<div class="user-meta">
+			<a class="mii_name trigger no-bg" href="/users/<%= account.nnid %>"><%= account.mii_name %></a>
+			<span class="nnid"><%= account.nnid %></span>
+		</div>
+	</div>
+	<% if (!locals.guest_mode) { %>
+	<% if (account.id === locals.user.id) { %>
+	<button class="profile-settings">Profile Settings</button>
+	<% } %>
+	<% } %>
+
+	<div class="user-stats">
+		<a href="/users/<%= account.nnid %>/following">
+			<span>
+				<span class="number">
+					0
+				</span>
+				Following
+			</span>
+		</a>
+
+		<a href="/users/<%= account.nnid %>/followers">
+			<span>
+				<span class="number">
+					0
+				</span>
+				Followers
+			</span>
+		</a>
+	</div>
 </div>

@@ -9,35 +9,31 @@
 
 	<div class="wrapper">
 		<div class="user-wrapper">
-			<% if (locals.user) { %>
 			<div class="user-info-wrapper">
 				<%- include("../../partials/elements/ugc/user_side_panel.ejs", {
-						account : locals.user
+						account : view_user
 				}) -%>
 			</div>
-			<% } else { %>
-			<div class="user-info-wrapper">
-				<%- include("../../partials/elements/guides/sign_in.ejs") -%>
-			</div>
-			<% } %>
 
-			<div class="guide-wrapper">
-				<div class="header guide">
-					<span>Donate to Aquamarine</span>
-				</div>
-				<div class="spacer">
-					<h1 class="opening">Become a Aquamarine Donator</h1>
-					<p>
-						Hello there. Would you like to give a small amount of money to the Aquamarine developers for putting in their time and effort into this project?
-						<br><br>
-						Well, this page is the right one for you!
-					</p>
-					<h2 class="num1">How can I donate?</h2>
-					<p>
-						Currently, you can't. Sorry! We'll make this a feature as soon as we can.
-						<br><br>
-						For now, feedback is the best way to support Aquamarine and make this project the best it can be!
-					</p>
+			<div class="user-main-wrapper">
+				<div class="user-posts">
+					<div class="header guide">
+						<span>Posts</span>
+					</div>
+
+					<div class="list">
+						<% var last_community_id; var show_community; for (const post of view_user_posts) {
+							if (last_community_id === post.community_id) { show_community = false } else { show_community = true } %>
+						<%- include("../../partials/elements/ugc/posts.ejs", {
+                                post : post,
+								show_community : show_community
+                        }) -%>
+						<% last_community_id = post.community_id } %>
+
+						<% if (view_user_posts.length <= 0) { %>
+						<span class="no-posts">No posts were found.</span>
+						<% } %>
+					</div>
 				</div>
 			</div>
 		</div>

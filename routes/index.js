@@ -30,6 +30,11 @@ module.exports = [
     },
 
     {
+        path: "/users",
+        route: require("./pages/users"),
+    },
+
+    {
         path: "/search",
         route: require("./pages/search"),
     },
