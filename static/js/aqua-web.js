@@ -44,11 +44,16 @@ const aquamarine = {
 
     initialize_empathies: function () {
         document.querySelectorAll(".empathy:not(.disabled)").forEach((e) => {
-            e.addEventListener("click", (event) => {
-                event.stopPropagation();
-                aquamarine.actions.empathy(e.getAttribute("data-post-id"));
-            });
+            e.removeEventListener("click", click);
+            e.addEventListener("click", click);
         });
+
+        function click(event) {
+            event.stopPropagation();
+            aquamarine.actions.empathy(
+                event.currentTarget.getAttribute("data-post-id")
+            );
+        }
     },
 
     login: async function () {
@@ -392,7 +397,15 @@ aquamarine.router.connect("^/communities/(\\d+)$", (community_id) => {
 
         const posts_html = await posts_request.text();
 
+        if (posts_request.status !== 200) {
+            last_request_status = posts_request.status;
+            currently_downloading = false;
+            loading.classList.add("none");
+            return;
+        }
+
         post_list.innerHTML += posts_html;
+        aquamarine.initialize_empathies();
         last_request_status = posts_request.status;
         currently_downloading = false;
         loading.classList.add("none");
@@ -434,7 +447,15 @@ aquamarine.router.connect("^/search", async () => {
 
         const posts_html = await posts_request.text();
 
+        if (posts_request.status !== 200) {
+            last_request_status = posts_request.status;
+            currently_downloading = false;
+            loading.classList.add("none");
+            return;
+        }
+
         post_list.innerHTML += posts_html;
+        aquamarine.initialize_empathies();
         last_request_status = posts_request.status;
         currently_downloading = false;
         loading.classList.add("none");
