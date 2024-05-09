@@ -1,7 +1,7 @@
 <%- include("../../partials/header.ejs", {
     image_url : "",
-    title : `Aquamarine - ProdTest1`,
-    description : ""
+    title : `Aquamarine - ${view_user.mii_name}`,
+	description : ""
 }) -%>
 
 <body>
@@ -9,16 +9,33 @@
 
 	<div class="wrapper">
 		<div class="user-wrapper">
-			<div class="user-info-wrapper">
-				<%- include("../../partials/elements/ugc/user_side_panel.ejs", {
+			<div class="user-sidebar">
+				<div class="user-info-wrapper">
+					<%- include("../../partials/elements/ugc/user_side_panel.ejs", {
 						account : view_user
 				}) -%>
+				</div>
+
+				<div class="user-menu">
+					<div class="trigger all-posts">
+						<span>All Posts</span>
+						<span class="number"><%= view_user_stats.post_count %></span>
+					</div>
+					<div class="trigger empathies">
+						<span>Yeahs</span>
+						<span class="number"><%= view_user_stats.empathy_count %></span>
+					</div>
+				</div>
+
+				<div class="user-info-wrapper">
+					<p class="bio"><%= view_user.bio %></p>
+				</div>
 			</div>
 
 			<div class="user-main-wrapper">
 				<div class="user-posts">
 					<div class="header guide">
-						<span>Posts</span>
+						<span>Latest Posts</span>
 					</div>
 
 					<div class="list">

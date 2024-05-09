@@ -10,11 +10,20 @@
 	</div>
 	<% if (!locals.guest_mode) { %>
 	<% if (account.id === locals.user.id) { %>
-	<button class="profile-settings">Profile Settings</button>
+	<button class="profile-settings" data-href="/settings/profile">Profile Settings</button>
 	<% } %>
 	<% } %>
 
 	<div class="user-stats">
+		<a href="/users/<%= account.nnid %>/friends">
+			<span>
+				<span class="number">
+					0 / 100
+				</span>
+				Friends
+			</span>
+		</a>
+
 		<a href="/users/<%= account.nnid %>/following">
 			<span>
 				<span class="number">

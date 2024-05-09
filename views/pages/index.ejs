@@ -101,7 +101,7 @@
 
 				<% if (featured_paintings.length>= 1) { %>
 				<h1 id="small_featured_drawings">Featured Drawings</h1>
-				<div class="small-posts">
+				<div id="small_featured_drawings" class="small-posts">
 					<% for (const post of featured_paintings) { %>
 					<%- include("../partials/elements/ugc/small_posts", { post : post }) -%>
 					<% } %>
@@ -110,7 +110,7 @@
 
 				<% if (featured_posts.length>= 1) { %>
 				<h1 id="small_featured_posts">Featured Posts</h1>
-				<div class="small-posts">
+				<div id="small_featured_posts" class="small-posts">
 					<% for (const post of featured_posts) { %>
 					<%- include("../partials/elements/ugc/small_posts", { post : post }) -%>
 					<% } %>

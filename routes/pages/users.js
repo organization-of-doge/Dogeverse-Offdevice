@@ -9,7 +9,7 @@ route.get("/:nnid", async (req, res) => {
         await db_con.account_db("accounts").where({ nnid: req.params.nnid })
     )[0];
 
-    const user_posts = await db_con
+    var user_posts = db_con
         .env_db("posts")
         .select(
             "posts.*",
@@ -27,7 +27,25 @@ route.get("/:nnid", async (req, res) => {
         .innerJoin("account.accounts", "accounts.id", "=", "posts.account_id")
         .innerJoin("communities", "communities.id", "=", "posts.community_id")
         .leftJoin("empathies", "posts.id", "=", "empathies.post_id")
-        .orderBy("posts.create_time", "desc");
+        .orderBy("posts.create_time", "desc")
+        .limit(5);
+
+    const user_stats = await db_con
+        .env_db("account.accounts")
+        .select(
+            db_con.env_db.raw(
+                "(SELECT COUNT(*) FROM posts WHERE posts.account_id = accounts.id) as post_count"
+            ),
+            db_con.env_db.raw(
+                "(SELECT COUNT(*) FROM empathies WHERE empathies.account_id = accounts.id) as empathy_count"
+            )
+        )
+        .where({
+            "accounts.id": user.id,
+        })
+        .first();
+
+    console.log(user_stats);
 
     const user_favorites = await db_con
         .env_db("favorites")
@@ -44,10 +62,21 @@ route.get("/:nnid", async (req, res) => {
             "favorites.community_id"
         );
 
+    if (!res.locals.guest_mode) {
+        user_posts.select(
+            db_con.env_db.raw(
+                `CASE WHEN empathies.account_id = ${res.locals.user.id} THEN TRUE ELSE FALSE END AS empathied_by_user`
+            )
+        );
+    }
+
+    user_posts = await user_posts;
+
     res.render("pages/users/user.ejs", {
         view_user: user,
         view_user_favorites: user_favorites,
         view_user_posts: user_posts,
+        view_user_stats: user_stats,
     });
 });
 

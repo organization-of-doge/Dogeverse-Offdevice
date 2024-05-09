@@ -71,15 +71,14 @@ route.get("/", async (req, res) => {
             return;
         }
 
-        var html = "",
-            show_community,
-            last_community_id;
+        var html = "";
+        var show_community, last_community_id;
 
         for (const post of searched_posts) {
             if (post.community_id === last_community_id) {
-                show_community = true;
-            } else {
                 show_community = false;
+            } else {
+                show_community = true;
             }
 
             html += await ejs.renderFile(
@@ -90,6 +89,8 @@ route.get("/", async (req, res) => {
                     show_community: show_community,
                 }
             );
+
+            last_community_id = post.community_id;
         }
 
         res.status(200).send(html);

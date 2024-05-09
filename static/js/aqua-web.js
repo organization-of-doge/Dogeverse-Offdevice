@@ -19,12 +19,6 @@ const aquamarine = {
     },
 
     initialize: function () {
-        document.querySelectorAll("[data-href]").forEach((e) => {
-            e.addEventListener("click", () => {
-                window.location.href = e.getAttribute("data-href");
-            });
-        });
-
         const logout = document.querySelector("#settings-logout");
         const settings = document.querySelector("#settings-button");
 
@@ -39,6 +33,20 @@ const aquamarine = {
                     .querySelector(".settings-menu")
                     .classList.toggle("none");
             });
+        }
+
+        this.initialize_href();
+    },
+
+    initialize_href: function () {
+        document.querySelectorAll("[data-href]").forEach((e) => {
+            e.removeEventListener("click", click);
+            e.addEventListener("click", click);
+        });
+
+        function click(event) {
+            window.location.href =
+                event.currentTarget.getAttribute("data-href");
         }
     },
 
@@ -406,6 +414,7 @@ aquamarine.router.connect("^/communities/(\\d+)$", (community_id) => {
 
         post_list.innerHTML += posts_html;
         aquamarine.initialize_empathies();
+        aquamarine.initialize_href();
         last_request_status = posts_request.status;
         currently_downloading = false;
         loading.classList.add("none");
@@ -456,6 +465,7 @@ aquamarine.router.connect("^/search", async () => {
 
         post_list.innerHTML += posts_html;
         aquamarine.initialize_empathies();
+        aquamarine.initialize_href();
         last_request_status = posts_request.status;
         currently_downloading = false;
         loading.classList.add("none");
