@@ -2019,9 +2019,7 @@ button.empathy span::before {
 
 .user-info-wrapper {
     width: 320px;
-    max-height: 250px;
     margin-top: 15px;
-    margin-right: 15px;
 
     display: flex;
     flex-direction: column;
@@ -2085,8 +2083,9 @@ button.empathy span::before {
 }
 
 .guide-wrapper {
-    max-width: 627px;
+    max-width: 650px;
     min-width: 200px;
+    width: 620px;
 
     margin-top: 15px;
 
@@ -2174,10 +2173,12 @@ button.empathy span::before {
 }
 
 .guide-wrapper img {
+    display: block;
     width: 100%;
     border-radius: 5px;
     border: 1px solid var(--community-info-border-color);
     border-bottom: 2px solid var(--community-info-border-color);
+    margin: 0 auto;
 }
 
 .guide-wrapper ul {
@@ -2340,6 +2341,7 @@ button.empathy span::before {
 
 .user-main-wrapper {
     width: 620px;
+    max-width: 650px;
     margin-top: 15px;
 }
 
@@ -2448,7 +2450,6 @@ button.empathy span::before {
     flex-direction: column;
 
     margin-top: 15px;
-    margin-right: 15px;
 
     height: fit-content;
 
@@ -2493,13 +2494,14 @@ button.empathy span::before {
 .user-menu div .number {
     display: block;
     margin-left: auto;
-    margin-right: 15px;
 
     padding: 2px;
     padding-left: 18px;
     padding-right: 18px;
     font-size: 12px;
     border-radius: 3px;
+
+    margin-right: 5px;
 
     background-color: var(--user-stats-background-color);
     color: var(--community-app-name-color);
@@ -2548,15 +2550,19 @@ div.all-posts span, div.empathies span {
 .user-sidebar {
     display: flex;
     flex-direction: column;
-    width: fit-content;
     height: 100%;
+    width: 320px;
+    max-width: 650px;
+    margin-right: 15px;
+}
+
+.user-info-wrapper:has(p.bio) {
+    justify-content: center;
+    flex-direction: row;
 }
 
 .user-info-wrapper p.bio {
-    width: 270px;
-    margin: 0 auto;
-    margin-top: 15px;
-    margin-bottom: 15px;
+    margin: 15px;
     padding: 10px;
     background-color: var(--community-description-bg);
     color: var(--community-description-text-color);
@@ -2782,11 +2788,10 @@ div.all-posts span, div.empathies span {
     .user-wrapper {
         flex-direction: column;
         justify-content: center;
-        max-width: fit-content;
     }
 
     .user-info-wrapper {
-        width: 100%;
+        width: auto;
         margin-right: 0;
         align-self: auto;
     }
@@ -2830,5 +2835,30 @@ div.all-posts span, div.empathies span {
         width: 100%;
 
         margin-top: 15px;
+    }
+
+    .user-menu {
+        margin-right: 0;
+    }
+
+    .user-sidebar {
+        width: 100%;
+        margin: 0 auto;
+    }
+
+    .user-info-wrapper p.bio {
+        width: 100%;
+    }
+
+    .user-main-wrapper {
+        width: 100%;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .guide-wrapper {
+        margin-left: auto;
+        margin-right: auto;
+        width: 100%;
     }
 }

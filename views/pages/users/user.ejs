@@ -17,11 +17,11 @@
 				</div>
 
 				<div class="user-menu">
-					<div class="trigger all-posts">
+					<div class="trigger all-posts" data-href="/users/<%= view_user.nnid %>/posts">
 						<span>All Posts</span>
 						<span class="number"><%= view_user_stats.post_count %></span>
 					</div>
-					<div class="trigger empathies">
+					<div class="trigger empathies" data-href="/users/<%= view_user.nnid %>/empathies">
 						<span>Yeahs</span>
 						<span class="number"><%= view_user_stats.empathy_count %></span>
 					</div>
