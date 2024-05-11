@@ -1,3 +1,4 @@
+const aquamarine_scroll_end = new Event("aquamarine:scroll_end");
 const aquamarine = {
     router: {
         routes: [],
@@ -244,12 +245,57 @@ const aquamarine = {
             error_text.classList.add("none");
             community_favorite_button.removeAttribute("disabled");
         },
+
+        last_request_status: 200,
+        currently_downloading: false,
+        download_posts: async function (selector, query) {
+            const post_list = document.querySelector(selector);
+            const loading = document.querySelector(".loading");
+
+            if (
+                this.last_request_status !== 200 ||
+                this.currently_downloading ||
+                post_list.children.length === 0
+            ) {
+                return;
+            }
+
+            loading.classList.remove("none");
+            this.currently_downloading = true;
+            const posts_request = await fetch(query);
+
+            return new Promise(async (resolve, reject) => {
+                if (posts_request.ok) {
+                    const posts_html = await posts_request.text();
+                    post_list.innerHTML += posts_html;
+                    aquamarine.initialize_empathies();
+                    aquamarine.initialize_href();
+                    loading.classList.add("none");
+
+                    this.last_request_status = posts_request.status;
+                    this.currently_downloading = false;
+
+                    resolve(posts_request.status);
+                } else {
+                    reject(posts_request.status);
+                }
+            });
+        },
     },
 };
 
 document.addEventListener("DOMContentLoaded", () => {
     aquamarine.router.checkRoutes(window.location.pathname);
     aquamarine.initialize();
+
+    document.addEventListener("scroll", (ev) => {
+        if (
+            Math.round(window.scrollY + window.innerHeight) >=
+            document.body.scrollHeight
+        ) {
+            document.dispatchEvent(aquamarine_scroll_end);
+        }
+    });
 });
 
 aquamarine.router.connect("^/communities/(\\d+)$", (community_id) => {
@@ -378,97 +424,29 @@ aquamarine.router.connect("^/communities/(\\d+)$", (community_id) => {
 
     console.log("Initializing downloading");
 
-    var last_request_status = 200;
-    var currently_downloading;
-
     const post_list = document.querySelector(".list");
-    const loading = document.querySelector(".loading");
-    document.addEventListener("scroll", async (e) => {
-        if (
-            last_request_status !== 200 ||
-            currently_downloading ||
-            post_list.children.length === 0 ||
-            !(
-                Math.round(window.scrollY + window.innerHeight) >=
-                document.body.scrollHeight
-            )
-        ) {
-            return;
-        }
-
-        currently_downloading = true;
-        loading.classList.remove("none");
-
+    document.addEventListener("aquamarine:scroll_end", async (e) => {
         const offset = post_list.children.length;
 
-        const posts_request = await fetch(`?raw=1&offset=${offset}&limit=8`);
-
-        const posts_html = await posts_request.text();
-
-        if (posts_request.status !== 200) {
-            last_request_status = posts_request.status;
-            currently_downloading = false;
-            loading.classList.add("none");
-            return;
-        }
-
-        post_list.innerHTML += posts_html;
-        aquamarine.initialize_empathies();
-        aquamarine.initialize_href();
-        last_request_status = posts_request.status;
-        currently_downloading = false;
-        loading.classList.add("none");
+        await aquamarine.actions.download_posts(
+            ".list",
+            `?raw=1&offset=${offset}&limit=25`
+        );
     });
 });
 
 aquamarine.router.connect("^/search", async () => {
     aquamarine.initialize_empathies();
 
-    var last_request_status = 200;
-    var currently_downloading;
-
     const post_list = document.querySelector(".list");
-    const loading = document.querySelector(".loading");
-    document.addEventListener("scroll", async (e) => {
-        if (
-            last_request_status !== 200 ||
-            currently_downloading ||
-            post_list.children.length === 0 ||
-            !(
-                Math.round(window.scrollY + window.innerHeight) >=
-                document.body.scrollHeight
-            )
-        ) {
-            return;
-        }
-
-        currently_downloading = true;
-        loading.classList.remove("none");
-
+    const current_query = new URLSearchParams(window.location.search).get("q");
+    document.addEventListener("aquamarine:scroll_end", async (e) => {
         const offset = post_list.children.length;
-        const current_query = new URLSearchParams(window.location.search).get(
-            "q"
+
+        await aquamarine.actions.download_posts(
+            ".list",
+            `?q=${current_query}&raw=1&offset=${offset}&limit=25`
         );
-
-        const posts_request = await fetch(
-            `?q=${current_query}&raw=1&offset=${offset}&limit=8`
-        );
-
-        const posts_html = await posts_request.text();
-
-        if (posts_request.status !== 200) {
-            last_request_status = posts_request.status;
-            currently_downloading = false;
-            loading.classList.add("none");
-            return;
-        }
-
-        post_list.innerHTML += posts_html;
-        aquamarine.initialize_empathies();
-        aquamarine.initialize_href();
-        last_request_status = posts_request.status;
-        currently_downloading = false;
-        loading.classList.add("none");
     });
 });
 
@@ -531,5 +509,35 @@ aquamarine.router.connect("^/signup$", async () => {
         e.preventDefault();
         sign_up_button.setAttribute("disabled", true);
         form.submit();
+    });
+});
+
+aquamarine.router.connect("^/users/([^/]+)$", async (user_name) => {
+    aquamarine.initialize_empathies();
+});
+
+aquamarine.router.connect("^/users/(\\S*)/posts$", async (user_name) => {
+    aquamarine.initialize_empathies();
+
+    document.addEventListener("aquamarine:scroll_end", async (ev) => {
+        const post_list = document.querySelector(".list");
+        const offset = post_list.children.length;
+        await aquamarine.actions.download_posts(
+            ".list",
+            `?raw=1&offset=${offset}&limit=25`
+        );
+    });
+});
+
+aquamarine.router.connect("^/users/(\\S*)/empathies$", async (user_name) => {
+    aquamarine.initialize_empathies();
+
+    document.addEventListener("aquamarine:scroll_end", async (ev) => {
+        const post_list = document.querySelector(".list");
+        const offset = post_list.children.length;
+        await aquamarine.actions.download_posts(
+            ".list",
+            `?raw=1&offset=${offset}&limit=25`
+        );
     });
 });

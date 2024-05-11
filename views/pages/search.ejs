@@ -45,6 +45,7 @@
 							<a href="/communities/<%= community.id %>">
 								<img class="banner" src="<%= community.cdn_ctr_banner_url %>" alt="<%= community.name %>">
 							</a>
+							<% } %>
 
 							<div class="community-info trigger" data-href="/communities/<%= community.id %>">
 								<img src="<%= community.cdn_icon_url %>" alt="<%= community.name %>">
@@ -75,7 +76,6 @@
             						} %></span>
 								</div>
 							</div>
-							<%} %>
 						</div>
 						<% } %>
 
@@ -110,7 +110,6 @@
 				</div>
 			</div>
 		</div>
-	</div>
 
-	<%- include("../partials/elements/footer.ejs") -%>
+		<%- include("../partials/elements/footer.ejs") -%>
 </body>

@@ -8,7 +8,7 @@ const ejs = require("ejs");
 route.get("/:community_id", async (req, res) => {
     const community_id = req.params.community_id;
     const offset = parseInt(req.query["offset"]) || 0;
-    const limit = parseInt(req.query["limit"]) || 8;
+    const limit = parseInt(req.query["limit"]) || 25;
     const raw_html = req.query["raw"];
 
     const community_data_query = db_con
@@ -32,7 +32,7 @@ route.get("/:community_id", async (req, res) => {
         );
     }
 
-    const community_data = (await community_data_query)[0];
+    const community_data = await community_data_query.first();
 
     const base_posts_query = db_con
         .env_db("posts")
@@ -73,7 +73,14 @@ route.get("/:community_id", async (req, res) => {
         normal_posts = await base_posts_query
             .select(
                 db_con.env_db.raw(
-                    `CASE WHEN empathies.account_id = ${res.locals.user.id} THEN TRUE ELSE FALSE END AS empathied_by_user`
+                    `EXISTS ( 
+                    SELECT 1
+                    FROM empathies
+                    WHERE empathies.account_id=?
+                    AND empathies.post_id=posts.id
+                ) AS empathied_by_user
+            `,
+                    [res.locals.user.id]
                 )
             )
             .orderBy("posts.create_time", "desc")

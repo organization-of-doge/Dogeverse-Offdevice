@@ -1,6 +1,6 @@
 <%- include("../../partials/header.ejs", {
     image_url : "",
-    title : `Aquamarine - ${view_user.mii_name}`,
+    title : `Aquamarine - ${view_user.mii_name}'s Posts`,
 	description : ""
 }) -%>
 
@@ -12,14 +12,14 @@
 			<%- include("../../partials/elements/ugc/user_sidebar.ejs", {
 				view_user : view_user,
 				view_user_stats : view_user_stats,
-				all_posts : false,
-				all_empathies : false
+                all_posts : true,
+                all_empathies : false
 			}) -%>
 
 			<div class="user-main-wrapper">
 				<div class="user-posts">
 					<div class="header guide">
-						<span>Latest Posts</span>
+						<span>Posts</span>
 					</div>
 
 					<div class="list">
@@ -35,26 +35,7 @@
 						<span class="no-posts">No posts were found.</span>
 						<% } %>
 					</div>
-				</div>
-
-				<div class="user-posts" style="margin-top: 15px;">
-					<div class="header guide">
-						<span>Latest Yeahs</span>
-					</div>
-
-					<div class="list">
-						<% var last_community_id; var show_community; for (const post of view_user_empathies) {
-							if (last_community_id === post.community_id) { show_community = false } else { show_community = true } %>
-						<%- include("../../partials/elements/ugc/posts.ejs", {
-                                post : post,
-								show_community : show_community
-                        }) -%>
-						<% last_community_id = post.community_id } %>
-
-						<% if (view_user_empathies.length <= 0) { %>
-						<span class="no-posts">No yeahs were found.</span>
-						<% } %>
-					</div>
+					<span class="loading none"></span>
 				</div>
 			</div>
 		</div>

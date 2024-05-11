@@ -1893,6 +1893,7 @@ div > .community:nth-child(even) {
     display: block;
 
     margin: 0 auto;
+    max-width: 100%;
 
     align-self: normal;
 }
@@ -1994,9 +1995,12 @@ button.empathy span::before {
     color: var(--topic_tag_color);
 
     display: block;
-    width: fit-content;
+    width: auto;
 
     margin-bottom: 10px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .topic_tag::before {
@@ -2088,6 +2092,8 @@ button.empathy span::before {
     width: 620px;
 
     margin-top: 15px;
+
+    align-self: baseline;
 
     background-color: var(--community-info-bg);
     border: 1px solid var(--community-info-border-color);
@@ -2483,6 +2489,10 @@ button.empathy span::before {
     background-color: var(--community-hover-bg)
 }
 
+.user-menu div.selected span:not(.number) {
+    font-weight: bold;
+}
+
 .user-menu div span {
     display: block;
     width: fit-content;
@@ -2570,6 +2580,8 @@ div.all-posts span, div.empathies span {
     font-size: 14px;
     border-radius: 5px;
     line-height: 1.5;
+
+    width: 290px;
 }
 
 @media (max-width: 660px) {

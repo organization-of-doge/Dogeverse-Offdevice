@@ -46,7 +46,14 @@ route.get("/", async (req, res) => {
     if (!res.locals.guest_mode) {
         searched_posts_query.select(
             db_con.env_db.raw(
-                `CASE WHEN empathies.account_id = ${res.locals.user.id} THEN TRUE ELSE FALSE END AS empathied_by_user`
+                `EXISTS ( 
+                    SELECT 1
+                    FROM empathies
+                    WHERE empathies.account_id=?
+                    AND empathies.post_id=posts.id
+                ) AS empathied_by_user
+            `,
+                [res.locals.user.id]
             )
         );
     }
@@ -62,6 +69,7 @@ route.get("/", async (req, res) => {
         .whereLike(db_con.env_db.raw("LOWER(name)"), query)
         .orWhereLike(db_con.env_db.raw("LOWER(description)"), query)
         .orWhereLike(db_con.env_db.raw("LOWER(app_name)"), query)
+        .orderBy("cdn_ctr_banner_url", "desc")
         .orderBy("create_time", "desc")
         .limit(5);
 
