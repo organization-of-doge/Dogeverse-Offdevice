@@ -1,0 +1,45 @@
+<%- include("../../partials/header.ejs", {
+    image_url : `https://mii-secure.cdn.nintendo.net/${view_user.mii_hash}_normal_face.png`,
+    title : `Aquamarine - ${view_user.mii_name}'s Yeahs`,
+	description : view_user.bio
+}) -%>
+
+<body>
+	<%- include("../../partials/elements/navbar.ejs") -%>
+
+	<div class="wrapper">
+		<div class="user-wrapper">
+			<%- include("../../partials/elements/ugc/user_sidebar.ejs", {
+				view_user : view_user,
+				view_user_stats : view_user_stats,
+                all_posts : false,
+                all_empathies : true
+			}) -%>
+
+			<div class="user-main-wrapper">
+				<div class="user-posts">
+					<div class="header guide">
+						<span>Yeahs</span>
+					</div>
+
+					<div class="list">
+						<% var last_community_id; var show_community; for (const post of view_user_empathies) {
+							if (last_community_id === post.community_id) { show_community = false } else { show_community = true } %>
+						<%- include("../../partials/elements/ugc/posts.ejs", {
+                                post : post,
+								show_community : show_community
+                        }) -%>
+						<% last_community_id = post.community_id } %>
+
+						<% if (view_user_empathies.length <= 0) { %>
+						<span class="no-posts">No yeahs were found.</span>
+						<% } %>
+					</div>
+					<span class="loading none"></span>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<%- include("../../partials/elements/footer.ejs") -%>
+</body>

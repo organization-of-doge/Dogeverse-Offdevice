@@ -2,38 +2,38 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <% if (image_url) { %>
-        <meta name="og:image" content="<%= image_url %>">
-    <% } %>
+	<% if (image_url) { %>
+	<meta name="og:image" content="<%= image_url %>">
+	<% } %>
 
-    <% if (title) { %>
-        <meta name="title" content="<%= title %>">
-        <meta name="og:title" content="<%= title %>">
-        <title><%= title %></title>
-    <% } else { %>
-        <meta name="title" content="Aquamarine - Miiverse Revival">
-        <meta name="og:title" content="Aquamarine - Miiverse Revival">
-        <title>Aquamarine - Miiverse Revival</title>
-    <% } %>
+	<% if (title) { %>
+	<meta name="title" content="<%= title %>">
+	<meta name="og:title" content="<%= title %>">
+	<title><%= title %></title>
+	<% } else { %>
+	<meta name="title" content="Aquamarine - Miiverse Revival">
+	<meta name="og:title" content="Aquamarine - Miiverse Revival">
+	<title>Aquamarine - Miiverse Revival</title>
+	<% } %>
 
-    <% if (description) { %>
-        <meta name="description" content="<%= description %>">
-        <meta name="og:description" content="<%= description %>">  
-    <% } else { %>
-        <meta name="description" content="Welcome to Aquamarine, a refreshing take on the Miiverse Revival idea.">
-        <meta name="og:description" content="Welcome to Aquamarine, a refreshing take on the Miiverse Revival idea.">  
-    <%} %>
-    
-    
-    <meta name="og:type" content="website">
-    <meta name="theme-color" content="#4abcd8">
-    <meta name="keywords" content="aquamarine miiverse revival">
+	<% if (description) { %>
+	<meta name="description" content="<%= description %>">
+	<meta name="og:description" content="<%= description %>">
+	<% } else { %>
+	<meta name="description" content="Welcome to Aquamarine, a refreshing take on the Miiverse Revival idea.">
+	<meta name="og:description" content="Welcome to Aquamarine, a refreshing take on the Miiverse Revival idea.">
+	<%} %>
 
-    <link rel="shortcut icon" href="https://res.cloudinary.com/dpkpng0q9/image/upload/v1714007057/favicon.ico" type="image/x-icon">
 
-    <link rel="stylesheet" href="/css/aqua-web.css">
-    <script src="/js/aqua-web.js"></script>
+	<meta name="og:type" content="website">
+	<meta name="theme-color" content="#4abcd8">
+	<meta name="keywords" content="aquamarine miiverse revival">
+
+	<link rel="shortcut icon" href="https://res.cloudinary.com/dpkpng0q9/image/upload/v1714007057/favicon.ico" type="image/x-icon">
+
+	<link rel="stylesheet" href="/css/aqua-web.css">
+	<script src="/js/aqua-web.js"></script>
 </head>

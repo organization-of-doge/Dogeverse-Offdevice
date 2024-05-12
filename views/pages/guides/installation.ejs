@@ -9,16 +9,17 @@
 
 	<div class="wrapper">
 		<div class="user-wrapper">
-			<% if (locals.user) { %>
-				<div class="user-info-wrapper">
-					<%- include("../../partials/elements/ugc/user_side_panel.ejs", {
-						account : locals.user
-					}) -%>
-				</div>
+			<% if (!locals.guest_mode) { %>
+			<%- include("../../partials/elements/ugc/user_sidebar.ejs", {
+					view_user : locals.user,
+					view_user_stats : locals.user_stats,
+					all_posts : false,
+					all_empathies : false
+			}) -%>
 			<% } else { %>
-				<div class="user-info-wrapper">
-					<%- include("../../partials/elements/guides/sign_in.ejs") -%>
-				</div>
+			<div class="user-sidebar">
+				<%- include("../../partials/elements/guides/sign_in.ejs") -%>
+			</div>
 			<% } %>
 
 			<div class="guide-wrapper">

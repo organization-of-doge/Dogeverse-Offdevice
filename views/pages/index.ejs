@@ -1,8 +1,4 @@
-<%- include("../partials/header.ejs", {
-    image_url : "",
-    title : "",
-    description : ""
-}) -%>
+<%- include("../partials/header.ejs", { image_url : "" , title : "" , description : "" }) -%>
 
 <body>
 	<%- include("../partials/elements/navbar.ejs") %>
@@ -13,7 +9,9 @@
 			<div class="about-wrapper">
 				<div class="about-paragraph">
 					<h1>Welcome to Aquamarine!</h1>
-					<p>Aquamarine is a Miiverse Revival aiming to replicate both the feel, and look of Miiverse, while still retaining features of modern social media. Aquamarine's signature color, aqua, represents a refreshing experience for all walks of life.</p>
+					<p>Aquamarine is a Miiverse Revival aiming to replicate both the feel, and look of
+						Miiverse, while still retaining features of modern social media. Aquamarine's
+						signature color, aqua, represents a refreshing experience for all walks of life.</p>
 
 					<div class="about-actions-wrapper">
 
@@ -24,7 +22,7 @@
 				</div>
 
 				<div class="about-image">
-					<img src="/img/AquamarineDemoWWP.png">
+					<img src="/img/AquamarineDemoWWP.png" alt="Showcase of Aquamarine's Wara Wara Plaza.">
 				</div>
 			</div>
 		</div>
@@ -43,7 +41,7 @@
 					</div>
 					<% } %>
 
-					<% for (let i = 0; i < 8 - user_favorites.length; i++) { %>
+					<% for (let i=0; i < 8 - user_favorites.length; i++) { %>
 					<div class="favorite empty"></div>
 					<% } %>
 
@@ -57,9 +55,7 @@
 				<div>
 					<% for (const community of popular_communities) { %>
 					<%- include("../partials/elements/database-elements/community.ejs", {
-                                community : community,
-                                include_banner : true
-                            }) %>
+							community : community, include_banner : true }) %>
 					<% } %>
 				</div>
 
@@ -67,9 +63,7 @@
 				<div>
 					<% for (const community of newest_communities_wiiu) { %>
 					<%- include("../partials/elements/database-elements/community.ejs", {
-                                community : community,
-                                include_banner : false
-                            }) %>
+							community : community, include_banner : false }) %>
 					<% } %>
 				</div>
 
@@ -77,9 +71,7 @@
 				<div>
 					<% for (const community of newest_communities_3ds) { %>
 					<%- include("../partials/elements/database-elements/community.ejs", {
-                                community : community,
-                                include_banner : false
-                            }) %>
+							community : community, include_banner : false }) %>
 					<% } %>
 				</div>
 
@@ -87,18 +79,43 @@
 				<div>
 					<% for (const community of special_communities) { %>
 					<%- include("../partials/elements/database-elements/community.ejs", {
-                                community : community,
-                                include_banner : false
-                            }) %>
+							community : community, include_banner : false }) %>
 					<% } %>
 				</div>
 			</div>
 
 			<div class="extra-content">
-				<form action="/search" method="get">
-					<input type="search" name="query" placeholder="Search Communities" maxlength="30" minlength="3">
+				<form class="search" action="/search" method="get">
+					<input type="search" name="q" placeholder="Search" maxlength="30" minlength="3">
 					<input type="submit" value="q" title="Search">
 				</form>
+
+				<% if (announcement_posts.length>= 1) { %>
+				<h1>Latest Announcements</h1>
+				<div class="small-posts">
+					<% for (const post of announcement_posts) { %>
+					<%- include("../partials/elements/ugc/small_posts", { post : post }) -%>
+					<% } %>
+				</div>
+				<% } %>
+
+				<% if (featured_paintings.length>= 1) { %>
+				<h1 id="small_featured_drawings">Featured Drawings</h1>
+				<div id="small_featured_drawings" class="small-posts">
+					<% for (const post of featured_paintings) { %>
+					<%- include("../partials/elements/ugc/small_posts", { post : post }) -%>
+					<% } %>
+				</div>
+				<% } %>
+
+				<% if (featured_posts.length>= 1) { %>
+				<h1 id="small_featured_posts">Featured Posts</h1>
+				<div id="small_featured_posts" class="small-posts">
+					<% for (const post of featured_posts) { %>
+					<%- include("../partials/elements/ugc/small_posts", { post : post }) -%>
+					<% } %>
+				</div>
+				<% } %>
 			</div>
 		</div>
 	</div>

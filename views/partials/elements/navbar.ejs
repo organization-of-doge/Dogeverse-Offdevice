@@ -2,13 +2,13 @@
 	<menu>
 		<li class="logo">
 			<a href="/">
-				<img src="/img/aquamarine_long.png" width="165px">
+				<img src="/img/aquamarine_long.png" width="165" alt="Aquamarine">
 			</a>
 		</li>
 
 		<% if (!locals.guest_mode) { %>
 		<li class="user-profile">
-			<a href="/">
+			<a href="/users/<%= locals.user.nnid %>">
 				<img class="user-image" src="https://mii-secure.cdn.nintendo.net/<%= locals.user.mii_hash %>_normal_face.png">
 				<span>User Page</span>
 			</a>
@@ -39,13 +39,13 @@
 
 			<div class="settings-menu none">
 				<div>
-                    <a class="code-of-conduct" href="/guides/rules">
+					<a class="code-of-conduct" href="/guides/rules">
 						<span class="trigger no-bg">Aquamarine Rules</span>
 					</a>
-                    <a class="code-of-conduct" href="/guides/installation">
+					<a class="code-of-conduct" href="/guides/installation">
 						<span class="trigger no-bg">Installation</span>
 					</a>
-                    <a class="code-of-conduct" href="/guides/donate">
+					<a class="code-of-conduct" href="/guides/donate">
 						<span class="trigger no-bg">Donate to Aquamarine</span>
 					</a>
 					<a class="logout">
