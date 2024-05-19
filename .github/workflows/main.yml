@@ -4,18 +4,20 @@ on:
       - main
 
 jobs:
-  run_pull:
-    name: run pull
+  push_to_remote:
+    name: Push to remote
     runs-on: ubuntu-latest
-
     steps:
-    - name: install SSH keys
-      run: |
-        install -m 600 -D /dev/null ~/.ssh/id_rsa
-        echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
-        ssh-keyscan -H ${{ secrets.SSH_HOST }} > ~/.ssh/known_hosts
-    - name: connect and pull
-      run: ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} -p 25 "cd /aquamarine/Aquamarine-Offdevice && git checkout main && git pull && exit"
+    - name: execute SSH commands       
+      uses: appleboy/ssh-action@v1.0.3
+      with:
+        host: ${{ secrets.SSH_HOST }}
+        username: ${{ secrets.SSH_USER }}
+        key: ${{ secrets.SSH_PRIVATE_KEY }}
+        port: ${{ secrets.SSH_PORT }}
+        script: |
+          ls
+            
     - name: cleanup
       run: rm -rf ~/.ssh
       
