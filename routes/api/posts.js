@@ -32,18 +32,18 @@ route.post("/", bodyParser.json({ limit: "5mb" }), async (req, res) => {
         community_id == undefined
     ) {
         logger.error(
-            `No title_owned, spoiler, feeling_id, or community_id from ${res.locals.user.nnid}`
+            `No title_owned, spoiler, feeling_id, or community_id from ${res.locals.user.username}`
         );
         res.status(400).send({ success: false, error: "MISSING_VALUES" });
         return;
     }
     if (!body) {
-        logger.error(`No body from ${res.locals.user.nnid}`);
+        logger.error(`No body from ${res.locals.user.username}`);
         res.status(400).send({ success: false, error: "NO_BODY_OR_PAINTING" });
         return;
     }
     if (screenshot && !screenshot_MIME) {
-        logger.error(`No screenshot MIME from ${res.locals.user.nnid}`);
+        logger.error(`No screenshot MIME from ${res.locals.user.username}`);
         res.status(400).send({ success: false, error: "INVALID_SCREENSHOT" });
         return;
     }
@@ -68,7 +68,7 @@ route.post("/", bodyParser.json({ limit: "5mb" }), async (req, res) => {
             error: "ANNOUNCEMENT_COMMUNITY",
         });
         logger.error(
-            `${res.locals.user.nnid} tried to post to ${community.name}`
+            `${res.locals.user.username} tried to post to ${community.name}`
         );
         return;
     }
@@ -77,7 +77,6 @@ route.post("/", bodyParser.json({ limit: "5mb" }), async (req, res) => {
 
     const insert_data = {
         account_id: res.locals.user.id,
-        pid: res.locals.user.pid,
 
         feeling_id: feeling_id,
         community_id: community_id,
@@ -131,7 +130,7 @@ route.post("/", bodyParser.json({ limit: "5mb" }), async (req, res) => {
 
     const post_id = (await db_con.env_db("posts").insert(insert_data))[0];
 
-    logger.info(`${res.locals.user.nnid} posted to ${community.name}`);
+    logger.info(`${res.locals.user.username} posted to ${community.name}`);
 
     if (screenshot) {
         fs.writeFileSync(
@@ -160,8 +159,19 @@ route.post("/", bodyParser.json({ limit: "5mb" }), async (req, res) => {
 
     const post = (await db_con.env_db("posts").where({ id: post_id }))[0];
 
-    post.nnid = res.locals.user.nnid;
-    post.mii_hash = res.locals.user.mii_hash;
+    post.username = res.locals.user.username;
+    post.cdn_profile_normal_image_url =
+        res.locals.user.cdn_profile_normal_image_url;
+    post.cdn_profile_happy_image_url =
+        res.locals.user.cdn_profile_happy_image_url;
+    post.cdn_profile_like_image_url =
+        res.locals.user.cdn_profile_like_image_url;
+    post.cdn_profile_surprised_image_url =
+        res.locals.user.cdn_profile_surprised_image_url;
+    post.cdn_profile_frustrated_image_url =
+        res.locals.user.cdn_profile_frustrated_image_url;
+    post.cdn_profile_puzzled_image_url =
+        res.locals.user.cdn_profile_puzzled_image_url;
     post.mii_name = res.locals.user.mii_name;
     post.account_id = res.locals.user.id;
     post.empathy_count = 0;

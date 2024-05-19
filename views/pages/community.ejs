@@ -68,7 +68,7 @@
 						<span>Posts</span>
 					</div>
 
-					<% if (!(community.type == "announcement" && locals.user.admin == 0)) { %>
+					<% if ((community.type === "announcement" && locals.user.admin === 1) || community.type !== "announcement" && community.ingame_only !== 1) { %>
 					<div class="add-new-post">
 						<form id="post-expandable" class="feeling-selector none">
 							<input class="selected" type="radio" value="0">

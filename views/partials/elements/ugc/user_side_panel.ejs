@@ -1,42 +1,44 @@
 <div class="user-info">
 	<div>
-		<a href="/users/<%= account.nnid %>">
-			<img src="https://mii-secure.cdn.nintendo.net/<%= account.mii_hash %>_normal_face.png">
+		<a href="/users/<%= account.username %>">
+			<img src="<%= account.cdn_profile_normal_image_url %>">
 		</a>
 		<div class="user-meta">
-			<a class="mii_name trigger no-bg" href="/users/<%= account.nnid %>"><%= account.mii_name %></a>
-			<span class="nnid"><%= account.nnid %></span>
+			<a class="mii_name trigger no-bg" href="/users/<%= account.username %>"><%= account.mii_name %></a>
+			<span class="nnid"><%= account.username %></span>
 		</div>
 	</div>
 	<% if (!locals.guest_mode) { %>
 	<% if (account.id === locals.user.id) { %>
 	<button class="profile-settings" data-href="/settings/profile">Profile Settings</button>
+	<% } else { %>
+	<button class="profile-settings" data-href="/settings/profile">Add Friend (DOES NOT WORK PLEASE DONT PRESS TYLY)</button>
 	<% } %>
 	<% } %>
 
 	<div class="user-stats">
-		<a href="/users/<%= account.nnid %>/friends">
+		<a href="/users/<%= account.username %>/friends">
 			<span>
 				<span class="number">
-					0 / 100
+					<%= account_stats.friend_count %> / 100
 				</span>
 				Friends
 			</span>
 		</a>
 
-		<a href="/users/<%= account.nnid %>/following">
+		<a href="/users/<%= account.username %>/following">
 			<span>
 				<span class="number">
-					0
+					<%= account_stats.following_count %>
 				</span>
 				Following
 			</span>
 		</a>
 
-		<a href="/users/<%= account.nnid %>/followers">
+		<a href="/users/<%= account.username %>/followers">
 			<span>
 				<span class="number">
-					0
+					<%= account_stats.followers_count %>
 				</span>
 				Followers
 			</span>

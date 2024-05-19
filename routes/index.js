@@ -15,6 +15,11 @@ module.exports = [
     },
 
     {
+        path: "/api/relationships",
+        route: require("./api/relationships"),
+    },
+
+    {
         path: "/guides",
         route: require("./pages/guides"),
     },

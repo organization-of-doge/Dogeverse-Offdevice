@@ -3,6 +3,7 @@ const route = express.Router();
 const moment = require("moment");
 
 const db_con = require("../../../shared_config/database_con");
+const common_querys = require("../../utils/common_querys");
 
 route.get("/", async (req, res) => {
     const popular_communities = await db_con.env_db
@@ -37,23 +38,8 @@ route.get("/", async (req, res) => {
         .orderBy("communities.create_time", "desc")
         .limit(6);
 
-    const base_posts_query = db_con
-        .env_db("posts")
-        .select(
-            "posts.*",
-            "accounts.mii_name",
-            "accounts.nnid",
-            "accounts.mii_hash",
-            "accounts.admin",
-            "communities.name as community_name",
-            "communities.cdn_icon_url",
-            "communities.id as community_id",
-            db_con.env_db.raw("COUNT(empathies.post_id) as empathy_count")
-        )
-        .groupBy("posts.id")
-        .innerJoin("account.accounts", "accounts.id", "=", "posts.account_id")
-        .innerJoin("communities", "communities.id", "=", "posts.community_id")
-        .leftJoin("empathies", "posts.id", "=", "empathies.post_id")
+    const base_posts_query = common_querys.posts_query
+        .clone()
         .orderBy("posts.create_time", "desc")
         .limit(5);
 

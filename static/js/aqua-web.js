@@ -479,6 +479,7 @@ aquamarine.router.connect("^/signup$", async () => {
     const confirm_password_input = document.getElementById("confirm");
     const network_id_input = document.querySelector('input[name="username"]');
     const email_input = document.querySelector('input[name="email"]');
+    const nickname_input = document.querySelector('input[name="nickname"]');
     const sign_up_button = document.querySelector('input[type="submit"]');
     const form = document.querySelector("form");
 
@@ -487,6 +488,7 @@ aquamarine.router.connect("^/signup$", async () => {
         confirm_password_input,
         network_id_input,
         email_input,
+        nickname_input,
     ];
 
     await inputs.forEach((e) => {
@@ -496,6 +498,7 @@ aquamarine.router.connect("^/signup$", async () => {
                 confirm_password_input.value.length > 2 &&
                 network_id_input.value.length > 2 &&
                 email_input.value.length > 2 &&
+                nickname_input.value.length > 2 &&
                 confirm_password_input.value == main_password_input.value
             ) {
                 sign_up_button.removeAttribute("disabled");

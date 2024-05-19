@@ -5,6 +5,8 @@ const moment = require("moment");
 const db_con = require("../../../shared_config/database_con");
 const ejs = require("ejs");
 
+const common_querys = require("../../utils/common_querys");
+
 route.get("/:community_id", async (req, res) => {
     const community_id = req.params.community_id;
     const offset = parseInt(req.query["offset"]) || 0;
@@ -39,8 +41,14 @@ route.get("/:community_id", async (req, res) => {
         .select(
             "posts.*",
             "accounts.mii_name",
-            "accounts.mii_hash",
+            "accounts.cdn_profile_normal_image_url",
+            "accounts.cdn_profile_happy_image_url",
+            "accounts.cdn_profile_like_image_url",
+            "accounts.cdn_profile_surprised_image_url",
+            "accounts.cdn_profile_frustrated_image_url",
+            "accounts.cdn_profile_puzzled_image_url",
             "accounts.id as account_id",
+            "accounts.username",
             "accounts.nnid",
             "accounts.admin",
             db_con.env_db.raw("COUNT(empathies.post_id) as empathy_count")
