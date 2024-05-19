@@ -2,7 +2,7 @@ const express = require("express");
 const route = express.Router();
 const moment = require("moment");
 
-const db_con = require("../../../shared_config/database_con");
+const db_con = require("../../utils/database_con");
 const ejs = require("ejs");
 
 const common_querys = require("../../utils/common_querys");

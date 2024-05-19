@@ -1,4 +1,4 @@
-const db_con = require("../../shared_config/database_con");
+const db_con = require("./database_con");
 
 const common_querys = {
     posts_query: db_con

@@ -5,7 +5,7 @@ const logger = require("./middleware/log");
 const routes = require("./routes/index");
 const path = require("path");
 
-const auth = require("./middleware/auth");
+const auth = require("./utils/middleware/web_auth");
 const cookie_parser = require("cookie-parser");
 
 logger.log("Using middleware.");
