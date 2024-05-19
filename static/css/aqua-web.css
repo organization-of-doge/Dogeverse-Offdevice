@@ -2757,7 +2757,7 @@ div.all-posts span, div.empathies span {
 
     .community-wrapper .community-sidebar {
         min-width: 200px;
-        width: 90%;
+        width: 95%;
 
         margin: 0 auto;
     }
@@ -2780,7 +2780,7 @@ div.all-posts span, div.empathies span {
     .community-content {
         min-width: 200px !important;
         max-width: none;
-        width: 90%;
+        width: 95%;
 
         margin: 0 auto;
     }

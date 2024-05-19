@@ -1,6 +1,7 @@
 const route = require("express").Router();
 const db_con = require("../../../shared_config/database_con");
 const ejs = require("ejs");
+const common_querys = require("../../utils/common_querys");
 
 route.get("/", async (req, res) => {
     const query = `%${req.query["q"].toLowerCase()}%`;
@@ -20,47 +21,21 @@ route.get("/", async (req, res) => {
         .orWhereLike(db_con.env_db.raw("LOWER(nnid)"), query)
         .orderBy("create_time", "desc")
         .limit(5);
-    const searched_posts_query = db_con
-        .env_db("posts")
-        .select(
-            "posts.*",
-            "accounts.mii_name",
-            "accounts.nnid",
-            "accounts.mii_hash",
-            "accounts.admin",
-            "communities.name as community_name",
-            "communities.cdn_icon_url",
-            "communities.id as community_id",
-            db_con.env_db.raw("COUNT(empathies.post_id) as empathy_count")
-        )
+    const searched_posts_query = common_querys.posts_query
+        .clone()
         .orWhereRaw("LOWER(url) LIKE ?", [query])
         .orWhereRaw("LOWER(topic_tag) LIKE ?", [query])
         .orWhereRaw("LOWER(body) LIKE ?", [query])
-        .groupBy("posts.id")
-        .innerJoin("account.accounts", "accounts.id", "=", "posts.account_id")
-        .innerJoin("communities", "communities.id", "=", "posts.community_id")
-        .leftJoin("empathies", "posts.id", "=", "empathies.post_id")
         .orderBy("posts.create_time", "desc")
         .limit(limit);
 
     if (!res.locals.guest_mode) {
         searched_posts_query.select(
-            db_con.env_db.raw(
-                `EXISTS ( 
-                    SELECT 1
-                    FROM empathies
-                    WHERE empathies.account_id=?
-                    AND empathies.post_id=posts.id
-                ) AS empathied_by_user
-            `,
-                [res.locals.user.id]
-            )
+            common_querys.is_yeahed(res.locals.user.id)
         );
     }
 
-    if (offset > 0) {
-        searched_posts_query.offset(offset);
-    }
+    searched_posts_query.offset(offset);
 
     const searched_posts = await searched_posts_query;
 

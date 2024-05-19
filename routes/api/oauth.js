@@ -6,18 +6,20 @@ const db_con = require("../../../shared_config/database_con");
 const crypto = require("crypto");
 const multer = require("multer");
 const axios = require("axios");
+const cdn_upload = require("../../utils/cdn_upload");
+const path = require("path");
 
 route.post("/retrieve_token", async (req, res) => {
-    const nnid = req.get("auth-network-id");
+    const username = req.get("auth-network-id");
     const password = req.get("auth-password");
 
     //Verifying the nnid and password are correct
     const account = (
-        await db_con.account_db("accounts").where({ nnid: nnid })
+        await db_con.account_db("accounts").where({ username: username })
     )[0];
     if (!account) {
         res.status(404).send({ success: false, error: "NO_ACCOUNT_FOUND" });
-        logger.error(`No account found for nnid: ${nnid}`);
+        logger.error(`No account found for username: ${username}`);
         return;
     }
     const passwordHash = crypto
@@ -37,12 +39,12 @@ route.post("/retrieve_token", async (req, res) => {
 });
 
 route.post("/create", multer().none(), async (req, res) => {
-    const nnid = req.body.username;
+    const username = req.body.username;
     const email = req.body.email;
     const password = req.body.password;
-    var account_json;
+    const nickname = req.body.nickname;
 
-    if (!nnid || !email || !password) {
+    if (!username || !email || !password || !nickname) {
         res.redirect("/errors/account/retry");
     }
 
@@ -51,7 +53,7 @@ route.post("/create", multer().none(), async (req, res) => {
         (
             await db_con
                 .account_db("accounts")
-                .where({ nnid: nnid })
+                .where({ username: username })
                 .orWhere({ email: email })
         )[0]
     ) {
@@ -66,20 +68,12 @@ route.post("/create", multer().none(), async (req, res) => {
         .update(password + salt)
         .digest("hex");
 
-    //Getting the full account data.
-    try {
-        logger.info(`Making request for ${nnid}..`);
-        account_json = (
-            await axios.get(
-                `https://nnidlt.murilo.eu.org/api.php?env=production&user_id=${nnid}`
-            )
-        ).data;
-        logger.info(`Got request for ${nnid}`);
-    } catch (error) {
-        logger.error(`${error.response.data}`);
-        res.redirect("/errors/account/nnid");
-        return;
-    }
+    const profile_image_url = await cdn_upload.uploadImage(
+        path.join(__dirname + "/./defaults/default_image.png"),
+        "cdn/users/profile/images/"
+    );
+
+    logger.info("Saved profile picture.");
 
     const new_account = (
         await db_con.account_db("accounts").where(
@@ -87,17 +81,21 @@ route.post("/create", multer().none(), async (req, res) => {
             "=",
             (
                 await db_con.account_db("accounts").insert({
-                    pid: account_json.pid,
-                    nnid: nnid,
-
-                    mii: account_json.data,
-                    mii_name: account_json.name,
-                    mii_hash: account_json.images.hash,
+                    username: username,
+                    mii_name: nickname,
 
                     password_hash: password_hash,
                     password_salt: salt,
 
                     email: email,
+                    cdn_profile_normal_image_url: profile_image_url.secure_url,
+                    cdn_profile_happy_image_url: profile_image_url.secure_url,
+                    cdn_profile_like_image_url: profile_image_url.secure_url,
+                    cdn_profile_surprised_image_url:
+                        profile_image_url.secure_url,
+                    cdn_profile_frustrated_image_url:
+                        profile_image_url.secure_url,
+                    cdn_profile_puzzled_image_url: profile_image_url.secure_url,
                 })
             )[0]
         )

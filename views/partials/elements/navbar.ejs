@@ -8,8 +8,8 @@
 
 		<% if (!locals.guest_mode) { %>
 		<li class="user-profile">
-			<a href="/users/<%= locals.user.nnid %>">
-				<img class="user-image" src="https://mii-secure.cdn.nintendo.net/<%= locals.user.mii_hash %>_normal_face.png">
+			<a href="/users/<%= locals.user.username %>">
+				<img class="user-image" src="<%= locals.user.cdn_profile_normal_image_url %>">
 				<span>User Page</span>
 			</a>
 		</li>
