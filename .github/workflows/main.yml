@@ -17,4 +17,4 @@ jobs:
         port: ${{ secrets.SSH_PORT }}
         script: |
           cd ${{ secrets.SSH_DIRECTORY }}
-          sudo git pull
+          git pull
