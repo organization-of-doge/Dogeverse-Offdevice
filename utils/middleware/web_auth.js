@@ -1,6 +1,6 @@
 const jwt = require("jsonwebtoken");
-const db_con = require("../../shared_config/database_con");
-const auth_token = require("../utils/auth_token");
+const db_con = require("../database_con");
+const auth_token = require("../auth_token");
 const moment = require("moment");
 
 async function auth(req, res, next) {
