@@ -3,7 +3,7 @@ const route = express.Router();
 const bodyParser = require("body-parser");
 
 const logger = require("../../middleware/log");
-const db_con = require("../../../shared_config/database_con");
+const db_con = require("../../utils/database_con");
 
 const disallow_guest = require("../../middleware/disallow_guest");
 
