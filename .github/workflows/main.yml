@@ -17,7 +17,3 @@ jobs:
         port: ${{ secrets.SSH_PORT }}
         script: |
           ls
-            
-    - name: cleanup
-      run: rm -rf ~/.ssh
-      
