@@ -72,31 +72,9 @@ route.get("/:username", get_user_data, async (req, res) => {
         .limit(3);
 
     if (!res.locals.guest_mode) {
-        user_posts.select(
-            db_con.env_db.raw(
-                `EXISTS ( 
-                    SELECT 1
-                    FROM empathies
-                    WHERE empathies.account_id=?
-                    AND empathies.post_id=posts.id
-                ) AS empathied_by_user
-            `,
-                [res.locals.user.id]
-            )
-        );
-
-        user_empathies.select(
-            db_con.env_db.raw(
-                `EXISTS ( 
-                    SELECT 1
-                    FROM empathies
-                    WHERE empathies.account_id=?
-                    AND empathies.post_id=posts.id
-                ) AS empathied_by_user
-            `,
-                [res.locals.user.id]
-            )
-        );
+        //Getting if local user has yeahed these posts at all.
+        user_posts.select(common_querys.is_yeahed(res.locals.user.id));
+        user_empathies.select(common_querys.is_yeahed(res.locals.user.id));
     }
 
     user_posts = await user_posts;
