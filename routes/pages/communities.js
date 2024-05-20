@@ -36,61 +36,33 @@ route.get("/:community_id", async (req, res) => {
 
     const community_data = await community_data_query.first();
 
-    const base_posts_query = db_con
-        .env_db("posts")
-        .select(
-            "posts.*",
-            "accounts.mii_name",
-            "accounts.cdn_profile_normal_image_url",
-            "accounts.cdn_profile_happy_image_url",
-            "accounts.cdn_profile_like_image_url",
-            "accounts.cdn_profile_surprised_image_url",
-            "accounts.cdn_profile_frustrated_image_url",
-            "accounts.cdn_profile_puzzled_image_url",
-            "accounts.id as account_id",
-            "accounts.username",
-            "accounts.nnid",
-            "accounts.admin",
-            db_con.env_db.raw("COUNT(empathies.post_id) as empathy_count")
-        )
-        .where({ "posts.community_id": community_id })
-        .groupBy("posts.id")
-        .innerJoin("account.accounts", "accounts.id", "=", "posts.account_id")
-        .leftJoin("empathies", "posts.id", "=", "empathies.post_id");
-
     var popular_posts, ingame_posts, recent_drawings, normal_posts;
 
     if (res.locals.guest_mode) {
-        popular_posts = await base_posts_query
+        popular_posts = await common_querys.posts_query
             .clone()
+            .where({ community_id: community_id })
             .orderBy("empathy_count", "desc")
             .limit(5);
 
-        ingame_posts = await base_posts_query
+        ingame_posts = await common_querys.posts_query
             .clone()
+            .where({ community_id: community_id })
             .whereNotNull("posts.app_data")
             .orderBy("posts.create_time", "desc")
             .limit(5);
 
-        recent_drawings = await base_posts_query
+        recent_drawings = await common_querys.posts_query
             .clone()
+            .where({ community_id: community_id })
             .whereNotNull("posts.painting_cdn_url")
             .orderBy("posts.create_time", "desc")
             .limit(5);
     } else {
-        normal_posts = await base_posts_query
-            .select(
-                db_con.env_db.raw(
-                    `EXISTS ( 
-                    SELECT 1
-                    FROM empathies
-                    WHERE empathies.account_id=?
-                    AND empathies.post_id=posts.id
-                ) AS empathied_by_user
-            `,
-                    [res.locals.user.id]
-                )
-            )
+        normal_posts = await common_querys.posts_query
+            .clone()
+            .select(common_querys.is_yeahed(res.locals.user.id))
+            .where({ community_id: community_id })
             .orderBy("posts.create_time", "desc")
             .limit(limit)
             .offset(offset);

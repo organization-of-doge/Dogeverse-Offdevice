@@ -23,19 +23,20 @@ route.get("/", async (req, res) => {
         .limit(5);
     const searched_posts_query = common_querys.posts_query
         .clone()
-        .orWhereRaw("LOWER(url) LIKE ?", [query])
+        .whereRaw("LOWER(url) LIKE ?", [query])
         .orWhereRaw("LOWER(topic_tag) LIKE ?", [query])
         .orWhereRaw("LOWER(body) LIKE ?", [query])
         .orderBy("posts.create_time", "desc")
-        .limit(limit);
+        .limit(limit)
+        .offset(offset);
+
+    console.log(searched_posts_query.toQuery());
 
     if (!res.locals.guest_mode) {
         searched_posts_query.select(
             common_querys.is_yeahed(res.locals.user.id)
         );
     }
-
-    searched_posts_query.offset(offset);
 
     const searched_posts = await searched_posts_query;
 
