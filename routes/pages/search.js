@@ -18,7 +18,7 @@ route.get("/", async (req, res) => {
     const searched_accounts = await db_con
         .account_db("accounts")
         .whereLike(db_con.env_db.raw("LOWER(mii_name)"), query)
-        .orWhereLike(db_con.env_db.raw("LOWER(nnid)"), query)
+        .orWhereLike(db_con.env_db.raw("LOWER(username)"), query)
         .orderBy("create_time", "desc")
         .limit(5);
     const searched_posts_query = common_querys.posts_query
@@ -33,9 +33,7 @@ route.get("/", async (req, res) => {
     console.log(searched_posts_query.toQuery());
 
     if (!res.locals.guest_mode) {
-        searched_posts_query.select(
-            common_querys.is_yeahed(res.locals.user.id)
-        );
+        searched_posts_query.select(common_querys.is_yeahed(res.locals.user.id));
     }
 
     const searched_posts = await searched_posts_query;
