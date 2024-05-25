@@ -19,6 +19,7 @@ route.get("/", async (req, res) => {
         .account_db("accounts")
         .whereLike(db_con.env_db.raw("LOWER(mii_name)"), query)
         .orWhereLike(db_con.env_db.raw("LOWER(username)"), query)
+        .orWhereLike(db_con.env_db.raw("LOWER(nnid)"), query)
         .orderBy("create_time", "desc")
         .limit(5);
     const searched_posts_query = common_querys.posts_query
