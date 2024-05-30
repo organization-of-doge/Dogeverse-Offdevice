@@ -2272,6 +2272,10 @@ button.empathy span::before {
     margin-bottom: 10px;
 
     color: var(--community-app-name-color);
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    max-width: 225px;
 }
 
 .user .user-meta {
