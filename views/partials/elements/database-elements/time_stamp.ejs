@@ -1,0 +1,12 @@
+<span class="timestamp">
+	<% var language; if (locals.guest_mode) {
+        language = "en"
+    } else {
+        language = locals.user.language
+    } %>
+	<% if (moment().diff(moment(time).subtract(1, 'days'), 'days') >= 7) { %>
+	<%= locals.moment(time).locale(language).format("L LT") %>
+	<% } else { %>
+	<%= locals.moment(time).locale(language).fromNow() %>
+	<%} %>
+</span>

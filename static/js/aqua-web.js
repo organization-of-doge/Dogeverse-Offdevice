@@ -65,6 +65,64 @@ const aquamarine = {
         }
     },
 
+    initialize_add_post: function () {
+        const feeling_inputs = document.querySelectorAll(".feeling-selector input");
+        const file_upload = document.querySelector('input[type="file"]');
+        const textarea = document.querySelector("textarea");
+
+        if (!textarea) { return }
+
+        document.querySelectorAll("[data-expand]").forEach((e) => {
+            e.addEventListener("click", open_expandable);
+        });
+
+        function open_expandable(e) {
+            document
+                .querySelectorAll(e.target.getAttribute("data-expand"))
+                .forEach((e) => {
+                    e.classList.remove("none");
+                });
+        }
+
+        console.log("Initializing feeling selector")
+
+        feeling_inputs.forEach((e) => {
+            e.addEventListener("click", (event) => {
+                feeling_inputs.forEach((feeling) => {
+                    feeling.classList.remove("selected");
+                });
+
+                event.target.classList.add("selected");
+            });
+        });
+
+        console.log("Initializing textarea");
+
+        textarea.addEventListener("input", (e) => {
+            if (e.target.value.replace(/\s/g, "").length <= 0) {
+                send_button.setAttribute("disabled", "true");
+            } else {
+                send_button.removeAttribute("disabled");
+            }
+        });
+
+        console.log("Initializing file upload");
+
+        file_upload.addEventListener("change", (file) => {
+            send_button.setAttribute("disabled", "true");
+            var input = file.target;
+            const reader = new FileReader();
+
+            reader.readAsDataURL(input.files[0]);
+
+            reader.onload = () => {
+                screenshot = reader.result.split(",")[1];
+                screenshot_MIME = input.files[0].type;
+                send_button.removeAttribute("disabled");
+            };
+        });
+    },
+
     login: async function () {
         const username = document.querySelector('input[name="username"]').value;
         const password = document.querySelector('input[name="password"]').value;
@@ -116,9 +174,8 @@ const aquamarine = {
             var date = new Date();
             date.setTime(date.getTime() + 30 * 24 * 60 * 60 * 1000);
 
-            document.cookie = `jwt=${
-                token.token
-            }; Path=/; Secure; SameSite=None; expires=${date.toUTCString()};`;
+            document.cookie = `jwt=${token.token
+                }; Path=/; Secure; SameSite=None; expires=${date.toUTCString()};`;
         } else {
             document.cookie = `jwt=${token.token}; Path=/; Secure; SameSite=None`;
         }
@@ -150,13 +207,13 @@ const aquamarine = {
     actions: {
         empathy: async function (post_id) {
             const post_yeah_button = document.querySelector(
-                `#post-${post_id} .post-content-wrapper .post-actions .empathy`
+                `#post-${post_id} button.empathy`
             );
             const post_yeah_button_text = document.querySelector(
-                `#post-${post_id} .post-content-wrapper .post-actions .empathy span`
+                `#post-${post_id} .post-actions .empathy span`
             );
             const post_empathy_count = document.querySelector(
-                `#post-${post_id} .post-content-wrapper .post-actions span.empathy-count`
+                `#post-${post_id} .post-actions span.empathy-count`
             );
 
             post_yeah_button.setAttribute("disabled", true);
@@ -299,61 +356,12 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 aquamarine.router.connect("^/communities/(\\d+)$", (community_id) => {
-    const feeling_inputs = document.querySelectorAll(".feeling-selector input");
     const send_button = document.querySelector(".add-new-post button");
     const textarea = document.querySelector("textarea");
     const file_upload = document.querySelector('input[type="file"]');
     var screenshot, screenshot_MIME;
 
-    document.querySelectorAll("[data-expand]").forEach((e) => {
-        e.addEventListener("click", open_expandable);
-    });
-
-    function open_expandable(e) {
-        document
-            .querySelectorAll(e.target.getAttribute("data-expand"))
-            .forEach((e) => {
-                e.classList.remove("none");
-            });
-    }
-
-    console.log("Initializing feeling selector");
-
-    feeling_inputs.forEach((e) => {
-        e.addEventListener("click", (event) => {
-            feeling_inputs.forEach((feeling) => {
-                feeling.classList.remove("selected");
-            });
-
-            event.target.classList.add("selected");
-        });
-    });
-
-    console.log("Initializing textarea");
-
-    textarea.addEventListener("input", (e) => {
-        if (e.target.value.replace(/\s/g, "").length <= 0) {
-            send_button.setAttribute("disabled", "true");
-        } else {
-            send_button.removeAttribute("disabled");
-        }
-    });
-
-    console.log("Initializing file upload");
-
-    file_upload.addEventListener("change", (file) => {
-        send_button.setAttribute("disabled", "true");
-        var input = file.target;
-        const reader = new FileReader();
-
-        reader.readAsDataURL(input.files[0]);
-
-        reader.onload = () => {
-            screenshot = reader.result.split(",")[1];
-            screenshot_MIME = input.files[0].type;
-            send_button.removeAttribute("disabled");
-        };
-    });
+    aquamarine.initialize_add_post();
 
     console.log("Initializing post button");
 
@@ -406,21 +414,24 @@ aquamarine.router.connect("^/communities/(\\d+)$", (community_id) => {
         }
     }
 
-    send_button.addEventListener("click", make_post);
+    if (send_button) {
+        send_button.addEventListener("click", make_post);
+    }
 
     console.log("Initializing empathies");
     aquamarine.initialize_empathies();
 
     console.log("Initializing favorites");
-    document
-        .querySelector("button.favorite-button")
-        .addEventListener("click", (e) => {
-            aquamarine.actions.favorite(
-                document
-                    .querySelector("button.favorite-button")
-                    .getAttribute("data-community-id")
-            );
-        });
+    if (document.querySelector("button.favorite-button")) {
+        document
+            .querySelector("button.favorite-button").addEventListener("click", (e) => {
+                aquamarine.actions.favorite(
+                    document
+                        .querySelector("button.favorite-button")
+                        .getAttribute("data-community-id")
+                );
+            });
+    }
 
     console.log("Initializing downloading");
 
@@ -544,3 +555,8 @@ aquamarine.router.connect("^/users/(\\S*)/empathies$", async (user_name) => {
         );
     });
 });
+
+aquamarine.router.connect("^/posts/([^/]+)$", async (post_id) => {
+    aquamarine.initialize_empathies();
+    aquamarine.initialize_href();
+})

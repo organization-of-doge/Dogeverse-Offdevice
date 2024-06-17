@@ -1,0 +1,28 @@
+<div class="reply" id="reply-<%= post.id %>">
+	<div class="reply-content-wrapper">
+		<%- include("./user_profile_image.ejs") -%>
+
+		<div class="content">
+			<div class="user-info-text">
+				<a class="name" href="/users/<%= reply.username %>"><%= reply.mii_name %></a>
+				<%- include("../database-elements/time_stamp.ejs", {time : reply.create_time}) -%>
+			</div>
+
+			<% if (reply.body) { %>
+			<p><%= reply.body %></p>
+			<% } else { %>
+			<img src="<%= reply.painting_cdn_url %>">
+			<% } %>
+
+			<div class="reply-actions">
+				<%- include("../database-elements/empathy_button_reply.ejs") -%>
+
+				<span class="empathy-count"><%= reply.empathy_count %></span>
+			</div>
+		</div>
+
+		<% if (reply.screenshot_cdn_url) { %>
+		<img class="screenshot" src="<%= reply.screenshot_cdn_url %>">
+		<% } %>
+	</div>
+</div>

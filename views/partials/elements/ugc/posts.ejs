@@ -8,34 +8,10 @@
 
 	<div class="post-content-wrapper">
 		<div class="user-info">
-			<a href="/users/<%= post.username %>">
-				<% switch (post.feeling_id) {
-                        case 0:%>
-				<img src="<%= post.cdn_profile_normal_image_url %>" class="user-icon" onerror="this.src='../../../img/mii_null.png'" alt="<%= post.mii_name %>">
-				<% break;
-                        case 1:%>
-				<img src="<%= post.cdn_profile_happy_image_url %>" class="user-icon" onerror="this.src='../../../img/mii_null.png'" alt="<%= post.mii_name %>">
-				<% break;
-                        case 2:%>
-				<img src="<%= post.cdn_profile_like_image_url %>" class="user-icon" onerror="this.src='../../../img/mii_null.png'" alt="<%= post.mii_name %>">
-				<% break;
-                        case 3:%>
-				<img src="<%= post.cdn_profile_surprised_image_url %>" class="user-icon" onerror="this.src='../../../img/mii_null.png'" alt="<%= post.mii_name %>">
-				<% break;
-                        case 4:%>
-				<img src="<%= post.cdn_profile_frustrated_image_url %>" class="user-icon" onerror="this.src='../../../img/mii_null.png'" alt="<%= post.mii_name %>">
-				<% break;
-                        case 5:%>
-				<img src="<%= post.cdn_profile_puzzled_image_url %>" class="user-icon" onerror="this.src='../../../img/mii_null.png'" alt="<%= post.mii_name %>">
-				<% break;
-                        default:%>
-				<img src="<%= post.cdn_profile_normal_image_url %>" class="user-icon" onerror="this.src='../../../img/mii_null.png'">
-				<% break;
-                    } %>
-			</a>
+			<%- include("./user_profile_image.ejs") -%>
 			<div class="user-info-text">
 				<a class="name" href="/users/<%= post.username %>"><%= post.mii_name %></a>
-				<span class="timestamp"><%= locals.moment(post.create_time).fromNow() %></span>
+				<%- include("../database-elements/time_stamp", {time : post.create_time}) -%>
 			</div>
 		</div>
 
@@ -56,20 +32,7 @@
 		<% } %>
 
 		<div class="post-actions">
-			<% if (locals.guest_mode || post.account_id == locals.user.id) { %>
-			<button class="empathy disabled" disabled="true" data-post-id="<%= post.id %>">
-				<span>Yeah!</span>
-			</button>
-			<% } else { %>
-			<button class="empathy" data-post-id="<%= post.id %>" data-yeah-text="Yeah!" data-unyeah-text="Unyeah">
-				<% if (post.empathied_by_user) { %>
-				<span>Unyeah</span>
-				<% } else { %>
-				<span>Yeah!</span>
-				<% } %>
-
-			</button>
-			<% } %>
+			<%- include("../database-elements/empathy_button.ejs") -%>
 
 			<span class="empathy-count"><%= post.empathy_count %></span>
 			<span class="reply-count">0</span>

@@ -1,0 +1,65 @@
+<%- include("../partials/header.ejs", { image_url : (post.screenshot_cdn_url) ? post.screenshot_cdn_url : post.cdn_profile_normal_image_url , title : `${post.mii_name}'s Post - Aquamarine` , description : (post.body ? post.body : "Handwritten Post") }) -%>
+
+<body>
+	<%- include("../partials/elements/navbar.ejs") %>
+
+	<div class="wrapper">
+		<div class="post-wrapper">
+			<div class="post <%= (post.title_owned) ? "ingame" : "" %>" id="post-<%= post.id %>">
+				<div class="community">
+					<a href="/communities/<%= post.community_id %>"><img src="<%= post.cdn_icon_url %>"> <span><%= post.community_name %></span></a>
+
+					<% if (post.in_game) { %>
+					<a class="ingame type">In-Game</a>
+					<% } else if (post.painting_cdn_url) { %>
+					<a class="drawings type">Drawings</a>
+					<% } %>
+				</div>
+				<div class="content">
+					<div class="user-meta">
+						<%- include("../partials/elements/ugc/user_profile_image.ejs") -%>
+
+						<div class="username">
+							<a class="name trigger no-bg" href="/users/<%= post.username %>"><%= post.mii_name %></a>
+							<span class="username"><%= post.username %></span>
+
+							<%- include("../partials/elements/database-elements/time_stamp.ejs", {
+								time : post.create_time
+							}) -%>
+						</div>
+					</div>
+
+					<div class="post-content">
+						<% if (post.topic_tag) { %>
+						<span class="topic_tag"><%= post.topic_tag %></span>
+						<% } %>
+						<% if (post.body) { %>
+						<p><%= post.body %></p>
+						<% } %>
+						<% if (post.painting_cdn_url) { %>
+						<img class="painting" src="<%= post.painting_cdn_url %>">
+						<% } %>
+
+						<% if (post.screenshot_cdn_url) { %>
+						<img class="screenshot" src="<%= post.screenshot_cdn_url %>">
+						<% } %>
+					</div>
+
+					<div class="post-actions">
+						<%- include("../partials/elements/database-elements/empathy_button.ejs") -%>
+						<span class="empathy-count"><%= post.empathy_count %></span>
+						<span class="reply-count">0</span>
+					</div>
+				</div>
+
+				<div class="post-header"><span>Comments</span></div>
+
+				<div class="replies list">
+					<% for (const reply of replies) { %>
+					<%- include("../partials/elements/ugc/reply.ejs", {reply : reply}) -%>
+					<% } %>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>

@@ -69,6 +69,7 @@ route.get("/:username", get_user_data, async (req, res) => {
         .clone()
         .where({ "empathies.account_id": res.locals.view_user.id })
         .orderBy("empathies.create_time", "desc")
+        .innerJoin("empathies", "empathies.post_id", "=", "posts.id")
         .limit(3);
 
     if (!res.locals.guest_mode) {
@@ -130,6 +131,7 @@ route.get("/:username/posts", get_user_data, async (req, res) => {
                     post: post,
                     locals: res.locals,
                     show_community: show_community,
+                    moment: moment
                 }
             );
 
@@ -158,6 +160,7 @@ route.get("/:username/empathies", get_user_data, async (req, res) => {
         .clone()
         .where({ "empathies.account_id": res.locals.view_user.id })
         .orderBy("empathies.create_time", "desc")
+        .innerJoin("empathies", "empathies.post_id", "=", "posts.id")
         .limit(limit)
         .offset(offset);
 
@@ -190,6 +193,7 @@ route.get("/:username/empathies", get_user_data, async (req, res) => {
                     post: post,
                     locals: res.locals,
                     show_community: show_community,
+                    moment: moment
                 }
             );
 

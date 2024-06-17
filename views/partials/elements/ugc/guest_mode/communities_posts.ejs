@@ -1,42 +1,40 @@
-<div class="community-post-list popular">
+<div class="community-post-list journal guest">
 	<div class="header">
-		<span>Popular Posts</span>
+		<span>Play Journal Entries</span>
 	</div>
 
 	<div class="list">
-		<% for (const post of popular_posts) { %>
-		<%- include("../posts.ejs", {
+		<% for (const post of play_journal_posts) { %>
+		<%- include("../play_journal.ejs", {
                 post : post,
                 show_community : false
             }) -%>
 		<% } %>
 
-		<% if (popular_posts.length <= 0) { %>
-		<span class="no-posts">There are no posts yet.</span>
+		<% if (play_journal_posts.length <= 0) { %>
+		<span class="no-posts">There are no journal entries yet.</span>
 		<% } %>
 	</div>
 </div>
 
-<div class="community-post-list paintings">
+<div class="community-post-list paintings guest">
 	<div class="header">
 		<span>Recent Drawings</span>
 	</div>
 
-	<div class="list">
+	<div class="list drawing">
 		<% for (const drawing of recent_drawings) { %>
-		<%- include("../posts.ejs", {
-                post : drawing,
-                show_community : false
-            }) -%>
+		<%- include("../drawing.ejs", {drawing : drawing}) -%>
 		<% } %>
 
 		<% if (recent_drawings.length <= 0) { %>
-		<span class="no-posts">There are no posts yet.</span>
+		<span class="no-posts">There are no drawings yet.</span>
 		<% } %>
 	</div>
 </div>
 
-<div class="community-post-list ingame">
+<% if (community.ingame_posts) { %>
+<div class="community-post-list ingame guest">
 	<div class="header">
 		<span>In-Game Posts</span>
 	</div>
@@ -54,3 +52,4 @@
 		<% } %>
 	</div>
 </div>
+<% } %>

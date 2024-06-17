@@ -1,34 +1,10 @@
 <div class="small-post-wrapper">
-	<a class="mii-icon" href="/users/<%= post.username %>">
-		<% switch (post.feeling_id) {
-                        case 0:%>
-		<img src="<%= post.cdn_profile_normal_image_url %>" class="user-icon" onerror="this.src='../../../img/mii_null.png'" alt="<%= post.mii_name %>">
-		<% break;
-                        case 1:%>
-		<img src="<%= post.cdn_profile_happy_image_url %>" class="user-icon" onerror="this.src='../../../img/mii_null.png'" alt="<%= post.mii_name %>">
-		<% break;
-                        case 2:%>
-		<img src="<%= post.cdn_profile_like_image_url %>" class="user-icon" onerror="this.src='../../../img/mii_null.png'" alt="<%= post.mii_name %>">
-		<% break;
-                        case 3:%>
-		<img src="<%= post.cdn_profile_surprised_image_url %>" class="user-icon" onerror="this.src='../../../img/mii_null.png'" alt="<%= post.mii_name %>">
-		<% break;
-                        case 4:%>
-		<img src="<%= post.cdn_profile_frustrated_image_url %>" class="user-icon" onerror="this.src='../../../img/mii_null.png'" alt="<%= post.mii_name %>">
-		<% break;
-                        case 5:%>
-		<img src="<%= post.cdn_profile_puzzled_image_url %>" class="user-icon" onerror="this.src='../../../img/mii_null.png'" alt="<%= post.mii_name %>">
-		<% break;
-                        default:%>
-		<img src="<%= post.cdn_profile_normal_image_url %>" class="user-icon" onerror="this.src='../../../img/mii_null.png'">
-		<% break;
-                    } %>
-	</a>
+	<%- include("./user_profile_image.ejs") -%>
 
 	<div class="small-post trigger no-bg" data-href="/posts/<%= post.id %>">
 		<div class="content-wrapper">
 			<% if (post.body) { %>
-			<span><%= post.body %></span>
+			<p><%= post.body %></p>
 			<% } else { %>
 			<img src="<%= post.painting_cdn_url %>" alt="Painting from <%= post.mii_name %>">
 			<% } %>

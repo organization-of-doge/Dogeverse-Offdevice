@@ -1,0 +1,43 @@
+<div class="post journal trigger <%= (post.title_owned) ? "ingame" : "" %>" id="post-<%= post.id %>" data-href="/posts/<%= post.id %>">
+	<% if (show_community) { %>
+	<div class="community-wrapper">
+		<img src="<%= post.cdn_icon_url %>" alt="<%= post.community_name %>">
+		<a class="trigger no-bg" href="/communities/<%= post.community_id %>"><%= post.community_name %></a>
+	</div>
+	<% } %>
+
+	<div class="journal-wrapper">
+		<% if (post.screenshot_cdn_url) { %>
+		<img class="screenshot" src="<%= post.screenshot_cdn_url %>">
+		<% } %>
+
+		<div class="post-content-wrapper">
+			<div class="user-info">
+				<%- include("./user_profile_image.ejs") -%>
+				<div class="user-info-text">
+					<a class="name" href="/users/<%= post.username %>"><%= post.mii_name %></a>
+					<%- include("../database-elements/time_stamp", {time : post.create_time}) -%>
+				</div>
+			</div>
+
+			<div class="content">
+				<% if (post.topic_tag) { %>
+				<span class="topic_tag"><%= post.topic_tag %></span>
+				<% } %>
+
+				<% if (post.body) { %>
+				<span><%= post.body %></span>
+				<% } else { %>
+				<img src="<%= post.painting_cdn_url %>">
+				<% } %>
+			</div>
+
+			<div class="post-actions">
+				<%- include("../database-elements/empathy_button.ejs") -%>
+
+				<span class="empathy-count"><%= post.empathy_count %></span>
+				<span class="reply-count">0</span>
+			</div>
+		</div>
+	</div>
+</div>
