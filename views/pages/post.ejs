@@ -52,6 +52,16 @@
 						<span class="empathy-count"><%= post.empathy_count %></span>
 						<span class="reply-count">0</span>
 					</div>
+
+					<% if (empathies.length >= 1) { %>
+					<div class="empathies">
+						<% for (const empathy of empathies) { %>
+						<a href="/users/<%= empathy.username %>">
+							<img src="<%= empathy.cdn_profile_normal_image_url %>">
+						</a>
+						<% } %>
+					</div>
+					<%} %>
 				</div>
 
 				<div class="post-header"><span>Comments</span></div>
@@ -60,8 +70,35 @@
 					<% for (const reply of replies) { %>
 					<%- include("../partials/elements/ugc/reply.ejs", {reply : reply}) -%>
 					<% } %>
+
+					<% if (replies.length <= 0) { %>
+					<span class="no-posts">
+						This post has no comments.
+					</span>
+					<% } %>
+				</div>
+
+				<div class="post-header"><span>Add a Comment</span></div>
+
+				<div class="notice">
+					<p>
+						You must sign in to post a comment.
+						<br><br>
+						Create or sign into an Aquamarine account and connect with the world by writing posts, drawings, comments, and by giving Yeahs to other people's posts. You can create or log into an Aquamarine account <a href="/login">Here</a>.
+					</p>
+				</div>
+
+				<div class="user-menu">
+					<a class="trigger" href="/guides/rules">
+						<span>Aquamarine Code of Conduct</span>
+					</a>
+					<a class="trigger" href="/guides/installation">
+						<span>Aquamarine Installation</span>
+					</a>
 				</div>
 			</div>
 		</div>
 	</div>
+
+	<%- include("../partials/elements/footer.ejs") -%>
 </body>

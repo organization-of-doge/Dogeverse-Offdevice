@@ -132,6 +132,7 @@ route.get("/:community_id/:tab", async (req, res) => {
         .orderBy("posts.create_time", "desc")
         .offset(offset)
         .limit(limit)
+
     if (!res.locals.guest_mode) {
         posts.select(common_querys.is_yeahed(res.locals.user.id))
     }
