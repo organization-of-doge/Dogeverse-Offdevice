@@ -312,7 +312,7 @@ const aquamarine = {
             if (
                 this.last_request_status !== 200 ||
                 this.currently_downloading ||
-                post_list.children.length === 0
+                post_list.children.length === 0 || !loading
             ) {
                 return;
             }
@@ -559,4 +559,18 @@ aquamarine.router.connect("^/users/(\\S*)/empathies$", async (user_name) => {
 aquamarine.router.connect("^/posts/([^/]+)$", async (post_id) => {
     aquamarine.initialize_empathies();
     aquamarine.initialize_href();
+});
+
+aquamarine.router.connect(/^\/communities\/\d+\/(\w+)$/, async (tab) => {
+    if (tab !== "hot") {
+        const post_list = document.querySelector(".list");
+        document.addEventListener("aquamarine:scroll_end", async (e) => {
+            const offset = post_list.children.length;
+
+            await aquamarine.actions.download_posts(
+                ".list",
+                `?raw=1&offset=${offset}&limit=25`
+            );
+        });
+    }
 })

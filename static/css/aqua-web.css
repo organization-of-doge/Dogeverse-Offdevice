@@ -98,6 +98,8 @@
     --rules-header-num2: rgb(251, 121, 134);
     --rules-header-num3: rgb(241, 77, 175);
     --rules-header-num4: rgb(62, 78, 248);
+
+    --popular-posts-selector: rgb(242, 242, 242);
 }
 
 .trigger {
@@ -647,8 +649,7 @@ span.error-text::before {
 
     margin-bottom: 250px;
 
-    padding-bottom: 25px;
-    padding-top: 25px;
+    padding: 50px;
 }
 
 .error-wrapper span {
@@ -1581,6 +1582,7 @@ div > .community:nth-child(even) {
     border-radius: 8px;
 
     background-color: var(--community-content-bg);
+    box-sizing: border-box;
 }
 
 .community-content:has(.community-post-list.guest) {
@@ -1643,6 +1645,12 @@ div > .community:nth-child(even) {
     color: var(--community-paintings-color);
 }
 
+.hot .header {
+    border-bottom: 3px solid var(--community-popular-color);
+
+    color: var(--community-popular-color);
+}
+
 .normal .header span::before {
     content: "p";
 }
@@ -1665,6 +1673,10 @@ div > .community:nth-child(even) {
 
 .journal .header span::before {
     content: "%";
+}
+
+.hot .header span::before {
+    content: "W";
 }
 
 .no-posts {
@@ -2815,7 +2827,7 @@ a.empathies span {
 
     display: flex;
     align-items: center;
-    justify-content: left;
+    justify-content: space-between;
 }
 
 .post .community .type {
@@ -2850,12 +2862,20 @@ a.empathies span {
     border-bottom: 2px solid var(--community-paintings-color);
 }
 
+.post .community .journal {
+    border-bottom: 2px solid var(--community-journal-color);
+}
+
 .post .community .drawings::before {
     content: "M";
 }
 
 .post .community .ingame::before {
     content: "&";
+}
+
+.post .community .journal::before {
+    content: "%";
 }
 
 .post .community img {
@@ -2871,6 +2891,7 @@ a.empathies span {
     text-decoration: none;
     display: flex;
     align-items: center;
+    width: fit-content;
 }
 
 .post .community a span {
@@ -3068,6 +3089,77 @@ a.empathies span {
     align-items: center;
     margin-top: auto;
     color: var(--post-actions-text-color);
+}
+
+.popular-date-selector {
+    border-bottom: 1px solid var(--community-info-border-color);
+    padding: 20px;
+
+    display: flex;
+    justify-content: center;
+}
+
+.popular-date-selector .current-date {
+    display: inline-block;
+    width: 55%;
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: center;
+    background-color: var(--popular-posts-selector);
+    font-size: 14px;
+    text-decoration: none;
+    color: var(--common-text-color);
+}
+
+.popular-date-selector .current-date:hover {
+    cursor: pointer;
+    box-shadow: 0px 1px 5px rgb(209, 209, 209);
+    transition: box-shadow 0.1s;
+}
+
+.popular-date-selector .next-date,
+.popular-date-selector .last-date {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    padding-left: 23px;
+    padding-right: 23px;
+    border-left: 1px solid var(--community-info-border-color);
+    background-color: var(--popular-posts-selector);
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    text-decoration: none;
+    color: var(--common-text-color);
+}
+
+.popular-date-selector .last-date {
+    border-radius: 0;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+    border-right: 1px solid var(--community-info-border-color);
+    border-left: none;
+}
+
+.popular-date-selector .next-date:hover,
+.popular-date-selector .last-date:hover {
+    cursor: pointer;
+    box-shadow: 0px 1px 5px rgb(209, 209, 209);
+    transition: box-shadow 0.1s;
+}
+
+.popular-date-selector .next-date::before {
+    font-family: Symbols;
+    content: "R";
+    color: var(--common-text-color);
+    text-decoration: none;
+    color: var(--common-text-color);
+}
+
+.popular-date-selector .last-date::before {
+    font-family: Symbols;
+    content: "I";
+    color: var(--common-text-color);
+    text-decoration: none;
+    color: var(--common-text-color);
 }
 
 @media (max-width: 660px) {

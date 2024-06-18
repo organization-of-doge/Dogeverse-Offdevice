@@ -4,7 +4,7 @@
     } else {
         language = locals.user.language
     } %>
-	<% if (moment().diff(moment(time).subtract(1, 'days'), 'days') >= 7) { %>
+	<% if (locals.moment().diff(locals.moment(time).subtract(1, 'days'), 'days') >= 7) { %>
 	<%= locals.moment(time).locale(language).format("L LT") %>
 	<% } else { %>
 	<%= locals.moment(time).locale(language).fromNow() %>

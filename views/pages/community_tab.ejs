@@ -1,0 +1,63 @@
+<%- include("../partials/header.ejs", {
+    image_url : community.cdn_icon_url,
+    title : `Aquamarine - ${community.name}`,
+    description : community.description
+}) -%>
+
+<body>
+	<%- include("../partials/elements/navbar.ejs") %>
+
+	<div class="wrapper">
+		<div class="community-wrapper">
+			<%- include("../partials/elements/database-elements/community_sidebar.ejs") -%>
+
+			<div class="community-content">
+				<div class="community-post-list <%= tab %>">
+					<div class="header">
+						<% if (tab === "journal") { %>
+						<span>Play Journal Entries</span>
+						<% } else if (tab === "ingame") { %>
+						<span>In-Game Posts</span>
+						<% } else if (tab === "paintings") { %>
+						<span>Recent Drawings</span>
+						<% } else if (tab === "hot") { %>
+						<span>Popular Posts</span>
+						<% } %>
+					</div>
+
+					<div class="list" data-no-posts="<%= (posts <= 0) ? 1 : 0 %>">
+						<% if (tab === "hot") { %>
+						<div class="popular-date-selector">
+							<a class="last-date" href="/communities/<%= community.id %>/hot?date=<%= locals.moment(date_query).subtract(1, "day").format("YYYY-MM-DD") %>"></a>
+							<a class="current-date" href="/communities/<%= community.id %>/hot"><%= locals.moment(date_query).locale("en").format("L") %></a>
+							<a class="next-date" href="/communities/<%= community.id %>/hot?date=<%= locals.moment(date_query).add(1, "day").format("YYYY-MM-DD") %>"></a>
+						</div>
+						<% } %>
+
+						<% for (const post of posts) { if (tab === "journal") { %>
+						<%- include("../partials/elements/ugc/play_journal.ejs", {
+                                post : post,
+                                show_community : false
+                            }) -%>
+						<% } else { %>
+						<%- include("../partials/elements/ugc/posts.ejs", {
+                                post : post,
+								show_community : false
+                            }) -%>
+						<%} }%>
+
+						<% if (posts.length <= 0) { %>
+						<span class="no-posts">There are no posts yet.</span>
+						<% } %>
+					</div>
+
+					<span class="loading none"></span>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<%- include("../partials/elements/footer.ejs") -%>
+</body>
+
+</html>

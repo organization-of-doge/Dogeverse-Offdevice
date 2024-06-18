@@ -9,72 +9,8 @@
 
 	<div class="wrapper">
 		<div class="community-wrapper">
-			<div class="community-sidebar">
-				<% if (community.cdn_ctr_banner_url) { %>
-				<a href="/communities/<%= community.id %>" class="community-banner">
-					<img src="<%= community.cdn_ctr_banner_url %>">
-				</a>
-				<% } %>
-				<div class="community-info-wrapper">
-					<div class="community-info">
-						<div>
-							<img class="icon trigger" src="<%= community.cdn_icon_url %>" width="57px" data-href="/communities/<%= community.id %>">
-							<span class="platform <%= community.platform %>"></span>
-						</div>
+			<%- include("../partials/elements/database-elements/community_sidebar.ejs") -%>
 
-						<div>
-							<% if (community.type=="main" ) {%>
-							<span class=" community-type">Main Community</span>
-							<%} else if (community.type=="sub" ) {%>
-							<span class="community-type">Sub Community</span>
-							<%} else if (community.type=="announcement" ) {%>
-							<span class="community-type">Announcement Community</span>
-							<%}%>
-                            <span class="community-name"><%= community.name %></span>
-							<span class="community-app-name"><%= community.app_name %></span>
-						</div>
-					</div>
-
-					<% if (community.description) { %>
-					<div class="community-description-wrapper">
-						<span><%= community.description %></span>
-					</div>
-					<% } %>
-
-					<% if (!locals.guest_mode) { %>
-					<div class="community-actions">
-						<span class="error-text none" data-null-community-id="Community ID is invalid." data-default="There was an error favoriting <%= community.name %>.">This is a error favoriting..</span>
-						<button class="favorite-button <%= (community.is_favorited) ? "selected" : "" %>" data-community-id="<%= community.id %>">
-							<span>Favorite</span>
-						</button>
-					</div>
-					<% } %>
-
-					<div class="user-menu extend">
-						<a class="trigger journal">
-							<span>Play Journal Entries</span>
-						</a>
-						<a class="trigger drawings">
-							<span>Drawings</span>
-						</a>
-						<a class="trigger popular">
-							<span>Popular Posts</span>
-						</a>
-						<% if (community.ingame_posts) { %>
-						<a class="trigger ingame">
-							<span>In-Game Posts</span>
-						</a>
-						<% } %>
-					</div>
-				</div>
-
-				<div class="share-platforms">
-					<a class="x-platform" href="https://twitter.com/intent/tweet?url=https://aquamarine.lol/communities/<%= community.id %>"><span>Tweet</span></a>
-					<a class="facebook-platform" href="https://www.facebook.com/sharer.php?u=https://aquamarine.lol/communities/<%= community.id %>"><span>Share</span></a>
-					<a class="whatsapp-platform" href="whatsapp://send?text=https://aquamarine.lol/communities/<%= community.id %>"></a>
-					<a class="tumbler-platform" href="https://www.tumblr.com/share?url=https://aquamarine.lol/communities/<%= community.id %>"></a>
-				</div>
-			</div>
 			<div class="community-content">
 				<% if (locals.guest_mode) { %>
 				<%- include("../partials/elements/ugc/guest_mode/communities_posts.ejs") -%>

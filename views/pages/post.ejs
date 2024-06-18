@@ -10,9 +10,11 @@
 					<a href="/communities/<%= post.community_id %>"><img src="<%= post.cdn_icon_url %>"> <span><%= post.community_name %></span></a>
 
 					<% if (post.in_game) { %>
-					<a class="ingame type">In-Game</a>
-					<% } else if (post.painting_cdn_url) { %>
-					<a class="drawings type">Drawings</a>
+					<a class="ingame type" href="/communities/<%= post.community_id %>/ingame">In-Game</a>
+					<% } else if (post.is_journal) { %>
+					<a class="journal type" href="/communities/<%= post.community_id %>/journal">Play Journal Entries</a>
+					<%} else if (post.painting_cdn_url) { %>
+					<a class="drawings type" href="/communities/<%= post.community_id %>/paintings">Drawings</a>
 					<% } %>
 				</div>
 				<div class="content">
