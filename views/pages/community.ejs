@@ -21,30 +21,9 @@
 					</div>
 
 					<% if ((community.type === "announcement" && locals.user.admin === 1) || community.type !== "announcement" && community.ingame_only !== 1) { %>
-					<div class="add-new-post">
-						<form id="post-expandable" class="feeling-selector none">
-							<input class="selected" type="radio" value="0">
-							<input type="radio" value="1">
-							<input type="radio" value="2">
-							<input type="radio" value="3">
-							<input type="radio" value="4">
-							<input type="radio" value="5">
-						</form>
-						<div class="textarea-wrapper">
-							<textarea autocomplete="off" data-expand="#post-expandable" minlength="5" maxlength="650" placeholder="Share your thoughts with the <%= community.name %> Community!"></textarea>
-						</div>
-						<div id="post-expandable" class="file-wrapper none">
-							<div class="file">
-								<div>
-									<b>File</b>
-									<span>Upload Screenshot (.jpg, .png, .webp, .gif)</span>
-								</div>
-								<input autocomplete="off" type="file" accept=".jpg, .png, .webp, .gif" placeholder="">
-							</div>
-						</div>
-
-						<button disabled="true" id="post-expandable" class="post-button black-button none trigger">Send</button>
-					</div>
+					<%- include("../partials/elements/add_post.ejs", {
+						placeholder: `Share your thoughts with the ${community.name} Community!`
+					}) %>
 					<% } %>
 
 					<div class="list" data-no-posts="<%= (normal_posts <= 0) ? 1 : 0 %>">

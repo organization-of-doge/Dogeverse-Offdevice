@@ -51,7 +51,7 @@ const aquamarine = {
         }
     },
 
-    initialize_empathies: function () {
+    initialize_empathies: function (callback) {
         document.querySelectorAll(".empathy:not(.disabled)").forEach((e) => {
             e.removeEventListener("click", click);
             e.addEventListener("click", click);
@@ -60,7 +60,8 @@ const aquamarine = {
         function click(event) {
             event.stopPropagation();
             aquamarine.actions.empathy(
-                event.currentTarget.getAttribute("data-post-id")
+                event.currentTarget.getAttribute("data-post-id"),
+                callback
             );
         }
     },
@@ -69,6 +70,7 @@ const aquamarine = {
         const feeling_inputs = document.querySelectorAll(".feeling-selector input");
         const file_upload = document.querySelector('input[type="file"]');
         const textarea = document.querySelector("textarea");
+        const send_button = document.querySelector(".add-new-post button");
 
         if (!textarea) { return }
 
@@ -121,6 +123,20 @@ const aquamarine = {
                 send_button.removeAttribute("disabled");
             };
         });
+    },
+
+    initialize_favorite_button: function () {
+        console.log("Initializing favorites");
+        if (document.querySelector("button.favorite-button")) {
+            document
+                .querySelector("button.favorite-button").addEventListener("click", (e) => {
+                    aquamarine.actions.favorite(
+                        document
+                            .querySelector("button.favorite-button")
+                            .getAttribute("data-community-id")
+                    );
+                });
+        }
     },
 
     login: async function () {
@@ -205,7 +221,7 @@ const aquamarine = {
     },
 
     actions: {
-        empathy: async function (post_id) {
+        empathy: async function (post_id, callback) {
             const post_yeah_button = document.querySelector(
                 `#post-${post_id} button.empathy`
             );
@@ -249,6 +265,10 @@ const aquamarine = {
             }
 
             post_yeah_button.removeAttribute("disabled");
+
+            if (callback) {
+                callback(empathy_data.empathy_status)
+            }
         },
 
         favorite: async function (community_id) {
@@ -421,17 +441,7 @@ aquamarine.router.connect("^/communities/(\\d+)$", (community_id) => {
     console.log("Initializing empathies");
     aquamarine.initialize_empathies();
 
-    console.log("Initializing favorites");
-    if (document.querySelector("button.favorite-button")) {
-        document
-            .querySelector("button.favorite-button").addEventListener("click", (e) => {
-                aquamarine.actions.favorite(
-                    document
-                        .querySelector("button.favorite-button")
-                        .getAttribute("data-community-id")
-                );
-            });
-    }
+    aquamarine.initialize_favorite_button()
 
     console.log("Initializing downloading");
 
@@ -557,8 +567,29 @@ aquamarine.router.connect("^/users/(\\S*)/empathies$", async (user_name) => {
 });
 
 aquamarine.router.connect("^/posts/([^/]+)$", async (post_id) => {
-    aquamarine.initialize_empathies();
+    aquamarine.initialize_empathies(function (empathy_status) {
+        const empathy = document.querySelector(`.empathies a[data-self]`);
+        const empathies = document.querySelector(".empathies");
+
+        if (!empathy) { return; }
+
+        switch (empathy_status) {
+            case "CREATED":
+                empathy.classList.remove("none");
+                break;
+            case "DELETED":
+                empathy.classList.add("none");
+                break;
+        }
+
+        if (empathies.querySelectorAll("a:not(.none)").length >= 1) {
+            empathies.classList.remove("none")
+        } else {
+            empathies.classList.add("none")
+        }
+    });
     aquamarine.initialize_href();
+    aquamarine.initialize_add_post()
 });
 
 aquamarine.router.connect(/^\/communities\/\d+\/(\w+)$/, async (tab) => {
@@ -573,4 +604,6 @@ aquamarine.router.connect(/^\/communities\/\d+\/(\w+)$/, async (tab) => {
             );
         });
     }
+
+    aquamarine.initialize_favorite_button()
 })

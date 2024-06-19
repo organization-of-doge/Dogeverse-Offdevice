@@ -87,11 +87,17 @@ route.get("/:community_id/:tab", async (req, res) => {
     const offset = parseInt(req.query["offset"]) || 0;
     const limit = parseInt(req.query["limit"]) || 10;
 
-    const community = await db_con.env_db("communities")
+    var community = db_con.env_db("communities")
         .select("*")
         .select(db_con.env_db.raw(`EXISTS (SELECT 1 FROM posts WHERE community_id = communities.id AND in_game = 1) as ingame_posts`))
         .where({ id: req.params.community_id })
         .first()
+
+    if (!res.locals.guest_mode) {
+        community.select(common_querys.is_favorited(res.locals.user.id))
+    }
+
+    community = await community
 
     if (!community) {
         res.render("pages/errors/common/404.ejs");

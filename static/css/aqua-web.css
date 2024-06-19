@@ -99,7 +99,8 @@
     --rules-header-num3: rgb(241, 77, 175);
     --rules-header-num4: rgb(62, 78, 248);
 
-    --popular-posts-selector: rgb(242, 242, 242);
+    --popular-posts-selector: rgb(245, 245, 245);
+    --popular-posts-selector-bottom: rgb(237, 237, 237);
 }
 
 .trigger {
@@ -2819,6 +2820,8 @@ a.empathies span {
 
 .post .community {
     height: 37px;
+    width: 100%;
+    box-sizing: border-box;
     border: 1px solid var(--community-info-border-color);
     background-color: var(--small-post-community-bg);
 
@@ -3030,12 +3033,6 @@ a.empathies span {
     border-top: var(--community-info-border-color);
 }
 
-.replies.list .reply:last-child {
-    border-bottom-left-radius: 5px;
-    border-bottom-right-radius: 5px;
-    border-bottom: 2px solid var(--community-info-border-color);
-}
-
 .replies.list .reply.self {
     background-color: var(--aquamarine-text-color);
 }
@@ -3105,10 +3102,16 @@ a.empathies span {
     padding-top: 12px;
     padding-bottom: 12px;
     text-align: center;
-    background-color: var(--popular-posts-selector);
     font-size: 14px;
     text-decoration: none;
     color: var(--common-text-color);
+    background: -webkit-gradient(
+        linear,
+        left top,
+        left bottom,
+        color-stop(0.6, var(--popular-posts-selector)),
+        color-stop(0.95, var(--popular-posts-selector-bottom))
+    );
 }
 
 .popular-date-selector .current-date:hover {
@@ -3124,7 +3127,13 @@ a.empathies span {
     padding-left: 23px;
     padding-right: 23px;
     border-left: 1px solid var(--community-info-border-color);
-    background-color: var(--popular-posts-selector);
+    background: -webkit-gradient(
+        linear,
+        left top,
+        left bottom,
+        color-stop(0.6, var(--popular-posts-selector)),
+        color-stop(0.95, var(--popular-posts-selector-bottom))
+    );
     border-top-right-radius: 5px;
     border-bottom-right-radius: 5px;
     text-decoration: none;
@@ -3233,6 +3242,15 @@ a.empathies span {
 
 .post .user-menu span {
     margin-left: 15px;
+}
+
+.post .add-post-wrapper {
+    background-color: var(--community-info-bg);
+    border-left: 1px solid var(--community-info-border-color);
+    border-right: 1px solid var(--community-info-border-color);
+    border-bottom: 2px solid var(--community-info-border-color);
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
 }
 
 @media (max-width: 660px) {

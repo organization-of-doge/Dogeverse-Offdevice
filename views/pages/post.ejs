@@ -50,18 +50,21 @@
 					<div class="post-actions">
 						<%- include("../partials/elements/database-elements/empathy_button.ejs") -%>
 						<span class="empathy-count"><%= post.empathy_count %></span>
-						<span class="reply-count">0</span>
+						<span class="reply-count"><%= post.reply_count %></span>
 					</div>
 
-					<% if (empathies.length >= 1) { %>
-					<div class="empathies">
+					<div class="empathies <%= (!empathies.length >= 1) ? "none" : "" %>">
+						<% if (!post.empathied_by_user) { %>
+						<a class="none" href="/users/<%= locals.user.username %>" data-username="<%= locals.user.username %>" data-self>
+							<img src="<%= locals.user.cdn_profile_normal_image_url %>">
+						</a>
+						<% } %>
 						<% for (const empathy of empathies) { %>
-						<a href="/users/<%= empathy.username %>">
+						<a href="/users/<%= empathy.username %>" data-username="<%= empathy.username %>" <%=(empathy.username == locals.user.username) ? "data-self" : "" %>>
 							<img src="<%= empathy.cdn_profile_normal_image_url %>">
 						</a>
 						<% } %>
 					</div>
-					<%} %>
 				</div>
 
 				<div class="post-header"><span>Comments</span></div>
@@ -80,6 +83,7 @@
 
 				<div class="post-header"><span>Add a Comment</span></div>
 
+				<% if (locals.guest_mode) { %>
 				<div class="notice">
 					<p>
 						You must sign in to post a comment.
@@ -96,6 +100,13 @@
 						<span>Aquamarine Installation</span>
 					</a>
 				</div>
+				<% } else { %>
+				<div class="add-post-wrapper">
+					<%- include("../partials/elements/add_post.ejs", {
+					placeholder: `Add a comment to ${post.mii_name}'s post!`
+				}) %>
+				</div>
+				<% } %>
 			</div>
 		</div>
 	</div>

@@ -25,7 +25,8 @@ route.get("/:post_id", async (req, res) => {
         .select("empathies.*", "accounts.username")
         .select(common_querys.account_profile_images)
         .where({ post_id: req.params.post_id })
-        .innerJoin("account.accounts", "accounts.id", "=", "empathies.account_id");
+        .innerJoin("account.accounts", "accounts.id", "=", "empathies.account_id")
+        .orderBy("empathies.create_time", "desc");
 
     var replies = db_con.env_db("replies")
         .select("replies.*", "accounts.username", "accounts.mii_name")
