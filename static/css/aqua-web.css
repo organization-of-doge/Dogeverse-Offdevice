@@ -1436,7 +1436,9 @@ div > .community:nth-child(even) {
     margin-bottom: 5px;
 }
 
-.community-actions .favorite-button {
+.community-actions .favorite-button,
+.recent-posts {
+    display: block;
     width: 85%;
     height: 43px;
 
@@ -1444,22 +1446,26 @@ div > .community:nth-child(even) {
     border-radius: 5px;
 
     background-color: var(--common-button-bg);
+    text-decoration: none;
 }
 
 .favorite-button:disabled span {
     color: var(--common-disabled-text-color);
 }
 
-.favorite-button:not(:disabled):hover {
+.favorite-button:not(:disabled):hover,
+.recent-posts:hover {
     cursor: pointer;
     box-shadow: 0px 1px 5px rgb(209, 209, 209);
     transition: box-shadow 0.1s;
 }
 
-.favorite-button span {
+.favorite-button span,
+.recent-posts span {
     color: var(--common-text-color);
     vertical-align: middle;
     font-family: Arial, Helvetica, sans-serif;
+    text-decoration: none;
 }
 
 .favorite-button span::before {
@@ -1475,6 +1481,25 @@ div > .community:nth-child(even) {
 
 .favorite-button.selected span::before {
     content: "s";
+}
+
+.recent-posts {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50%;
+    height: 50px;
+    margin: 0 auto;
+    margin-bottom: 15px;
+}
+
+.recent-posts span::before {
+    content: "p";
+    font-family: Symbols;
+    display: inline-block;
+    vertical-align: middle;
+    font-size: 20px;
+    margin-right: 5px;
 }
 
 .share-platforms {
