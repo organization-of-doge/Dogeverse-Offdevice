@@ -2705,6 +2705,7 @@ button.empathy span::before {
     align-items: center;
     text-decoration: none;
     height: 45px;
+    width: 100%;
     border-bottom: 1px solid var(--community-info-border-color);
 }
 
@@ -3318,6 +3319,15 @@ a.empathies span {
 
 .post .community a span:hover {
     text-decoration: underline;
+}
+
+.full-post .content {
+    display: block;
+}
+
+.full-post .content img.screenshot {
+    align-self: baseline;
+    min-height: 0;
 }
 
 @media (max-width: 660px) {

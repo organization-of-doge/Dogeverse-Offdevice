@@ -12,7 +12,7 @@
 			<%- include("../partials/elements/database-elements/community_sidebar.ejs") -%>
 
 			<div class="community-content">
-				<% if (locals.guest_mode) { %>
+				<% if (locals.guest_mode && !community.type === "announcement") { %>
 				<%- include("../partials/elements/ugc/guest_mode/communities_posts.ejs") -%>
 				<% } else { %>
 				<div class="community-post-list normal">
@@ -20,7 +20,7 @@
 						<span>Posts</span>
 					</div>
 
-					<% if ((community.type === "announcement" && locals.user.admin === 1) || community.type !== "announcement" && community.ingame_only !== 1) { %>
+					<% if (!locals.guest_mode && locals.user && (community.type === "announcement" && locals.user.admin === 1) || community.type !== "announcement" && community.ingame_only !== 1) { %>
 					<%- include("../partials/elements/add_post.ejs", {
 						placeholder: `Share your thoughts with the ${community.name} Community!`
 					}) %>

@@ -30,7 +30,7 @@ route.get("/:community_id", async (req, res) => {
 
     var play_journal_posts, ingame_posts, recent_drawings, normal_posts;
 
-    if (res.locals.guest_mode) {
+    if (res.locals.guest_mode && !community_data.type === "announcement") {
         play_journal_posts = await common_querys.posts_query
             .clone()
             .where({ community_id: community_id, is_journal: 1 })
@@ -53,7 +53,7 @@ route.get("/:community_id", async (req, res) => {
     } else {
         normal_posts = await common_querys.posts_query
             .clone()
-            .select(common_querys.is_yeahed(res.locals.user.id))
+            .select((res.locals.guest_mode) ? "" : common_querys.is_yeahed(res.locals.user.id))
             .where({ community_id: community_id })
             .orderBy("posts.create_time", "desc")
             .limit(limit)
