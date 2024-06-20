@@ -60,7 +60,7 @@
 							<img src="<%= locals.user.cdn_profile_normal_image_url %>">
 						</a>
 						<% } %>
-						<% for (const empathy of empathies) { console.log(empathy); %>
+						<% for (const empathy of empathies) { %>
 						<a href="/users/<%= empathy.username %>" data-username="<%= empathy.username %>" <%=(!locals.guest_mode && empathy.username == locals.user.username) ? "data-self" : "" %>>
 							<img src="<%= empathy.cdn_profile_normal_image_url %>">
 						</a>

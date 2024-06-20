@@ -884,6 +884,7 @@ span.error-text::before {
 
 .communities > .user-menu {
     margin-top: 5px;
+    width: 100%;
 }
 
 .communities > h1,
@@ -3378,6 +3379,18 @@ a.empathies span {
 
     .wrapper .post-wrapper {
         width: 95%;
+    }
+
+    .full-post .content .post-content {
+        font-size: 16px;
+    }
+
+    .full-post .content .empathies img {
+        width: 36px;
+    }
+
+    .full-post .community a span {
+        font-size: 15px;
     }
 }
 
