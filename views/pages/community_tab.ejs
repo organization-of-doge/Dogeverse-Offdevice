@@ -22,7 +22,9 @@
 						<span>Recent Drawings</span>
 						<% } else if (tab === "hot") { %>
 						<span>Popular Posts</span>
-						<% } %>
+						<% } else if (tab === "recent") { %>
+						<span>Recent Posts</span>
+						<% }  %>
 					</div>
 
 					<div class="list" data-no-posts="<%= (posts <= 0) ? 1 : 0 %>">

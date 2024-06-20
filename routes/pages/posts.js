@@ -28,14 +28,10 @@ route.get("/:post_id", async (req, res) => {
         .innerJoin("account.accounts", "accounts.id", "=", "empathies.account_id")
         .orderBy("empathies.create_time", "desc");
 
-    var replies = db_con.env_db("replies")
-        .select("replies.*", "accounts.username", "accounts.mii_name")
+    var replies = common_querys.replies_query.clone()
         .select(common_querys.account_profile_images)
-        .select(db_con.env_db.raw(
-            "(SELECT COUNT(empathies.reply_id) FROM empathies WHERE empathies.reply_id=replies.id) as empathy_count"
-        ))
-        .where({ post_id: req.params.post_id })
-        .innerJoin("account.accounts", "accounts.id", "=", "replies.account_id")
+        .where({ "replies.post_id": req.params.post_id })
+        .orderBy("replies.create_time", "desc")
 
     if (!res.locals.guest_mode) {
         replies.select(common_querys.is_reply_yeahed(res.locals.user.id))

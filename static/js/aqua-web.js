@@ -1,5 +1,9 @@
-const aquamarine_scroll_end = new Event("aquamarine:scroll_end");
 const aquamarine = {
+    events: {
+        aquamarine_scroll_end: new Event("aquamarine:scroll_end"),
+        aquamarine_post_empathy_added: new Event("aquamarine:post_empathy_added")
+    },
+
     router: {
         routes: [],
         connect: function (regex, handler) {
@@ -19,358 +23,399 @@ const aquamarine = {
         },
     },
 
-    initialize: function () {
-        const logout = document.querySelector("#settings-logout");
-        const settings = document.querySelector("#settings-button");
+    logger: {
+        log_initialize: function (str) {
+            console.log(`%c[INIT] ${str}`, 'color: #36a8e0')
+        },
 
-        if (logout) {
-            logout.addEventListener("click", () => {
-                aquamarine.logout();
+        log_info: function (str) {
+            console.log(`%c[INFO] ${str}`, 'color: #2ec91c')
+        },
+
+        log_error: function (str) {
+            console.log(`%c[ERROR] ${str}`, 'color: #d13017')
+        }
+    },
+
+    init: {
+        initialize: function () {
+            const logout = document.querySelector("#settings-logout");
+            const settings = document.querySelector("#settings-button");
+
+            if (logout) {
+                logout.addEventListener("click", aquamarine.account.logout);
+            }
+            if (settings) {
+                settings.addEventListener("click", this.nav.toggle_settings_menu);
+            }
+
+            this.initialize_href();
+        },
+
+        initialize_href: function () {
+            aquamarine.logger.log_initialize("Href")
+
+            document.querySelectorAll("[data-href]").forEach((e) => {
+                e.removeEventListener("click", this.href.href_click);
+                e.addEventListener("click", this.href.href_click);
             });
-        }
-        if (settings) {
-            settings.addEventListener("click", () => {
-                document
-                    .querySelector(".settings-menu")
-                    .classList.toggle("none");
+        },
+
+        initialize_empathies: function () {
+            aquamarine.logger.log_initialize("Empathies")
+
+            document.querySelectorAll(".empathy:not(.disabled)[data-post-id]").forEach((e) => {
+                e.removeEventListener("click", this.empathies.post_empathy_click);
+                e.addEventListener("click", this.empathies.post_empathy_click);
             });
-        }
 
-        this.initialize_href();
-    },
+            document.querySelectorAll(".empathy:not(.disabled)[data-reply-id]").forEach((e) => {
+                e.removeEventListener("click", this.empathies.reply_empathy_click);
+                e.addEventListener("click", this.empathies.reply_empathy_click)
+            })
+        },
 
-    initialize_href: function () {
-        document.querySelectorAll("[data-href]").forEach((e) => {
-            e.removeEventListener("click", click);
-            e.addEventListener("click", click);
-        });
+        initialize_add_post: function (file_callback) {
+            const feeling_inputs = document.querySelectorAll(".feeling-selector input");
+            const file_upload = document.querySelector('input[type="file"]');
+            const textarea = document.querySelector("textarea");
 
-        function click(event) {
-            window.location.href =
-                event.currentTarget.getAttribute("data-href");
-        }
-    },
+            if (!textarea) { return }
 
-    initialize_empathies: function (callback) {
-        document.querySelectorAll(".empathy:not(.disabled)").forEach((e) => {
-            e.removeEventListener("click", click);
-            e.addEventListener("click", click);
-        });
+            document.querySelectorAll("[data-expand]").forEach((e) => {
+                e.addEventListener("click", this.add_post.open_expandable);
+            });
 
-        function click(event) {
-            event.stopPropagation();
-            aquamarine.actions.empathy(
-                event.currentTarget.getAttribute("data-post-id"),
-                callback
-            );
-        }
-    },
+            aquamarine.logger.log_initialize("Feeling selector")
 
-    initialize_add_post: function () {
-        const feeling_inputs = document.querySelectorAll(".feeling-selector input");
-        const file_upload = document.querySelector('input[type="file"]');
-        const textarea = document.querySelector("textarea");
-        const send_button = document.querySelector(".add-new-post button");
+            feeling_inputs.forEach((e) => {
+                e.addEventListener("click", this.add_post.feeling_selector_click);
+            });
 
-        if (!textarea) { return }
+            aquamarine.logger.log_initialize("Textarea");
 
-        document.querySelectorAll("[data-expand]").forEach((e) => {
-            e.addEventListener("click", open_expandable);
-        });
+            textarea.addEventListener("input", this.add_post.textarea_input);
 
-        function open_expandable(e) {
-            document
-                .querySelectorAll(e.target.getAttribute("data-expand"))
-                .forEach((e) => {
-                    e.classList.remove("none");
-                });
-        }
+            aquamarine.logger.log_initialize("File upload");
 
-        console.log("Initializing feeling selector")
+            file_upload.addEventListener("change", (event) => {
+                this.add_post.file_upload_change(event, file_callback)
+            });
+        },
 
-        feeling_inputs.forEach((e) => {
-            e.addEventListener("click", (event) => {
-                feeling_inputs.forEach((feeling) => {
+        initialize_favorite_button: function () {
+            aquamarine.logger.log_initialize("Favorite Button");
+            if (document.querySelector("button.favorite-button")) {
+                document.querySelector("button.favorite-button").addEventListener("click", this.favorite.favorite_click);
+            }
+        },
+
+        nav: {
+            toggle_settings_menu: function (event) {
+                document.querySelector(".settings-menu").classList.toggle("none");
+            }
+        },
+
+        add_post: {
+            file_upload_change: function (event, file_callback) {
+                const send_button = document.querySelector(".add-new-post button");
+                send_button.setAttribute("disabled", "true");
+                var input = event.target;
+                const reader = new FileReader();
+
+                reader.readAsDataURL(input.files[0]);
+
+                reader.onload = () => {
+                    screenshot = reader.result.split(",")[1];
+                    screenshot_MIME = input.files[0].type;
+                    send_button.removeAttribute("disabled");
+
+                    file_callback(screenshot, screenshot_MIME)
+                };
+            },
+
+            textarea_input: function (event) {
+                const send_button = document.querySelector(".add-new-post button");
+
+                if (event.target.value.replace(/\s/g, "").length <= 0) {
+                    send_button.setAttribute("disabled", "true");
+                } else {
+                    send_button.removeAttribute("disabled");
+                }
+            },
+
+            feeling_selector_click: function (event) {
+                document.querySelectorAll(".feeling-selector input").forEach((feeling) => {
                     feeling.classList.remove("selected");
                 });
 
                 event.target.classList.add("selected");
-            });
-        });
-
-        console.log("Initializing textarea");
-
-        textarea.addEventListener("input", (e) => {
-            if (e.target.value.replace(/\s/g, "").length <= 0) {
-                send_button.setAttribute("disabled", "true");
-            } else {
-                send_button.removeAttribute("disabled");
-            }
-        });
-
-        console.log("Initializing file upload");
-
-        file_upload.addEventListener("change", (file) => {
-            send_button.setAttribute("disabled", "true");
-            var input = file.target;
-            const reader = new FileReader();
-
-            reader.readAsDataURL(input.files[0]);
-
-            reader.onload = () => {
-                screenshot = reader.result.split(",")[1];
-                screenshot_MIME = input.files[0].type;
-                send_button.removeAttribute("disabled");
-            };
-        });
-    },
-
-    initialize_favorite_button: function () {
-        console.log("Initializing favorites");
-        if (document.querySelector("button.favorite-button")) {
-            document
-                .querySelector("button.favorite-button").addEventListener("click", (e) => {
-                    aquamarine.actions.favorite(
-                        document
-                            .querySelector("button.favorite-button")
-                            .getAttribute("data-community-id")
-                    );
-                });
-        }
-    },
-
-    login: async function () {
-        const username = document.querySelector('input[name="username"]').value;
-        const password = document.querySelector('input[name="password"]').value;
-        const error_text = document.querySelector("span.error-text");
-        const signin = document.querySelector('button[data-role="signin"]');
-
-        if (!username || !password) {
-            return;
-        }
-
-        const token_data = await fetch("/api/oauth/retrieve_token", {
-            method: "POST",
-            headers: {
-                "auth-password": password,
-                "auth-network-id": username,
             },
-        });
 
-        const token = await token_data.json();
-
-        if (token.success == false) {
-            error_text.classList.remove("none");
-            error_text.classList.add("transition");
-            signin.setAttribute("disabled", true);
-            switch (token.error) {
-                case "NO_ACCOUNT_FOUND":
-                    error_text.innerHTML =
-                        error_text.getAttribute("data-no-account");
-                    break;
-                case "PASSWORD_MISMATCH":
-                    error_text.innerHTML = error_text.getAttribute(
-                        "data-password-mismatch"
-                    );
-                    break;
-                default:
-                    error_text.innerHTML =
-                        error_text.getAttribute("data-default");
-                    break;
+            open_expandable: function (event) {
+                document.querySelectorAll(event.target.getAttribute("data-expand")).forEach((e) => {
+                    e.classList.remove("none");
+                });
             }
+        },
 
-            setTimeout(() => {
-                error_text.classList.remove("transition");
-                signin.removeAttribute("disabled");
-            }, 2100);
-            return;
-        }
+        empathies: {
+            post_empathy_click: function (event) {
+                event.stopPropagation();
+                aquamarine.actions.empathy(event.currentTarget.getAttribute("data-post-id"));
+            },
 
-        if (document.querySelector('input[type="checkbox"]').checked) {
-            var date = new Date();
-            date.setTime(date.getTime() + 30 * 24 * 60 * 60 * 1000);
+            reply_empathy_click: function (event) {
+                event.stopPropagation();
+            }
+        },
 
-            document.cookie = `jwt=${token.token
-                }; Path=/; Secure; SameSite=None; expires=${date.toUTCString()};`;
-        } else {
-            document.cookie = `jwt=${token.token}; Path=/; Secure; SameSite=None`;
-        }
+        href: {
+            href_click: function (event) {
+                window.location.href = event.currentTarget.getAttribute("data-href");
+            }
+        },
 
-        const redirect = new URLSearchParams(window.location.search).get(
-            "redirect"
-        );
-
-        if (redirect) {
-            window.location.href = redirect;
-        } else {
-            window.location.href = "/";
+        favorite: {
+            favorite_click: function (event) {
+                aquamarine.actions.favorite(document.querySelector("button.favorite-button").getAttribute("data-community-id"));
+            }
         }
     },
 
-    logout: function () {
-        console.log("Logging out of current account.");
+    error: {
+        show_error_by_attr: function (attr, callback) {
+            const error_text = document.querySelector("span.error-text");
 
-        var currentURL = window.location.href;
-
-        document.cookie =
-            "jwt=; Path=/; Secure; SameSite=None; expires=Thu, 01 Jan 1970 00:00:01 GMT;";
-
-        setTimeout(() => {
-            window.location.href = currentURL;
-        }, 100);
-    },
-
-    actions: {
-        empathy: async function (post_id, callback) {
-            const post_yeah_button = document.querySelector(
-                `#post-${post_id} button.empathy`
-            );
-            const post_yeah_button_text = document.querySelector(
-                `#post-${post_id} .post-actions .empathy span`
-            );
-            const post_empathy_count = document.querySelector(
-                `#post-${post_id} .post-actions span.empathy-count`
-            );
-
-            post_yeah_button.setAttribute("disabled", true);
-
-            const empathy_request = await fetch(
-                `/api/posts/${post_id}/empathy`,
-                {
-                    method: "POST",
-                }
-            );
-
-            const empathy_data = await empathy_request.json();
-
-            if (empathy_data.success == false) {
-                console.log(empathy_data.error);
-
+            if (!error_text.getAttribute(attr)) {
+                aquamarine.logger.log_error(`Could not find an error locale for ${attr}`);
                 return;
             }
 
-            switch (empathy_data.empathy_status) {
-                case "CREATED":
-                    post_yeah_button_text.innerHTML =
-                        post_yeah_button.getAttribute("data-unyeah-text");
-                    post_empathy_count.innerHTML =
-                        Number(post_empathy_count.innerHTML) + 1;
-                    break;
-                case "DELETED":
-                    post_yeah_button_text.innerHTML =
-                        post_yeah_button.getAttribute("data-yeah-text");
-                    post_empathy_count.innerHTML =
-                        Number(post_empathy_count.innerHTML) - 1;
-                    break;
+            error_text.classList.remove("none");
+            error_text.classList.add("transition");
+
+            error_text.innerHTML = error_text.getAttribute(attr);
+
+            setTimeout(() => {
+                error_text.classList.remove("transition");
+
+                callback()
+            }, 2100);
+        }
+    },
+
+    account: {
+        login: async function () {
+            const username = document.querySelector('input[name="username"]').value;
+            const password = document.querySelector('input[name="password"]').value;
+
+            const signin = document.querySelector('button[data-role="signin"]');
+
+            if (!username || !password) {
+                return;
             }
 
-            post_yeah_button.removeAttribute("disabled");
+            aquamarine.logger.log_info(`Logging into new account. WARNING - Please do not send your auth token to ANYONE. No admin will ever ask for it.`)
 
-            if (callback) {
-                callback(empathy_data.empathy_status)
+            const token_data = await fetch("/api/oauth/retrieve_token", {
+                method: "POST",
+                headers: {
+                    "auth-password": password,
+                    "auth-network-id": username,
+                },
+            });
+
+            const token = await token_data.json();
+
+            if (token.success == false) {
+                signin.setAttribute("disabled", true);
+                switch (token.error) {
+                    case "NO_ACCOUNT_FOUND":
+                        aquamarine.error.show_error_by_attr("data-no-account", () => signin.removeAttribute("disabled"))
+                        break;
+                    case "PASSWORD_MISMATCH":
+                        aquamarine.error.show_error_by_attr("data-password-mismatch", () => signin.removeAttribute("disabled"))
+                        break;
+                    default:
+                        aquamarine.error.show_error_by_attr("data-default", () => signin.removeAttribute("disabled"))
+                        break;
+                }
+                return;
+            }
+
+            this.update_auth_token(token.token, document.querySelector('input[type="checkbox"]').checked)
+
+            const redirect = new URLSearchParams(window.location.search).get(
+                "redirect"
+            );
+
+            if (redirect) {
+                window.location.href = redirect;
+            } else {
+                window.location.href = "/";
+            }
+        },
+
+        logout: function () {
+            aquamarine.logger.log_info("Logging out of current account.");
+
+            var currentURL = window.location.href;
+
+            document.cookie = "jwt=; Path=/; Secure; SameSite=None; expires=Thu, 01 Jan 1970 00:00:01 GMT;";
+
+            setTimeout(() => {
+                window.location.href = currentURL;
+            }, 100);
+        },
+
+        update_auth_token: function (token, remember) {
+            if (remember) {
+                var date = new Date();
+                date.setTime(date.getTime() + 30 * 24 * 60 * 60 * 1000);
+
+                document.cookie = `jwt=${token}; Path=/; Secure; SameSite=None; expires=${date.toUTCString()};`;
+            } else {
+                document.cookie = `jwt=${token}; Path=/; Secure; SameSite=None`;
+            }
+        },
+    },
+
+    actions: {
+        empathy: async function (post_id) {
+            const post_yeah_button = document.querySelector(`#post-${post_id} button.empathy`);
+            const post_yeah_button_text = document.querySelector(`#post-${post_id} .post-actions .empathy span`);
+            const post_empathy_count = document.querySelector(`#post-${post_id} .post-actions span.empathy-count`);
+
+            post_yeah_button.setAttribute("disabled", true);
+
+            try {
+                const request = await fetch(`/api/posts/${post_id}/empathy`, { method: "POST" });
+                const data = await request.json();
+
+                if (!data.success) {
+                    aquamarine.logger.log_error(data.error); return;
+                }
+
+                switch (data.empathy_status) {
+                    case "CREATED":
+                        post_yeah_button_text.innerHTML = post_yeah_button.getAttribute("data-unyeah-text");
+                        post_empathy_count.innerHTML = Number(post_empathy_count.innerHTML) + 1;
+                        break;
+                    case "DELETED":
+                        post_yeah_button_text.innerHTML = post_yeah_button.getAttribute("data-yeah-text");
+                        post_empathy_count.innerHTML = Number(post_empathy_count.innerHTML) - 1;
+                        break;
+                }
+
+                aquamarine.events.aquamarine_post_empathy_added.post_id = post_id
+                aquamarine.events.aquamarine_post_empathy_added.empathy_status = data.empathy_status
+                document.dispatchEvent(aquamarine.events.aquamarine_post_empathy_added)
+            } catch (error) {
+                aquamarine.logger.log_error(error);
+            } finally {
+                post_yeah_button.removeAttribute("disabled");
             }
         },
 
         favorite: async function (community_id) {
-            const community_favorite_button = document.querySelector(
-                "button.favorite-button"
-            );
-            const error_text = document.querySelector(
-                ".community-actions span.error-text"
-            );
-
+            const community_favorite_button = document.querySelector("button.favorite-button");
             community_favorite_button.setAttribute("disabled", true);
 
-            const favorite_request = await fetch(
-                `/api/communities/${community_id}/favorite`,
-                {
-                    method: "POST",
-                }
-            );
+            try {
+                const request = await fetch(`/api/communities/${community_id}/favorite`, { method: "POST" });
+                const data = await request.json();
 
-            const favorite_data = await favorite_request.json();
-
-            if (favorite_data.success == false) {
-                error_text.classList.remove("none");
-                error_text.classList.add("transition");
-
-                switch (favorite_data.error) {
-                    case "NULL_COMMUNITY":
-                        error_text.innerHTML = error_text.getAttribute(
-                            "data-null-community-id"
-                        );
-                        break;
-                    default:
-                        error_text.innerHTML =
-                            error_text.getAttribute("data-default");
-                        break;
+                if (data.success == false) {
+                    switch (favorite_data.error) {
+                        case "NULL_COMMUNITY":
+                            aquamarine.error.show_error_by_attr("data-null-community-id", () => community_favorite_button.removeAttribute("disabled"))
+                            break;
+                        default:
+                            aquamarine.error.show_error_by_attr("data-default", () => community_favorite_button.removeAttribute("disabled"));
+                            break;
+                    }
+                    return;
                 }
 
-                setTimeout(() => {
-                    error_text.classList.remove("transition");
-                    community_favorite_button.removeAttribute("disabled");
-                }, 2100);
-                return;
+                if (data.favorite_status == "CREATED") {
+                    community_favorite_button.classList.add("selected");
+                } else {
+                    community_favorite_button.classList.remove("selected");
+                }
+            } catch (error) {
+                aquamarine.logger.log_error(error)
+            } finally {
+                community_favorite_button.removeAttribute("disabled");
             }
-
-            if (favorite_data.favorite_status == "CREATED") {
-                community_favorite_button.classList.add("selected");
-            } else {
-                community_favorite_button.classList.remove("selected");
-            }
-
-            error_text.classList.add("none");
-            community_favorite_button.removeAttribute("disabled");
         },
 
         last_request_status: 200,
         currently_downloading: false,
         download_posts: async function (selector, query) {
             const post_list = document.querySelector(selector);
-            const loading = document.querySelector(".loading");
 
-            if (
-                this.last_request_status !== 200 ||
-                this.currently_downloading ||
-                post_list.children.length === 0 || !loading
-            ) {
+            if (!this.can_download(selector)) {
                 return;
             }
 
-            loading.classList.remove("none");
-            this.currently_downloading = true;
-            const posts_request = await fetch(query);
+            this.set_loading_state(true)
 
-            return new Promise(async (resolve, reject) => {
-                if (posts_request.ok) {
+            try {
+                const posts_request = await fetch(query);
+
+                if (posts_request.status === 200) {
                     const posts_html = await posts_request.text();
                     post_list.innerHTML += posts_html;
-                    aquamarine.initialize_empathies();
-                    aquamarine.initialize_href();
-                    loading.classList.add("none");
 
-                    this.last_request_status = posts_request.status;
-                    this.currently_downloading = false;
-
-                    resolve(posts_request.status);
+                    aquamarine.init.initialize_empathies();
+                    aquamarine.init.initialize_href();
                 } else {
-                    reject(posts_request.status);
+                    aquamarine.logger.log_info(`No more posts to download! ${posts_request.status}`)
                 }
-            });
+
+                this.last_request_status = posts_request.status
+                this.set_loading_state(false);
+            } catch (error) {
+                aquamarine.logger.log_error(error)
+            }
         },
+
+        can_download: function (selector) {
+            const post_list = document.querySelector(selector);
+            const loading = document.querySelector(".loading");
+
+            if (this.last_request_status !== 200 || this.currently_downloading || post_list.children.length === 0 || !loading) {
+                return false
+            } else {
+                return true
+            }
+        },
+
+        set_loading_state: function (t) {
+            const loading = document.querySelector(".loading");
+
+            if (t) {
+                loading.classList.remove("none")
+                this.currently_downloading = true
+            } else {
+                loading.classList.add("none")
+                this.currently_downloading = false
+            }
+        }
     },
 };
 
 document.addEventListener("DOMContentLoaded", () => {
     aquamarine.router.checkRoutes(window.location.pathname);
-    aquamarine.initialize();
+    aquamarine.init.initialize();
 
     document.addEventListener("scroll", (ev) => {
         if (
-            Math.round(window.scrollY + window.innerHeight) >=
+            Math.ceil(window.scrollY + window.innerHeight + 5) >=
             document.body.scrollHeight
         ) {
-            document.dispatchEvent(aquamarine_scroll_end);
+            document.dispatchEvent(aquamarine.events.aquamarine_scroll_end);
         }
     });
 });
@@ -381,9 +426,10 @@ aquamarine.router.connect("^/communities/(\\d+)$", (community_id) => {
     const file_upload = document.querySelector('input[type="file"]');
     var screenshot, screenshot_MIME;
 
-    aquamarine.initialize_add_post();
-
-    console.log("Initializing post button");
+    aquamarine.init.initialize_add_post(function (screenshot, screenshot_MIME) {
+        screenshot = screenshot
+        screenshot_MIME = screenshot_MIME
+    });
 
     async function make_post() {
         const feeling_id = document.querySelector("input.selected").value;
@@ -422,6 +468,7 @@ aquamarine.router.connect("^/communities/(\\d+)$", (community_id) => {
 
             post_list.innerHTML = request_json.html + post_list.innerHTML;
             aquamarine.initialize_empathies();
+            aquamarine.initialize_href();
             post_list.children[0].classList.add("transition");
             textarea.value = "";
             file_upload.value = null;
@@ -438,12 +485,8 @@ aquamarine.router.connect("^/communities/(\\d+)$", (community_id) => {
         send_button.addEventListener("click", make_post);
     }
 
-    console.log("Initializing empathies");
-    aquamarine.initialize_empathies();
-
-    aquamarine.initialize_favorite_button()
-
-    console.log("Initializing downloading");
+    aquamarine.init.initialize_empathies();
+    aquamarine.init.initialize_favorite_button()
 
     const post_list = document.querySelector(".list");
     document.addEventListener("aquamarine:scroll_end", async (e) => {
@@ -457,7 +500,7 @@ aquamarine.router.connect("^/communities/(\\d+)$", (community_id) => {
 });
 
 aquamarine.router.connect("^/search", async () => {
-    aquamarine.initialize_empathies();
+    aquamarine.init.initialize_empathies();
 
     const post_list = document.querySelector(".list");
     const current_query = new URLSearchParams(window.location.search).get("q");
@@ -478,7 +521,7 @@ aquamarine.router.connect("^/login$", () => {
 
     signin.addEventListener("click", (e) => {
         signin.setAttribute("disabled", true);
-        aquamarine.login();
+        aquamarine.account.login();
     });
 
     [username, password].forEach((e) => {
@@ -567,13 +610,81 @@ aquamarine.router.connect("^/users/(\\S*)/empathies$", async (user_name) => {
 });
 
 aquamarine.router.connect("^/posts/([^/]+)$", async (post_id) => {
-    aquamarine.initialize_empathies(function (empathy_status) {
+    const textarea = document.querySelector("textarea");
+    const file_upload = document.querySelector('input[type="file"]');
+    const send_button = document.querySelector(".add-new-post button");
+    var screenshot, screenshot_MIME;
+
+    aquamarine.init.initialize_empathies();
+    aquamarine.init.initialize_add_post(function (screenshot_c, screenshot_MIME_c) {
+        screenshot = screenshot_c
+        screenshot_MIME = screenshot_MIME_c
+    });
+    document.addEventListener("aquamarine:post_empathy_added", update_empathies_UI);
+    if (send_button) { send_button.addEventListener("click", make_reply); }
+
+    async function make_reply() {
+        const feeling_id = document.querySelector("input.selected").value;
+
+        const data = {
+            body: textarea.value,
+            spoiler: 0,
+            feeling_id: feeling_id,
+        };
+
+        if (screenshot) {
+            data.screenshot = screenshot;
+            data.screenshot_MIME = screenshot_MIME;
+        }
+
+        send_button.setAttribute("disabled", true);
+
+        const request = await fetch(`/api/posts/${document.querySelector("[data-post-id]").getAttribute("data-post-id")}/replies`, {
+            method: "POST",
+            body: JSON.stringify(data),
+            headers: {
+                "Content-Type": "application/json",
+            },
+        });
+
+        const request_data = await request.json();
+
+        if (request_data.success == true) {
+            const reply_list = document.querySelector("div.replies.list");
+            if (Number(reply_list.getAttribute("data-no-replies")) == 1) {
+                reply_list.innerHTML = "";
+                reply_list.setAttribute("data-no-replies", 0);
+            }
+
+            reply_list.innerHTML = request_data.html + reply_list.innerHTML;
+            aquamarine.init.initialize_empathies();
+            aquamarine.init.initialize_href();
+            reply_list.children[0].classList.add("transition");
+            clear_values()
+
+            const reply_count = document.querySelector("span.reply-count")
+            reply_count.innerText = Number(reply_count.innerText) + 1
+
+            setTimeout(() => {
+                reply_list.children[0].classList.remove("transition");
+            }, 2100);
+        }
+
+        function clear_values() {
+            textarea.value = "";
+            file_upload.value = null;
+            screenshot = null;
+            screenshot_MIME = null;
+        }
+    }
+
+    function update_empathies_UI(event) {
         const empathy = document.querySelector(`.empathies a[data-self]`);
         const empathies = document.querySelector(".empathies");
 
         if (!empathy) { return; }
 
-        switch (empathy_status) {
+        switch (event.empathy_status) {
             case "CREATED":
                 empathy.classList.remove("none");
                 break;
@@ -587,9 +698,7 @@ aquamarine.router.connect("^/posts/([^/]+)$", async (post_id) => {
         } else {
             empathies.classList.add("none")
         }
-    });
-    aquamarine.initialize_href();
-    aquamarine.initialize_add_post()
+    }
 });
 
 aquamarine.router.connect(/^\/communities\/\d+\/(\w+)$/, async (tab) => {
@@ -605,5 +714,6 @@ aquamarine.router.connect(/^\/communities\/\d+\/(\w+)$/, async (tab) => {
         });
     }
 
-    aquamarine.initialize_favorite_button()
+    aquamarine.init.initialize_empathies();
+    aquamarine.init.initialize_favorite_button()
 })

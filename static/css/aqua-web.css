@@ -788,8 +788,6 @@ span.error-text::before {
     align-items: center;
 
     flex-wrap: wrap;
-
-    width: 610px;
     height: fit-content;
 
     padding: 10px;
@@ -797,18 +795,18 @@ span.error-text::before {
     align-self: center;
 
     margin-top: 15px;
-    margin-bottom: 15px;
 
     background-color: var(--community-favorites-bg);
 
     border-radius: 5px;
     border: 1px solid var(--community-favorites-border);
     border-bottom: 2px solid var(--community-favorites-border);
+    box-sizing: border-box;
 }
 
 .community-favorites .favorite {
-    width: 60px;
-    height: 60px;
+    width: 58px;
+    height: 58px;
 
     margin-left: 10px;
 }
@@ -831,7 +829,7 @@ span.error-text::before {
 
     height: 50px;
 
-    margin-left: 10px;
+    margin-left: 14px;
 
     font-size: 20px;
     font-family: Symbols;
@@ -862,18 +860,30 @@ span.error-text::before {
 }
 
 .index-communities-wrapper .communities {
-    width: fit-content;
+    width: 620px;
 
     display: flex;
     flex-direction: column;
 }
 
-.communities > div {
+.communities > div:not(.user-menu) {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
 
     width: 620px;
+}
+
+.communities > .user-menu span {
+    margin-left: 15px;
+}
+
+.communities > .user-menu a {
+    height: 42px;
+}
+
+.communities > .user-menu {
+    margin-top: 5px;
 }
 
 .communities > h1,
@@ -1211,6 +1221,7 @@ div > .community:nth-child(even) {
     margin-right: -15px;
     border-top-left-radius: 0;
     border-top-right-radius: 0;
+    margin-bottom: 10px;
 }
 
 .community-info-wrapper:has(.user-menu) {
@@ -1243,8 +1254,14 @@ div > .community:nth-child(even) {
 .community-meta .platform {
     color: var(--community-app-name-color);
 
-    display: inline-block;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    white-space: nowrap;
+    -webkit-line-clamp: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
     width: fit-content;
+    max-width: 100%;
 
     font-size: 13px;
 
@@ -1652,6 +1669,12 @@ div > .community:nth-child(even) {
     color: var(--community-popular-color);
 }
 
+.recent .header {
+    border-bottom: 3px solid var(--aquamarine-text-color);
+
+    color: var(--aquamarine-text-color);
+}
+
 .normal .header span::before {
     content: "p";
 }
@@ -1940,7 +1963,8 @@ div > .community:nth-child(even) {
     border-bottom-left-radius: 5px;
 }
 
-.list .post.transition {
+.list .post.transition,
+.list .reply.transition {
     opacity: 1;
     animation: transition;
     animation-duration: 2s;
@@ -1966,13 +1990,16 @@ div > .community:nth-child(even) {
 
 .post > .journal-wrapper {
     display: flex;
+    width: 100%;
+    max-width: 100%;
 }
 
 .post > .journal-wrapper .screenshot {
-    align-self: baseline;
     margin-left: 15px;
     margin-top: 15px;
     width: 75%;
+    max-width: 75%;
+    align-self: baseline;
 }
 
 .post > .journal-wrapper .post-content-wrapper {
@@ -3112,6 +3139,7 @@ a.empathies span {
         color-stop(0.6, var(--popular-posts-selector)),
         color-stop(0.95, var(--popular-posts-selector-bottom))
     );
+    border-bottom: 1px solid var(--community-info-border-color);
 }
 
 .popular-date-selector .current-date:hover {
@@ -3138,6 +3166,7 @@ a.empathies span {
     border-bottom-right-radius: 5px;
     text-decoration: none;
     color: var(--common-text-color);
+    border-bottom: 1px solid var(--community-info-border-color);
 }
 
 .popular-date-selector .last-date {
@@ -3253,6 +3282,40 @@ a.empathies span {
     border-bottom-right-radius: 5px;
 }
 
+.reply .reply-content-wrapper .content .screenshot {
+    width: 70%;
+    min-height: auto;
+    align-self: baseline;
+    margin-bottom: 25px;
+}
+
+.post b.share-heading {
+    display: block;
+    font-size: 12px;
+    margin-top: 10px;
+
+    color: var(--file-allowed-text-color);
+}
+
+.post .share-platforms {
+    margin-top: 4px;
+}
+
+.post .share-platforms .x-platform,
+.post .share-platforms .facebook-platform {
+    width: 95px;
+    margin-right: 6px;
+}
+
+.post .share-platforms .whatsapp-platform,
+.post .share-platforms .tumbler-platform {
+    margin-top: 0;
+}
+
+.post .community a span:hover {
+    text-decoration: underline;
+}
+
 @media (max-width: 660px) {
     .communities > div:not(.community-favorites) {
         flex-direction: column;
@@ -3271,8 +3334,7 @@ a.empathies span {
         margin: 0 auto;
     }
 
-    #small_featured_drawings,
-    #small_featured_posts {
+    .extra-content .small-posts {
         display: none;
     }
 
@@ -3294,6 +3356,10 @@ a.empathies span {
 
     .list .drawing {
         width: 100%;
+    }
+
+    .journal-wrapper > img.screenshot {
+        display: none;
     }
 }
 
@@ -3384,14 +3450,13 @@ a.empathies span {
         display: flex;
     }
 
+    .extra-content .small-posts {
+        display: none;
+    }
+
     .extra-content form {
         width: 100%;
         max-width: none;
-    }
-
-    #small-featured-drawings,
-    #small-featured-posts {
-        display: none;
     }
 
     .index-communities-wrapper .communities {

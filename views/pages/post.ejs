@@ -5,7 +5,7 @@
 
 	<div class="wrapper">
 		<div class="post-wrapper">
-			<div class="post <%= (post.title_owned) ? "ingame" : "" %>" id="post-<%= post.id %>">
+			<div data-post-id="<%= post.id %>" class="post <%= (post.title_owned) ? "ingame" : "" %>" id="post-<%= post.id %>">
 				<div class="community">
 					<a href="/communities/<%= post.community_id %>"><img src="<%= post.cdn_icon_url %>"> <span><%= post.community_name %></span></a>
 
@@ -35,15 +35,16 @@
 						<% if (post.topic_tag) { %>
 						<span class="topic_tag"><%= post.topic_tag %></span>
 						<% } %>
+
+						<% if (post.screenshot_cdn_url) { %>
+						<img class="screenshot" src="<%= post.screenshot_cdn_url %>">
+						<% } %>
+
 						<% if (post.body) { %>
 						<p><%= post.body %></p>
 						<% } %>
 						<% if (post.painting_cdn_url) { %>
 						<img class="painting" src="<%= post.painting_cdn_url %>">
-						<% } %>
-
-						<% if (post.screenshot_cdn_url) { %>
-						<img class="screenshot" src="<%= post.screenshot_cdn_url %>">
 						<% } %>
 					</div>
 
@@ -54,22 +55,30 @@
 					</div>
 
 					<div class="empathies <%= (!empathies.length >= 1) ? "none" : "" %>">
-						<% if (!post.empathied_by_user) { %>
+						<% if (!post.empathied_by_user && !locals.guest_mode) { %>
 						<a class="none" href="/users/<%= locals.user.username %>" data-username="<%= locals.user.username %>" data-self>
 							<img src="<%= locals.user.cdn_profile_normal_image_url %>">
 						</a>
 						<% } %>
-						<% for (const empathy of empathies) { %>
-						<a href="/users/<%= empathy.username %>" data-username="<%= empathy.username %>" <%=(empathy.username == locals.user.username) ? "data-self" : "" %>>
+						<% for (const empathy of empathies) { console.log(empathy); %>
+						<a href="/users/<%= empathy.username %>" data-username="<%= empathy.username %>" <%=(!locals.guest_mode && empathy.username == locals.user.username) ? "data-self" : "" %>>
 							<img src="<%= empathy.cdn_profile_normal_image_url %>">
 						</a>
 						<% } %>
+					</div>
+
+					<b class="share-heading">Share this post</b>
+					<div class="share-platforms">
+						<a class="x-platform" href="https://twitter.com/intent/tweet?url=https://aquamarine.lol/posts/<%= post.id %>"><span>Tweet</span></a>
+						<a class="facebook-platform" href="https://www.facebook.com/sharer.php?u=https://aquamarine.lol/posts/<%= post.id %>"><span>Share</span></a>
+						<a class="whatsapp-platform" href="whatsapp://send?text=https://aquamarine.lol/posts/<%= post.id %>"></a>
+						<a class="tumbler-platform" href="https://www.tumblr.com/share?url=https://aquamarine.lol/posts/<%= post.id %>"></a>
 					</div>
 				</div>
 
 				<div class="post-header"><span>Comments</span></div>
 
-				<div class="replies list">
+				<div class="replies list" data-no-replies="<%= (replies <= 0) ? 1 : 0 %>">
 					<% for (const reply of replies) { %>
 					<%- include("../partials/elements/ugc/reply.ejs", {reply : reply}) -%>
 					<% } %>
@@ -88,7 +97,7 @@
 					<p>
 						You must sign in to post a comment.
 						<br><br>
-						Create or sign into an Aquamarine account and connect with the world by writing posts, drawings, comments, and by giving Yeahs to other people's posts. You can create or log into an Aquamarine account <a href="/login">Here</a>.
+						Create or sign into an Aquamarine account and connect with the world by writing posts, drawings, comments, and by giving Yeahs to other people's posts. You can create or log into an Aquamarine account <a href="/login?redirect=/posts/<%= post.id %>">Here</a>.
 					</p>
 				</div>
 
