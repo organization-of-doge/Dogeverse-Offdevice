@@ -5,7 +5,7 @@
 
 	<div class="wrapper">
 		<div class="post-wrapper">
-			<div data-post-id="<%= post.id %>" class="post <%= (post.title_owned) ? "ingame" : "" %>" id="post-<%= post.id %>">
+			<div data-post-id="<%= post.id %>" class="post full-post <%= (post.title_owned) ? "ingame" : "" %>" id="post-<%= post.id %>">
 				<div class="community">
 					<a href="/communities/<%= post.community_id %>"><img src="<%= post.cdn_icon_url %>"> <span><%= post.community_name %></span></a>
 

@@ -327,7 +327,7 @@ const aquamarine = {
                 const data = await request.json();
 
                 if (data.success == false) {
-                    switch (favorite_data.error) {
+                    switch (data.error) {
                         case "NULL_COMMUNITY":
                             aquamarine.error.show_error_by_attr("data-null-community-id", () => community_favorite_button.removeAttribute("disabled"))
                             break;
@@ -467,8 +467,8 @@ aquamarine.router.connect("^/communities/(\\d+)$", (community_id) => {
             }
 
             post_list.innerHTML = request_json.html + post_list.innerHTML;
-            aquamarine.initialize_empathies();
-            aquamarine.initialize_href();
+            aquamarine.init.initialize_empathies();
+            aquamarine.init.initialize_href();
             post_list.children[0].classList.add("transition");
             textarea.value = "";
             file_upload.value = null;
@@ -580,11 +580,11 @@ aquamarine.router.connect("^/signup$", async () => {
 });
 
 aquamarine.router.connect("^/users/([^/]+)$", async (user_name) => {
-    aquamarine.initialize_empathies();
+    aquamarine.init.initialize_empathies();
 });
 
 aquamarine.router.connect("^/users/(\\S*)/posts$", async (user_name) => {
-    aquamarine.initialize_empathies();
+    aquamarine.init.initialize_empathies();
 
     document.addEventListener("aquamarine:scroll_end", async (ev) => {
         const post_list = document.querySelector(".list");
@@ -597,7 +597,7 @@ aquamarine.router.connect("^/users/(\\S*)/posts$", async (user_name) => {
 });
 
 aquamarine.router.connect("^/users/(\\S*)/empathies$", async (user_name) => {
-    aquamarine.initialize_empathies();
+    aquamarine.init.initialize_empathies();
 
     document.addEventListener("aquamarine:scroll_end", async (ev) => {
         const post_list = document.querySelector(".list");

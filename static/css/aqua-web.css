@@ -2339,6 +2339,10 @@ button.empathy span::before {
     color: var(--rules-header-text-color);
 }
 
+.guide-wrapper h2:nth-child(2) {
+    margin-top: 10px;
+}
+
 .guide-wrapper h2 {
     font-size: 15px;
     margin-top: 0;
@@ -3348,8 +3352,8 @@ a.empathies span {
         width: 100%;
     }
 
-    .community > a,
-    .community > div {
+    div:not(.full-post) > .community > a,
+    div:not(.full-post) > .community > div {
         margin: 0 auto;
         max-width: none;
     }
@@ -3360,6 +3364,10 @@ a.empathies span {
 
     .journal-wrapper > img.screenshot {
         display: none;
+    }
+
+    .wrapper .post-wrapper {
+        width: 95%;
     }
 }
 
@@ -3457,6 +3465,11 @@ a.empathies span {
     .extra-content form {
         width: 100%;
         max-width: none;
+    }
+
+    #small_featured_drawings,
+    #small_featured_posts {
+        display: none;
     }
 
     .index-communities-wrapper .communities {
