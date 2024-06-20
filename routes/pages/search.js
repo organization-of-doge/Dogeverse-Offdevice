@@ -2,6 +2,7 @@ const route = require("express").Router();
 const db_con = require("../../utils/database_con");
 const ejs = require("ejs");
 const common_querys = require("../../utils/common_querys");
+const generate_partial = require("../utils/generate_partial");
 
 route.get("/", async (req, res) => {
     const query = `%${req.query["q"].toLowerCase()}%`;
@@ -18,6 +19,7 @@ route.get("/", async (req, res) => {
     const searched_accounts = await db_con
         .account_db("accounts")
         .whereLike(db_con.env_db.raw("LOWER(mii_name)"), query)
+        .orWhereLike(db_con.env_db.raw("LOWER(username)"), query)
         .orWhereLike(db_con.env_db.raw("LOWER(nnid)"), query)
         .orderBy("create_time", "desc")
         .limit(5);
@@ -30,12 +32,8 @@ route.get("/", async (req, res) => {
         .limit(limit)
         .offset(offset);
 
-    console.log(searched_posts_query.toQuery());
-
     if (!res.locals.guest_mode) {
-        searched_posts_query.select(
-            common_querys.is_yeahed(res.locals.user.id)
-        );
+        searched_posts_query.select(common_querys.is_yeahed(res.locals.user.id));
     }
 
     const searched_posts = await searched_posts_query;
@@ -55,29 +53,7 @@ route.get("/", async (req, res) => {
             return;
         }
 
-        var html = "";
-        var show_community, last_community_id;
-
-        for (const post of searched_posts) {
-            if (post.community_id === last_community_id) {
-                show_community = false;
-            } else {
-                show_community = true;
-            }
-
-            html += await ejs.renderFile(
-                __dirname + "/../../views/partials/elements/ugc/posts.ejs",
-                {
-                    post: post,
-                    locals: res.locals,
-                    show_community: show_community,
-                }
-            );
-
-            last_community_id = post.community_id;
-        }
-
-        res.status(200).send(html);
+        generate_partial.generate_posts_partial(res, searched_posts, true);
         return;
     }
 

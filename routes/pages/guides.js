@@ -33,4 +33,10 @@ route.get("/installation", (req, res) => {
         redirect: req.originalUrl,
     });
 });
+
+route.get("/use", (req, res) => {
+    res.render("pages/guides/use.ejs", {
+        redirect: req.originalUrl,
+    });
+})
 module.exports = route;

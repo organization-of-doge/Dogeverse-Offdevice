@@ -12,6 +12,7 @@ const moment = require("moment");
 const multer = require("multer");
 const ejs = require("ejs");
 const disallow_guest = require("../../middleware/disallow_guest");
+const common_querys = require("../../utils/common_querys");
 
 route.post("/", bodyParser.json({ limit: "5mb" }), async (req, res) => {
     const community_id = req.body.community_id;
@@ -135,17 +136,15 @@ route.post("/", bodyParser.json({ limit: "5mb" }), async (req, res) => {
     if (screenshot) {
         fs.writeFileSync(
             __dirname +
-                `/../../../CDN_Files/img/screenshots/${post_id}.${
-                    screenshot_MIME.split("/")[1]
-                }`,
+            `/../../../CDN_Files/img/screenshots/${post_id}.${screenshot_MIME.split("/")[1]
+            }`,
             screenshot,
             "base64"
         );
         const screenshot_result = await cdn_upload.uploadImage(
             __dirname +
-                `/../../../CDN_Files/img/screenshots/${post_id}.${
-                    screenshot_MIME.split("/")[1]
-                }`,
+            `/../../../CDN_Files/img/screenshots/${post_id}.${screenshot_MIME.split("/")[1]
+            }`,
             "screenshots"
         );
 
@@ -159,23 +158,7 @@ route.post("/", bodyParser.json({ limit: "5mb" }), async (req, res) => {
 
     const post = (await db_con.env_db("posts").where({ id: post_id }))[0];
 
-    post.username = res.locals.user.username;
-    post.cdn_profile_normal_image_url =
-        res.locals.user.cdn_profile_normal_image_url;
-    post.cdn_profile_happy_image_url =
-        res.locals.user.cdn_profile_happy_image_url;
-    post.cdn_profile_like_image_url =
-        res.locals.user.cdn_profile_like_image_url;
-    post.cdn_profile_surprised_image_url =
-        res.locals.user.cdn_profile_surprised_image_url;
-    post.cdn_profile_frustrated_image_url =
-        res.locals.user.cdn_profile_frustrated_image_url;
-    post.cdn_profile_puzzled_image_url =
-        res.locals.user.cdn_profile_puzzled_image_url;
-    post.mii_name = res.locals.user.mii_name;
-    post.account_id = res.locals.user.id;
-    post.empathy_count = 0;
-    post.reply_count = 0;
+    const display_post = await common_querys.posts_query.clone().where({ "posts.id": post.id }).first()
 
     const locals = {
         moment: res.locals.moment,
@@ -185,7 +168,7 @@ route.post("/", bodyParser.json({ limit: "5mb" }), async (req, res) => {
     const html = await ejs.renderFile(
         __dirname + "/../../views/partials/elements/ugc/posts.ejs",
         {
-            post: post,
+            post: display_post,
             locals: locals,
             show_community: false,
         }
@@ -195,20 +178,18 @@ route.post("/", bodyParser.json({ limit: "5mb" }), async (req, res) => {
 });
 
 route.post("/:post_id/empathy", disallow_guest, async (req, res) => {
-    const post = (
-        await db_con.env_db("posts").where({ id: req.params.post_id })
-    )[0];
+    const post = await db_con.env_db("posts").where({ id: req.params.post_id }).first();
+
     if (!post) {
         res.status(404).send({ success: false, error: "NULL_POST" });
         return;
     }
 
-    const current_empathy = (
-        await db_con.env_db("empathies").where({
+    const current_empathy = await db_con.env_db("empathies")
+        .where({
             post_id: req.params.post_id,
             account_id: res.locals.user.id,
-        })
-    )[0];
+        }).first();
 
     if (current_empathy) {
         //Deleting the current empathy
@@ -231,5 +212,76 @@ route.post("/:post_id/empathy", disallow_guest, async (req, res) => {
         res.status(201).send({ success: true, empathy_status: "CREATED" });
     }
 });
+
+route.post("/:post_id/replies", disallow_guest, bodyParser.json({ limit: "5mb" }), async (req, res) => {
+    //Get the current post the reply is going to.
+    const post = await db_con.env_db("posts").where({ id: req.params.post_id }).first()
+
+    if (!post) { res.status(404).send({ success: false, error: "NULL_POST" }); return; }
+
+    //If we ever add a web painting editor, I'll add the abilty to reply with a painting. For now, we're just gonna get
+    //the text based body.
+    const body = req.body.body;
+    const screenshot = req.body.screenshot;
+    const screenshot_MIME = req.body.screenshot_MIME;
+    const feeling_id = req.body.feeling_id;
+    const spoiler = req.body.spoiler;
+
+    if (body === undefined || feeling_id === undefined) { res.status(400).send({ success: false, error: "MISSING_VALUES" }); return; }
+
+    const reply_id = (await db_con.env_db("replies").insert({
+        body: body,
+        feeling_id: feeling_id,
+        spoiler: spoiler,
+        post_id: req.params.post_id,
+        account_id: res.locals.user.id,
+        screenshot: screenshot
+    }))[0]
+
+    if (screenshot) {
+        fs.writeFileSync(
+            __dirname +
+            `/../../../CDN_Files/img/screenshots/${reply_id}_reply.${screenshot_MIME.split("/")[1]
+            }`,
+            screenshot,
+            "base64"
+        );
+        const screenshot_result = await cdn_upload.uploadImage(
+            __dirname +
+            `/../../../CDN_Files/img/screenshots/${reply_id}_reply.${screenshot_MIME.split("/")[1]
+            }`,
+            "screenshots"
+        );
+
+        const update_data = {
+            screenshot_cdn_url: screenshot_result.secure_url,
+        };
+
+        await db_con.env_db("replies").update(update_data).where("id", reply_id);
+        logger.info(`Saved screenshot.`);
+    }
+
+    const locals = {
+        moment: res.locals.moment,
+        user: res.locals.user,
+    };
+
+    const display_reply = await common_querys.replies_query.clone()
+        .select(common_querys.account_profile_images)
+        .where({ "replies.id": reply_id })
+        .first()
+
+    const html = await ejs.renderFile(
+        __dirname + "/../../views/partials/elements/ugc/reply.ejs",
+        {
+            reply: display_reply,
+            locals: locals,
+            show_community: false,
+        }
+    );
+
+    res.status(201).send({ success: true, html: html });
+    logger.info(`${res.locals.user.username} replied to post: ${req.params.post_id}.`)
+})
 
 module.exports = route;

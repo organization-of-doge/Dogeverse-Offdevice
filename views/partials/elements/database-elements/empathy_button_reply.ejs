@@ -1,0 +1,14 @@
+<% if (locals.guest_mode || reply.account_id == locals.user.id) { %>
+<button class="empathy disabled" disabled="true" data-reply-id="<%= reply.id %>">
+	<span>Yeah!</span>
+</button>
+<% } else { %>
+<button class="empathy disabled" disabled="true" data-reply-id="<%= reply.id %>" data-yeah-text="Yeah!" data-unyeah-text="Unyeah">
+	<% if (reply.empathied_by_user) { %>
+	<span>Unyeah</span>
+	<% } else { %>
+	<span>Yeah!</span>
+	<% } %>
+
+</button>
+<% } %>

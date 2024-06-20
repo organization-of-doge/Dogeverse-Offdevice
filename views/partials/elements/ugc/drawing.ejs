@@ -1,0 +1,25 @@
+<div class="drawing trigger <%= (drawing.title_owned) ? "ingame" : "" %>" data-href="/posts/<%= drawing.id %>">
+	<a href="/posts/<%= drawing.id %>">
+		<img class="painting" src="<%= drawing.painting_cdn_url %>">
+	</a>
+
+	<div class="post-info">
+		<%- include("./user_profile_image.ejs", {
+					post : drawing
+				}) %>
+
+		<div>
+			<a class="username trigger no-bg" href="/users/<%= drawing.username %>">
+				<%= drawing.mii_name %>
+			</a>
+			<div>
+				<span class="empathy-count"><%= drawing.empathy_count %></span>
+				<span class="reply-count"><%= drawing.reply_count %></span>
+			</div>
+		</div>
+
+		<% if (drawing.screenshot_cdn_url) { %>
+		<img class="screenshot" src="<%= drawing.screenshot_cdn_url %>">
+		<% } %>
+	</div>
+</div>

@@ -18,11 +18,11 @@
 
 					<div class="searched-users">
 						<% for (const user of searched_accounts) { %>
-						<div class="user trigger" id="account-<%= user.id %>" data-href="/users/<%= user.nnid %>">
-							<img src="https://mii-secure.cdn.nintendo.net/<%= user.mii_hash %>_normal_face.png" class="user-icon" onerror="this.src='../../../img/mii_null.png'" alt="<%= user.mii_name %>">
+						<div class="user trigger" id="account-<%= user.id %>" data-href="/users/<%= user.username %>">
+							<img src="<%= user.cdn_profile_normal_image_url %>" class="user-icon" onerror="this.src='../../../img/mii_null.png'" alt="<%= user.mii_name %>">
 							<div class="user-meta">
 								<span class="mii_name trigger no-bg"><%= user.mii_name %></span>
-								<span class="nnid"><%= user.nnid %></span>
+								<span class="nnid"><%= user.username %></span>
 								<span class="bio"><%= user.bio %></span>
 							</div>
 						</div>

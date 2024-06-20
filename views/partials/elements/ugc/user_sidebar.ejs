@@ -6,15 +6,15 @@
 		}) -%>
 	</div>
 
-	<div class="user-menu">
-		<div class="trigger all-posts <%= (all_posts) ? "selected" : "" %>" data-href="/users/<%= view_user.username %>/posts">
+	<div class="user-menu extend">
+		<a class="trigger all-posts <%= (all_posts) ? "selected" : "" %>" href="/users/<%= view_user.username %>/posts">
 			<span>All Posts</span>
 			<span class="number"><%= view_user_stats.post_count %></span>
-		</div>
-		<div class="trigger empathies <%= (all_empathies) ? "selected" : "" %>" data-href="/users/<%= view_user.username %>/empathies">
+		</a>
+		<a class="trigger empathies <%= (all_empathies) ? "selected" : "" %>" href="/users/<%= view_user.username %>/empathies">
 			<span>Yeahs</span>
 			<span class="number"><%= view_user_stats.empathy_count %></span>
-		</div>
+		</a>
 	</div>
 
 	<div class="user-info-wrapper">

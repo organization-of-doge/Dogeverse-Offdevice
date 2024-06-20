@@ -1,0 +1,124 @@
+<%- include("../partials/header.ejs", { image_url : (post.screenshot_cdn_url) ? post.screenshot_cdn_url : post.cdn_profile_normal_image_url , title : `${post.mii_name}'s Post - Aquamarine` , description : (post.body ? post.body : "Handwritten Post") }) -%>
+
+<body>
+	<%- include("../partials/elements/navbar.ejs") %>
+
+	<div class="wrapper">
+		<div class="post-wrapper">
+			<div data-post-id="<%= post.id %>" class="post full-post <%= (post.title_owned) ? "ingame" : "" %>" id="post-<%= post.id %>">
+				<div class="community">
+					<a href="/communities/<%= post.community_id %>"><img src="<%= post.cdn_icon_url %>"> <span><%= post.community_name %></span></a>
+
+					<% if (post.in_game) { %>
+					<a class="ingame type" href="/communities/<%= post.community_id %>/ingame">In-Game</a>
+					<% } else if (post.is_journal) { %>
+					<a class="journal type" href="/communities/<%= post.community_id %>/journal">Play Journal Entries</a>
+					<%} else if (post.painting_cdn_url) { %>
+					<a class="drawings type" href="/communities/<%= post.community_id %>/paintings">Drawings</a>
+					<% } %>
+				</div>
+				<div class="content">
+					<div class="user-meta">
+						<%- include("../partials/elements/ugc/user_profile_image.ejs") -%>
+
+						<div class="username">
+							<a class="name trigger no-bg" href="/users/<%= post.username %>"><%= post.mii_name %></a>
+							<span class="username"><%= post.username %></span>
+
+							<%- include("../partials/elements/database-elements/time_stamp.ejs", {
+								time : post.create_time
+							}) -%>
+						</div>
+					</div>
+
+					<div class="post-content">
+						<% if (post.topic_tag) { %>
+						<span class="topic_tag"><%= post.topic_tag %></span>
+						<% } %>
+
+						<% if (post.screenshot_cdn_url) { %>
+						<img class="screenshot" src="<%= post.screenshot_cdn_url %>">
+						<% } %>
+
+						<% if (post.body) { %>
+						<p><%= post.body %></p>
+						<% } %>
+						<% if (post.painting_cdn_url) { %>
+						<img class="painting" src="<%= post.painting_cdn_url %>">
+						<% } %>
+					</div>
+
+					<div class="post-actions">
+						<%- include("../partials/elements/database-elements/empathy_button.ejs") -%>
+						<span class="empathy-count"><%= post.empathy_count %></span>
+						<span class="reply-count"><%= post.reply_count %></span>
+					</div>
+
+					<div class="empathies <%= (!empathies.length >= 1) ? "none" : "" %>">
+						<% if (!post.empathied_by_user && !locals.guest_mode) { %>
+						<a class="none" href="/users/<%= locals.user.username %>" data-username="<%= locals.user.username %>" data-self>
+							<img src="<%= locals.user.cdn_profile_normal_image_url %>">
+						</a>
+						<% } %>
+						<% for (const empathy of empathies) { %>
+						<a href="/users/<%= empathy.username %>" data-username="<%= empathy.username %>" <%=(!locals.guest_mode && empathy.username == locals.user.username) ? "data-self" : "" %>>
+							<img src="<%= empathy.cdn_profile_normal_image_url %>">
+						</a>
+						<% } %>
+					</div>
+
+					<b class="share-heading">Share this post</b>
+					<div class="share-platforms">
+						<a class="x-platform" href="https://twitter.com/intent/tweet?url=https://aquamarine.lol/posts/<%= post.id %>"><span>Tweet</span></a>
+						<a class="facebook-platform" href="https://www.facebook.com/sharer.php?u=https://aquamarine.lol/posts/<%= post.id %>"><span>Share</span></a>
+						<a class="whatsapp-platform" href="whatsapp://send?text=https://aquamarine.lol/posts/<%= post.id %>"></a>
+						<a class="tumbler-platform" href="https://www.tumblr.com/share?url=https://aquamarine.lol/posts/<%= post.id %>"></a>
+					</div>
+				</div>
+
+				<div class="post-header"><span>Comments</span></div>
+
+				<div class="replies list" data-no-replies="<%= (replies <= 0) ? 1 : 0 %>">
+					<% for (const reply of replies) { %>
+					<%- include("../partials/elements/ugc/reply.ejs", {reply : reply}) -%>
+					<% } %>
+
+					<% if (replies.length <= 0) { %>
+					<span class="no-posts">
+						This post has no comments.
+					</span>
+					<% } %>
+				</div>
+
+				<div class="post-header"><span>Add a Comment</span></div>
+
+				<% if (locals.guest_mode) { %>
+				<div class="notice">
+					<p>
+						You must sign in to post a comment.
+						<br><br>
+						Create or sign into an Aquamarine account and connect with the world by writing posts, drawings, comments, and by giving Yeahs to other people's posts. You can create or log into an Aquamarine account <a href="/login?redirect=/posts/<%= post.id %>">Here</a>.
+					</p>
+				</div>
+
+				<div class="user-menu">
+					<a class="trigger" href="/guides/rules">
+						<span>Aquamarine Code of Conduct</span>
+					</a>
+					<a class="trigger" href="/guides/installation">
+						<span>Aquamarine Installation</span>
+					</a>
+				</div>
+				<% } else { %>
+				<div class="add-post-wrapper">
+					<%- include("../partials/elements/add_post.ejs", {
+					placeholder: `Add a comment to ${post.mii_name}'s post!`
+				}) %>
+				</div>
+				<% } %>
+			</div>
+		</div>
+	</div>
+
+	<%- include("../partials/elements/footer.ejs") -%>
+</body>

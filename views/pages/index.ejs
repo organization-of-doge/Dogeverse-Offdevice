@@ -82,6 +82,21 @@
 							community : community, include_banner : false }) %>
 					<% } %>
 				</div>
+
+				<div class="user-menu">
+					<a class="trigger" href="/guides/use">
+						<span>Use of Aquamarine</span>
+					</a>
+					<a class="trigger" href="/guides/rules">
+						<span>Aquamarine Code of Conduct</span>
+					</a>
+					<a class="trigger" href="/guides/installation">
+						<span>Aquamarine Installation</span>
+					</a>
+					<a class="trigger" href="https://github.com/AquamarineMiiverseTeam">
+						<span>About Aquamarine</span>
+					</a>
+				</div>
 			</div>
 
 			<div class="extra-content">
@@ -91,8 +106,8 @@
 				</form>
 
 				<% if (announcement_posts.length>= 1) { %>
-				<h1>Latest Announcements</h1>
-				<div class="small-posts">
+				<h1 id="small_featured_drawings">Latest Announcements</h1>
+				<div id="small_featured_drawings" class="small-posts">
 					<% for (const post of announcement_posts) { %>
 					<%- include("../partials/elements/ugc/small_posts", { post : post }) -%>
 					<% } %>

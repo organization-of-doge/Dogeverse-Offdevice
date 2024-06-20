@@ -1,0 +1,45 @@
+<%- include("../../partials/header.ejs", {
+    image_url : "",
+    title : `Aquamarine - Use`,
+    description : ""
+}) -%>
+
+<body>
+	<%- include("../../partials/elements/navbar.ejs") -%>
+
+	<div class="wrapper">
+		<div class="user-wrapper">
+			<% if (!locals.guest_mode) { %>
+			<%- include("../../partials/elements/ugc/user_sidebar.ejs", {
+					view_user : locals.user,
+					view_user_stats : locals.user_stats,
+					all_posts : false,
+					all_empathies : false
+			}) -%>
+			<% } else { %>
+			<div class="user-sidebar">
+				<%- include("../../partials/elements/guides/sign_in.ejs") -%>
+			</div>
+			<% } %>
+
+			<div class="guide-wrapper">
+				<div class="header guide">
+					<span>Use of Aquamarine</span>
+				</div>
+				<div class="spacer">
+					<h1 class="opening">Use of Aquamarine</h1>
+					<h2 class="num1">How do I use Aquamarine?</h2>
+					<p>
+						Aquamarine can be easily used using any web browser equipped device, including smartphones and computers. If it's your first time, you can sign up <a href="/signup">here</a>. Aquamarine can also be used on both, a Wii U and Nintendo 3DS! <br><br> Installation guides for both can be found <a href="/guides/installation">here</a>. Aquamarine accounts are universal, and can be both created and logged into from any device.
+					</p>
+					<h2 class="num2">Important information</h2>
+					<p>
+						All Aquamarine users are expected to follow the Aquamarine Code of Conduct, which are a set of rules in place to make everyone's experience safe and fun. The full Aquamarine Code of Conduct can be found <a href="/guides/rules">here</a>.
+					</p>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<%- include("../../partials/elements/footer.ejs") -%>
+</body>

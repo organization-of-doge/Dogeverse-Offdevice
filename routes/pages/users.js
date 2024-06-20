@@ -5,6 +5,7 @@ const ejs = require("ejs");
 
 const db_con = require("../../utils/database_con");
 const common_querys = require("../../utils/common_querys");
+const generate_partial = require("../utils/generate_partial");
 
 async function get_user_data(req, res, next) {
     //Setting all this information, since all pages here will require it, and repeating code is messy.
@@ -69,6 +70,7 @@ route.get("/:username", get_user_data, async (req, res) => {
         .clone()
         .where({ "empathies.account_id": res.locals.view_user.id })
         .orderBy("empathies.create_time", "desc")
+        .innerJoin("empathies", "empathies.post_id", "=", "posts.id")
         .limit(3);
 
     if (!res.locals.guest_mode) {
@@ -113,31 +115,7 @@ route.get("/:username/posts", get_user_data, async (req, res) => {
             return;
         }
 
-        var html = "",
-            show_community,
-            last_community_id;
-
-        for (const post of user_posts) {
-            if (post.community_id === last_community_id) {
-                show_community = false;
-            } else {
-                show_community = true;
-            }
-
-            html += await ejs.renderFile(
-                __dirname + "/../../views/partials/elements/ugc/posts.ejs",
-                {
-                    post: post,
-                    locals: res.locals,
-                    show_community: show_community,
-                }
-            );
-
-            last_community_id = post.community_id;
-        }
-
-        res.status(200).send(html);
-
+        generate_partial.generate_posts_partial(res, user_posts, true)
         return;
     }
 
@@ -158,6 +136,7 @@ route.get("/:username/empathies", get_user_data, async (req, res) => {
         .clone()
         .where({ "empathies.account_id": res.locals.view_user.id })
         .orderBy("empathies.create_time", "desc")
+        .innerJoin("empathies", "empathies.post_id", "=", "posts.id")
         .limit(limit)
         .offset(offset);
 
@@ -173,30 +152,7 @@ route.get("/:username/empathies", get_user_data, async (req, res) => {
             return;
         }
 
-        var html = "",
-            show_community,
-            last_community_id;
-
-        for (const post of user_empathies) {
-            if (post.community_id === last_community_id) {
-                show_community = false;
-            } else {
-                show_community = true;
-            }
-
-            html += await ejs.renderFile(
-                __dirname + "/../../views/partials/elements/ugc/posts.ejs",
-                {
-                    post: post,
-                    locals: res.locals,
-                    show_community: show_community,
-                }
-            );
-
-            last_community_id = post.community_id;
-        }
-
-        res.status(200).send(html);
+        generate_partial.generate_posts_partial(res, user_empathies, true)
 
         return;
     }

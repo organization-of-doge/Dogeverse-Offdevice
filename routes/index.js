@@ -48,4 +48,9 @@ module.exports = [
         path: "/errors",
         route: require("./pages/errors"),
     },
+
+    {
+        path: "/posts",
+        route: require("./pages/posts"),
+    },
 ];
