@@ -30,7 +30,7 @@ route.get("/:community_id", async (req, res) => {
 
     var play_journal_posts, ingame_posts, recent_drawings, normal_posts;
 
-    if (res.locals.guest_mode && !community_data.type === "announcement") {
+    if (res.locals.guest_mode) {
         play_journal_posts = await common_querys.posts_query
             .clone()
             .where({ community_id: community_id, is_journal: 1 })

@@ -12,7 +12,7 @@
 			<%- include("../partials/elements/database-elements/community_sidebar.ejs") -%>
 
 			<div class="community-content">
-				<% if (locals.guest_mode && !community.type === "announcement") { %>
+				<% if (locals.guest_mode ) { %>
 				<%- include("../partials/elements/ugc/guest_mode/communities_posts.ejs") -%>
 				<% } else { %>
 				<div class="community-post-list normal">
