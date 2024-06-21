@@ -17,6 +17,10 @@
 	</div>
 </div>
 
+<a class="see-more common-button" href="/communities/<%= community.id %>/journal">
+	<span>See More</span>
+</a>
+
 <div class="community-post-list paintings guest">
 	<div class="header">
 		<span>Recent Drawings</span>
@@ -33,9 +37,10 @@
 	</div>
 </div>
 
-<a class="recent-posts" href="/communities/<%= community.id %>/recent">
+<a class="recent-posts common-button" href="/communities/<%= community.id %>/recent">
 	<span>Recent Posts</span>
 </a>
+
 <% if (community.ingame_posts) { %>
 <div class="community-post-list ingame guest">
 	<div class="header">
@@ -55,4 +60,8 @@
 		<% } %>
 	</div>
 </div>
+
+<a class="see-more common-button" href="/communities/<%= community.id %>/ingame">
+	<span>See More</span>
+</a>
 <% } %>
