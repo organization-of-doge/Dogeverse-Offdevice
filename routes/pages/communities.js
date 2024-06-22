@@ -8,6 +8,63 @@ const ejs = require("ejs");
 const common_querys = require("../../utils/common_querys");
 const generate_partial = require("../utils/generate_partial")
 
+route.get("/categories/:category", async (req, res) => {
+    switch (req.params.category) {
+        case "3ds":
+        case "wiiu":
+        case "vc":
+            var category = req.params.category
+            break;
+
+        default:
+            res.render("pages/errors/common/404.ejs");
+            return; break;
+    }
+
+    const limit = req.query["limit"] || 30
+    const offset = req.query["offset"] || 0
+    const raw = req.query["raw"]
+
+    const communities = await db_con.env_db("communities")
+        .where({ platform: category, user_community: 0, type: "main" })
+        .orWhere(function () {
+            if (category === "3ds" || category === "wiiu") {
+                this.orWhere({ platform: "both" })
+            }
+        })
+        .orderBy("communities.create_time", "desc")
+        .offset(offset)
+        .limit(limit)
+
+    if (raw) {
+        if (communities.length <= 0) {
+            res.sendStatus(204);
+            return;
+        }
+
+        generate_partial.generate_community_partial(res, communities);
+        return;
+    }
+
+    switch (category) {
+        case "wiiu":
+            res.render("pages/communities/categories/wiiu.ejs", {
+                communities: communities
+            })
+            break;
+        case "3ds":
+            res.render("pages/communities/categories/3ds.ejs", {
+                communities: communities
+            })
+            break;
+        case "vc":
+            res.render("pages/communities/categories/vc.ejs", {
+                communities: communities
+            })
+            break;
+    }
+})
+
 route.get("/:community_id", async (req, res) => {
     const community_id = req.params.community_id;
     const offset = parseInt(req.query["offset"]) || 0;

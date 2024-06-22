@@ -26,6 +26,24 @@ const generate_partial = {
 
         res.status(200).send(html);
         return;
+    },
+
+    generate_community_partial: async (res, communities, show_banner) => {
+        var html = "";
+
+        for (const community of communities) {
+            html += await ejs.renderFile(
+                __dirname + "/../../views/partials/elements/database-elements/community.ejs",
+                {
+                    community: community,
+                    locals: res.locals,
+                    include_banner: show_banner
+                }
+            );
+        }
+
+        res.status(200).send(html);
+        return;
     }
 }
 
