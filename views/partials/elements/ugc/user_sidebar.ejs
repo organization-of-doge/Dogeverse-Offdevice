@@ -18,6 +18,6 @@
 	</div>
 
 	<div class="user-info-wrapper">
-		<p class="bio"><%= view_user.bio %></p>
+		<p class="bio"><%- view_user.bio.replace(/\n/g, "<br>") %></p>
 	</div>
 </div>

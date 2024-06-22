@@ -2661,6 +2661,12 @@ button.empathy span::before {
     border-radius: 5px;
 }
 
+.main-column.fill .user-posts {
+    border: none;
+    border-radius: 0;
+    background-color: transparent;
+}
+
 .user-info .user-stats {
     display: flex;
     background-color: var(--user-stats-background-color);
@@ -3414,7 +3420,7 @@ a.empathies span {
     border-radius: 5px;
 }
 
-.main-column > .header {
+.main-column .header {
     box-sizing: border-box;
     width: 100% !important;
     position: relative;
