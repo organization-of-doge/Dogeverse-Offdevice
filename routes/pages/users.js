@@ -168,6 +168,30 @@ route.get("/:username/empathies", get_user_data, async (req, res) => {
     });
 });
 
+route.get("/:username/favorites", get_user_data, async (req, res) => {
+    const limit = req.query["limit"] || 15
+    const offset = req.query["offset"] || 0
+    const raw = req.query["raw"]
+
+    const communities = await db_con.env_db("communities")
+        .where({ "favorites.account_id": res.locals.view_user.id })
+        .leftJoin("favorites", "favorites.community_id", "=", "communities.id")
+        .orderBy("favorites.create_time", "desc")
+        .limit(limit)
+        .offset(offset)
+
+    if (raw) {
+        if (!communities.length) { res.sendStatus(204); return; }
+
+        generate_partial.generate_community_partial(res, communities, false);
+        return;
+    }
+
+    res.render("pages/users/user_favorites", {
+        communities: communities
+    })
+})
+
 route.get("/@me/settings", disallow_guest, get_user_data, async (req, res) => {
     res.render("pages/users/user_settings.ejs");
 })

@@ -638,6 +638,19 @@ aquamarine.router.connect("^/users/(\\S*)/empathies$", async (user_name) => {
     });
 });
 
+aquamarine.router.connect("^/users/(\\S*)/favorites$", async (user_name) => {
+    aquamarine.init.initialize_empathies();
+
+    document.addEventListener("aquamarine:scroll_end", async (ev) => {
+        const community_list = document.querySelector(".list");
+        const offset = community_list.children.length;
+        await aquamarine.actions.download_communities(
+            ".list",
+            `?raw=1&offset=${offset}&limit=25`
+        );
+    });
+});
+
 aquamarine.router.connect("^/posts/([^/]+)$", async (post_id) => {
     const textarea = document.querySelector("textarea");
     const file_upload = document.querySelector('input[type="file"]');
