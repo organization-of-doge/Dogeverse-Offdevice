@@ -2306,6 +2306,7 @@ button.empathy span::before {
     height: fit-content;
 
     margin: 0 auto;
+    align-items: start;
 }
 
 .user-info-wrapper {
@@ -2389,12 +2390,12 @@ button.empathy span::before {
     box-sizing: border-box;
 }
 
-.guide-wrapper .spacer {
+.main-column.guide .spacer {
     padding: 15px;
     padding-top: 15px;
 }
 
-.guide-wrapper h1.opening {
+.main-column.guide h1.opening {
     font-size: 15px;
     margin-top: 0;
     margin-bottom: 0;
@@ -2408,11 +2409,11 @@ button.empathy span::before {
     color: var(--rules-header-text-color);
 }
 
-.guide-wrapper h2:nth-child(2) {
+.main-column.guide h2:nth-child(2) {
     margin-top: 10px;
 }
 
-.guide-wrapper h2 {
+.main-column.guide h2 {
     font-size: 15px;
     margin-top: 0;
     margin-bottom: 0;
@@ -2422,35 +2423,35 @@ button.empathy span::before {
     font-weight: normal;
 }
 
-.guide-wrapper h2.num1 {
+.main-column.guide h2.num1 {
     color: var(--rules-header-opening);
     border-bottom: 2px solid var(--rules-header-opening);
 }
 
-.guide-wrapper h2.num2 {
+.main-column.guide h2.num2 {
     color: var(--rules-header-num2);
     border-bottom: 2px solid var(--rules-header-num2);
 }
 
-.guide-wrapper h2.num3 {
+.main-column.guide h2.num3 {
     color: var(--rules-header-num3);
     border-bottom: 2px solid var(--rules-header-num3);
 }
 
-.guide-wrapper h2.num4 {
+.main-column.guide h2.num4 {
     color: var(--rules-header-num4);
     border-bottom: 2px solid var(--rules-header-num4);
 }
 
-.guide-wrapper p,
-.guide-wrapper code {
+.main-column.guide p,
+.main-column.guide code {
     padding: 5px;
     margin-top: 5px;
     font-size: 14px;
     line-height: 1.5;
 }
 
-.guide-wrapper code {
+.main-column.guide code {
     display: block;
 
     border-radius: 5px;
@@ -2466,11 +2467,11 @@ button.empathy span::before {
     word-break: break-all;
 }
 
-.guide-wrapper p:last-child {
+.main-column.guide p:last-child {
     margin-bottom: 0;
 }
 
-.guide-wrapper img {
+.main-column.guide img {
     display: block;
     width: 100%;
     border-radius: 5px;
@@ -2479,12 +2480,12 @@ button.empathy span::before {
     margin: 0 auto;
 }
 
-.guide-wrapper ul {
+.main-column.guide ul {
     list-style: square;
     font-size: 14px;
 }
 
-.guide-wrapper ul li {
+.main-column.guide ul li {
     margin-bottom: 5px;
 }
 
