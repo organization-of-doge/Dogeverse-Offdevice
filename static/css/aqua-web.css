@@ -107,6 +107,9 @@
     --n3ds-software-color: rgb(206, 24, 30);
     --vc-software-bg: rgb(236, 236, 236);
     --vc-software-color: rgb(120, 120, 120);
+
+    --settings-input-border: rgb(170, 170, 170);
+    --settings-input-background: rgb(253, 253, 253);
 }
 
 .trigger {
@@ -526,6 +529,13 @@ footer .footer-wrapper div a:hover {
     width: 625px;
     margin-top: 15px;
     box-sizing: border-box;
+}
+
+.main-column.fill {
+    background-color: var(--community-info-bg);
+    border: 1px solid var(--community-info-border-color);
+    border-bottom: 2px solid var(--community-info-border-color);
+    border-radius: 5px;
 }
 
 .center {
@@ -1465,6 +1475,10 @@ div > .community:nth-child(even) {
     text-decoration: none;
 }
 
+.favorite-button {
+    width: 100%;
+}
+
 .favorite-button:disabled span {
     color: var(--common-disabled-text-color);
 }
@@ -1941,6 +1955,7 @@ div > .community:nth-child(even) {
 
 .drawing .user-icon {
     width: 36px;
+    height: 36px;
     border: 1px solid var(--community-info-border-color);
     border-radius: 4px;
     background-color: var(--community-info-bg);
@@ -2713,6 +2728,8 @@ button.empathy span::before {
     margin-top: 10px;
 
     color: var(--common-text-color);
+    font-size: 14px;
+    text-decoration: none;
 }
 
 .user-info .profile-settings::before {
@@ -3142,6 +3159,7 @@ a.empathies span {
 
 .reply .reply-content-wrapper a:has(.user-icon) .user-icon {
     width: 50px;
+    height: 50px;
     display: block;
 }
 
@@ -3422,7 +3440,7 @@ a.empathies span {
     background-image: url("/img/platform/vc-logo.png");
     background-repeat: no-repeat;
     width: 167px;
-    height: 18px;
+    height: 21px;
     content: "";
     background-size: contain;
     margin-left: auto;
@@ -3507,6 +3525,79 @@ a.empathies span {
     height: fit-content;
     padding-left: 15px;
     box-sizing: border-box;
+}
+
+.main-column > .settings-wrapper {
+    padding: 15px;
+}
+
+.main-column > .settings-wrapper div {
+    width: 100%;
+    height: fit-content;
+    padding-bottom: 15px;
+    border-bottom: 2px solid var(--community-info-border-color);
+}
+
+.main-column > .settings-wrapper div label {
+    display: block;
+    font-size: 14px;
+    margin-bottom: 5px;
+    margin-top: 12px;
+}
+
+.main-column > .settings-wrapper form > div:first-child label {
+    margin-top: 0;
+}
+
+.main-column > .settings-wrapper div input:not([type="file"]),
+.main-column > .settings-wrapper div textarea {
+    display: block;
+    width: 100%;
+    height: 35px;
+    font-size: 18px;
+    box-sizing: border-box;
+    background-color: var(--settings-input-background);
+    border: 1px solid var(--settings-input-border);
+    border-radius: 3px;
+    padding-left: 5px;
+}
+
+.main-column > .settings-wrapper div textarea {
+    resize: vertical;
+    font-family: Arial, Helvetica, sans-serif;
+    min-height: 120px;
+    max-height: 300px;
+    padding: 10px;
+    font-size: 16px;
+}
+
+.main-column > .settings-wrapper div p {
+    display: block;
+    width: 100%;
+    margin-top: 6px;
+    margin-bottom: 0;
+    font-size: 13px;
+    color: var(--community-app-name-color);
+    line-height: 1.4;
+}
+
+.main-column > .settings-wrapper div select {
+    width: 300px;
+    height: 25px;
+    font-size: 15px;
+    border-radius: 3px;
+    background-color: var(--settings-input-background);
+    border: 1px solid var(--settings-input-border);
+    margin-left: auto;
+    display: block;
+    word-spacing: -1px;
+}
+
+.main-column > .settings-wrapper .black-button {
+    margin: 0 auto;
+    margin-top: 15px;
+    margin-bottom: 5px;
+    display: block;
 }
 
 @media (max-width: 660px) {
@@ -3852,9 +3943,7 @@ a.empathies span {
 
     .user-menu.extend {
         flex-direction: row;
-        border-radius: 0;
-        border-bottom-left-radius: 5px;
-        border-bottom-right-radius: 5px;
+        border-radius: 5px;
     }
 
     .user-menu.extend a {

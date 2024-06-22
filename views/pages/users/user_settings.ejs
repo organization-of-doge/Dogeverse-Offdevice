@@ -1,0 +1,104 @@
+<%- include("../../partials/header.ejs", {
+    image_url : ``,
+    title : `Aquamarine - User Settings`,
+	description : ""
+}) -%>
+
+<body>
+	<%- include("../../partials/elements/navbar.ejs") -%>
+
+	<div class="wrapper">
+		<div class="user-wrapper">
+			<%- include("../../partials/elements/ugc/user_sidebar.ejs", {
+				view_user : locals.user,
+				view_user_stats : locals.view_user_stats,
+				all_posts : false,
+				all_empathies : false
+			}) -%>
+
+			<div class="main-column fill">
+				<div class="header guide">
+					<span>Profile Settings</span>
+				</div>
+
+				<div class="settings-wrapper">
+					<form id="form" method="post" enctype="multipart/form-data" action="/api/settings/profile">
+						<div>
+							<label for="mii_name">Nickname</label>
+							<input id="mii_name" name="mii_name" placeholder="Nickname" value="<%= locals.user.mii_name %>" autocomplete="off" maxlength="11" minlength="6">
+							<p>Nickname, will appear in game, up to 11 characters.</p>
+						</div>
+
+						<div>
+							<label for="bio">Bio</label>
+							<textarea form="form" id="bio" name="bio" placeholder="Bio" value="<%= locals.user.bio %>" autocomplete="off" maxlength="500"><%= locals.user.bio %></textarea>
+							<p>Will appear on your profile. Keep it short and sweet! Do <b>not</b> write anything that goes against Aquamarine Code of Conduct.</p>
+						</div>
+
+						<div>
+							<label for="email">Email</label>
+							<input type="email" id="email" name="email" placeholder="Email" value="<%= locals.user.email %>" autocomplete="off" maxlength="100" minlength="2">
+							<p>This is used for password recovery and contact information. This can be a fake email, however if you need to reset your password, you <b>need</b> a valid email.</p>
+						</div>
+
+						<div>
+							<label for="language">Language</label>
+							<select form="form" name="language" autocomplete="off">
+								<option <%= (locals.user.language === "en") ? "selected" : "" %> value="en">English</option>
+								<option <%= (locals.user.language === "es") ? "selected" : "" %> value="es">Spanish</option>
+								<option <%= (locals.user.language === "fr") ? "selected" : "" %> value="fr">French</option>
+							</select>
+							<p>More language options will open soon. Current options do not have any effect.</p>
+						</div>
+
+						<div>
+							<label for="pronouns">Pronouns</label>
+							<select form="form" name="pronouns" autocomplete="off">
+								<option <%= (locals.user.pronouns === "she/her") ? "selected" : "" %> value="she/her">She/Her</option>
+								<option <%= (locals.user.pronouns === "he/him") ? "selected" : "" %> value="he/him">He/Him</option>
+								<option <%= (locals.user.pronouns === "they/them") ? "selected" : "" %> value="they/them">They/Them</option>
+								<option <%= (locals.user.pronouns === "he/they") ? "selected" : "" %> value="he/they">He/They</option>
+								<option <%= (locals.user.pronouns === "she/they") ? "selected" : "" %> value="she/they">She/They</option>
+							</select>
+							<p>We're inclusive!</p>
+						</div>
+
+						<div>
+							<label for="relationship_visible">Should people see your relationships?</label>
+							<select form="form" name="relationship_visible" autocomplete="off">
+								<option <%= (locals.user.relationship_visible === 0) ? "selected" : "" %> value="0">Hide relationships on profile</option>
+								<option <%= (locals.user.relationship_visible === 1) ? "selected" : "" %> value="1">Show relationships on profile</option>
+							</select>
+						</div>
+
+						<div>
+							<label for="allow_friend">Do you allow friend requests?</label>
+							<select form="form" name="allow_friend" autocomplete="off">
+								<option <%= (locals.user.allow_friend === 0) ? "selected" : "" %> value="0">Do not allow</option>
+								<option <%= (locals.user.allow_friend === 1) ? "selected" : "" %> value="1">Allow</option>
+							</select>
+						</div>
+
+						<div>
+							<label for="empathy_notification">Should you recieve Yeah notifications?</label>
+							<select form="form" name="empathy_notification" autocomplete="off">
+								<option <%= (locals.user.empathy_notification === 0) ? "selected" : "" %> value="0">Do not recieve</option>
+								<option <%= (locals.user.empathy_notification === 1) ? "selected" : "" %> value="1">Recieve</option>
+							</select>
+						</div>
+
+						<div>
+							<label for="profile_image">Profile Image</label>
+							<input type="file" name="profile_image" id="profile_image" accept="image/*" placeholder="" autocomplete="off">
+							<p>This will be the image used to identify you. Only .jpg, .png, and .gif image files are allowed.</p>
+						</div>
+
+						<input class="black-button" type="submit" placeholder="Save these settings" value="Save these settings">
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<%- include("../../partials/elements/footer.ejs") -%>
+</body>

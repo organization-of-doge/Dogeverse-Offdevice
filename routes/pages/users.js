@@ -6,12 +6,15 @@ const ejs = require("ejs");
 const db_con = require("../../utils/database_con");
 const common_querys = require("../../utils/common_querys");
 const generate_partial = require("../utils/generate_partial");
+const disallow_guest = require("../../middleware/disallow_guest")
 
 async function get_user_data(req, res, next) {
+    const username = req.params.username || res.locals.user.username
+
     //Setting all this information, since all pages here will require it, and repeating code is messy.
     res.locals.view_user = await db_con
         .account_db("accounts")
-        .where({ username: req.params.username })
+        .where({ username: username })
         .first();
 
     if (!res.locals.view_user) {
@@ -164,5 +167,9 @@ route.get("/:username/empathies", get_user_data, async (req, res) => {
         view_user_stats: res.locals.view_user_stats,
     });
 });
+
+route.get("/@me/settings", disallow_guest, get_user_data, async (req, res) => {
+    res.render("pages/users/user_settings.ejs");
+})
 
 module.exports = route;
