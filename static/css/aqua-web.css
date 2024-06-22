@@ -525,6 +525,7 @@ footer .footer-wrapper div a:hover {
 .main-column {
     width: 625px;
     margin-top: 15px;
+    box-sizing: border-box;
 }
 
 .center {
@@ -3409,10 +3410,10 @@ a.empathies span {
     display: block;
     background-image: url("/img/platform/wiiu-logo.png");
     background-repeat: no-repeat;
-    width: 120px;
+    width: 121px;
     height: 21px;
     content: "";
-    background-size: cover;
+    background-size: contain;
     margin-left: auto;
 }
 
@@ -3423,7 +3424,7 @@ a.empathies span {
     width: 167px;
     height: 18px;
     content: "";
-    background-size: cover;
+    background-size: contain;
     margin-left: auto;
 }
 
@@ -3434,7 +3435,7 @@ a.empathies span {
     width: 120px;
     height: 21px;
     content: "";
-    background-size: cover;
+    background-size: contain;
     margin-left: auto;
 }
 
@@ -3504,7 +3505,8 @@ a.empathies span {
     display: block;
     width: 100%;
     height: fit-content;
-    margin-left: 15px;
+    padding-left: 15px;
+    box-sizing: border-box;
 }
 
 @media (max-width: 660px) {
@@ -3513,6 +3515,10 @@ a.empathies span {
         align-items: center;
 
         width: 100%;
+    }
+
+    .main-column > .header {
+        flex-direction: row !important;
     }
 
     .index-communities-wrapper .communities {
@@ -3596,6 +3602,13 @@ a.empathies span {
 
     menu li.logo:not(:only-child) {
         display: none;
+    }
+
+    .main-column {
+        width: 100%;
+        margin: 0 auto;
+        max-width: 650px;
+        margin-top: 15px;
     }
 
     .login-wrapper {
