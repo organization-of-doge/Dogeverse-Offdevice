@@ -44,6 +44,7 @@ route.post("/profile", disallow_guest, multer().any(), async (req, res) => {
     }
 
     await db_con.account_db("accounts").update(update_data).where({ id: res.locals.user.id });
+    logger.info(`${res.locals.user.username} edited their profile.`)
 
     res.redirect("/users/@me/settings");
 })
