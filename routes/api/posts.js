@@ -15,15 +15,10 @@ const disallow_guest = require("../../middleware/disallow_guest");
 const common_querys = require("../../utils/common_querys");
 
 route.post("/", bodyParser.json({ limit: "5mb" }), async (req, res) => {
-    const community_id = req.body.community_id;
-    const feeling_id = req.body.feeling_id;
-    const spoiler = req.body.spoiler;
+    const { community_id, feeling_id, spoiler, topic_tag, screenshot, screenshot_MIME } = req.body
     const title_owned = req.body.owns_title;
+    var { body } = req.body
 
-    const topic_tag = req.body.topic_tag;
-    const body = req.body.body;
-    const screenshot = req.body.screenshot;
-    const screenshot_MIME = req.body.screenshot_MIME;
     var platform;
 
     if (
@@ -90,6 +85,24 @@ route.post("/", bodyParser.json({ limit: "5mb" }), async (req, res) => {
     };
 
     if (body) {
+        //Checking for tags
+        const tag_matches = body.match(/@(\w+)/g)
+
+        if (tag_matches) {
+            for (const tag_match of tag_matches) {
+                const username = tag_match.slice(1);
+                //Checking if the account exists.
+                const account = await db_con.account_db("accounts").where({ username }).first()
+
+                //If account exists, we replace the tag with a special tag symbol.
+                if (account) {
+                    body = body.replace(`@${username}`, `<@${account.id}>`)
+                }
+
+                console.log(tag_match, account.username)
+            }
+        }
+
         insert_data.body = body;
     } else {
         insert_data.painting = painting;
@@ -102,17 +115,16 @@ route.post("/", bodyParser.json({ limit: "5mb" }), async (req, res) => {
     }
 
     //Checking for last post's content, to avoid spam.
-    const last_post_content = (
-        await db_con
-            .env_db("posts")
-            .where({ account_id: res.locals.user.id })
-            .whereBetween("create_time", [
-                moment().subtract(10, "minutes").format("YYYY-MM-DD HH:mm:ss"),
-                moment().add(10, "minutes").format("YYYY-MM-DD HH:mm:ss"),
-            ])
-            .orderBy("create_time", "desc")
-            .limit(1)
-    )[0];
+    const last_post_content = await db_con
+        .env_db("posts")
+        .where({ account_id: res.locals.user.id })
+        .whereBetween("create_time", [
+            moment().subtract(10, "minutes").format("YYYY-MM-DD HH:mm:ss"),
+            moment().add(10, "minutes").format("YYYY-MM-DD HH:mm:ss"),
+        ])
+        .orderBy("create_time", "desc")
+        .limit(1)
+        .first();
 
     //Yes I know this is a bad if statement. will come back to it when I can.
     if (last_post_content) {
