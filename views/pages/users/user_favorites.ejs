@@ -28,6 +28,10 @@
 						include_banner : false
 					}) %>
 					<% } %>
+
+					<% if (!communities.length) { %>
+					<span class="no-posts">No favorites exist yet.</span>
+					<% } %>
 				</div>
 				<span class="loading none"></span>
 			</div>

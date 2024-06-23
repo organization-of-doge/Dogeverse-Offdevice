@@ -26,20 +26,9 @@ async function get_user_data(req, res, next) {
         .get_user_stats(res.locals.view_user.id)
         .clone();
 
-    res.locals.view_user_favorites = await db_con
-        .env_db("favorites")
-        .select(
-            "communities.name as community_name",
-            "communities.cdn_icon_url",
-            "communities.id as community_id"
-        )
+    res.locals.view_user_favorites = await common_querys.get_user_favorites
+        .clone()
         .where({ "favorites.account_id": res.locals.view_user.id })
-        .innerJoin(
-            "communities",
-            "communities.id",
-            "=",
-            "favorites.community_id"
-        );
 
     if (!res.locals.guest_mode) {
         res.locals.relationships_with_user = await db_con

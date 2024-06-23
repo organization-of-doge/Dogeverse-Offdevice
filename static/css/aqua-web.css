@@ -2322,6 +2322,7 @@ button.empathy span::before {
     border-radius: 5px;
 
     align-self: flex-start;
+    box-sizing: border-box;
 }
 
 .user-info-wrapper .user-info {
@@ -2778,7 +2779,7 @@ button.empathy span::before {
     border-bottom: 2px solid var(--community-info-border-color);
 }
 
-.user-menu a {
+.user-menu > a {
     display: flex;
     align-items: center;
     text-decoration: none;
@@ -2787,30 +2788,30 @@ button.empathy span::before {
     border-bottom: 1px solid var(--community-info-border-color);
 }
 
-.user-menu a.trigger:hover {
+.user-menu > a.trigger:hover {
     text-decoration: none;
 }
 
-.user-menu a:first-child {
+.user-menu > a:first-child {
     border-top-left-radius: 3.5px;
     border-top-right-radius: 3.5px;
 }
 
-.user-menu a:last-child {
+.user-menu > a:last-child {
     border-bottom: none;
     border-bottom-left-radius: 3.5px;
     border-bottom-right-radius: 3.5px;
 }
 
-.user-menu a.selected {
+.user-menu > a.selected {
     background-color: var(--community-hover-bg);
 }
 
-.user-menu a.selected span:not(.number) {
+.user-menu > a.selected span:not(.number) {
     font-weight: bold;
 }
 
-.user-menu a span {
+.user-menu > a span {
     display: block;
     width: fit-content;
     font-size: 14px;
@@ -2818,11 +2819,11 @@ button.empathy span::before {
     color: var(--common-text-color);
 }
 
-.user-menu a.no-class span {
+.user-menu > a.no-class span {
     margin-left: 15px;
 }
 
-.user-menu a .number {
+.user-menu > a .number {
     display: block;
     margin-left: auto;
 
@@ -2838,7 +2839,7 @@ button.empathy span::before {
     color: var(--community-app-name-color);
 }
 
-.user-menu a::after {
+.user-menu > a::after {
     display: block;
     content: "A";
     margin-left: auto;
@@ -2848,11 +2849,11 @@ button.empathy span::before {
     color: var(--community-app-name-color);
 }
 
-.user-menu a:has(.number)::after {
+.user-menu > a:has(.number)::after {
     margin-left: 0;
 }
 
-.user-menu a::before {
+.user-menu > a::before {
     display: block;
     height: fit-content;
     width: 27px;
@@ -2892,6 +2893,11 @@ button.empathy span::before {
 .user-menu a.ingame::before {
     content: "&";
     color: var(--community-ingame-color);
+}
+
+.user-menu a.favorites::before {
+    content: "s";
+    color: var(--community-favorite-color);
 }
 
 a.all-posts span,
@@ -3607,6 +3613,62 @@ a.empathies span {
     display: block;
 }
 
+.user-menu .favorites-wrapper > div {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    height: fit-content;
+    padding: 5px;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    box-sizing: border-box;
+}
+
+.user-menu .favorites-wrapper a {
+    width: 18%;
+    min-width: 9%;
+    height: fit-content;
+    margin-left: 3px;
+    margin-right: 3px;
+}
+
+.user-menu .favorites-wrapper img.icon {
+    width: 100%;
+    border-radius: 5px;
+    border: 1px solid var(--community-info-border-color);
+    box-sizing: border-box;
+}
+
+.favorites-wrapper .platform {
+    display: block;
+    width: 100%;
+    height: auto;
+    position: relative;
+    margin-bottom: 3px;
+    margin-top: -1px;
+}
+
+.favorites-wrapper .platform.wiiu {
+    content: url("/img/platform/platform-tag-wiiu.png");
+}
+
+.favorites-wrapper .platform.\33 ds {
+    content: url("/img/platform/platform-tag-3ds.png");
+}
+
+.favorites-wrapper .platform.topic {
+    content: url("/img/platform/platform-tag-general.png");
+}
+
+.favorites-wrapper .platform.both {
+    content: url("/img/platform/platform-tag-both.png");
+}
+
+.favorites-wrapper span.no-posts {
+    padding: 25px;
+    font-size: 15px;
+}
+
 @media (max-width: 660px) {
     .communities > div:not(.community-favorites) {
         flex-direction: column;
@@ -3617,6 +3679,7 @@ a.empathies span {
 
     .main-column > .header {
         flex-direction: row !important;
+        justify-content: left !important;
     }
 
     .index-communities-wrapper .communities {
@@ -3680,6 +3743,21 @@ a.empathies span {
     .common-button {
         max-width: 400px;
         width: 85%;
+    }
+
+    .user-menu .favorites-wrapper > div {
+        margin: 0 auto;
+        max-width: 305px;
+        min-width: 272px;
+        width: 98%;
+        padding: 0;
+        padding-bottom: 15px;
+        padding-top: 15px;
+    }
+
+    .user-menu .favorites-wrapper a {
+        width: 17% !important;
+        min-width: 44px !important;
     }
 }
 
@@ -3757,7 +3835,7 @@ a.empathies span {
         margin: 0 auto;
     }
 
-    .communities > div {
+    .communities > div:not(.header) {
         justify-content: center;
     }
 
@@ -4002,5 +4080,17 @@ a.empathies span {
 
     .user-sidebar .user-menu {
         width: auto;
+    }
+
+    .user-menu .favorites-wrapper {
+        flex-flow: row;
+    }
+
+    .user-menu .favorites-wrapper a {
+        width: 9%;
+    }
+
+    .user-menu .favorites-wrapper > div {
+        justify-content: center;
     }
 }

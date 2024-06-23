@@ -20,4 +20,24 @@
 	<div class="user-info-wrapper">
 		<p class="bio"><%- view_user.bio.replace(/\n/g, "<br>") %></p>
 	</div>
+
+	<div class="user-menu">
+		<a class="trigger favorites" href="/users/<%= view_user.username %>/favorites">
+			<span>Favorite Communities</span>
+		</a>
+		<div class="favorites-wrapper">
+			<div>
+				<% for (const community of view_user_favorites) { %>
+				<a href="/communities/<%= community.id %>">
+					<img class="icon" src="<%= community.cdn_icon_url %>">
+					<img class="platform <%= community.platform %>">
+				</a>
+				<% } %>
+
+				<% if (!view_user_favorites.length) { %>
+				<span class="no-posts">No favorites exist yet.</span>
+				<% } %>
+			</div>
+		</div>
+	</div>
 </div>
