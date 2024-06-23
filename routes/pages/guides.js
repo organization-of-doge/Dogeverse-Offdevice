@@ -13,6 +13,10 @@ route.use(async (req, res, next) => {
         .get_user_stats(res.locals.user.id)
         .clone();
 
+    res.locals.view_user_favorites = await common_querys.get_user_favorites
+        .clone()
+        .where({ "favorites.account_id": res.locals.user.id })
+
     return next();
 });
 

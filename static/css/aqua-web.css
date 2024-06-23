@@ -101,6 +101,15 @@
 
     --popular-posts-selector: rgb(245, 245, 245);
     --popular-posts-selector-bottom: rgb(237, 237, 237);
+    --wiiu-software-bg: rgb(216, 242, 252);
+    --wiiu-software-color: rgb(17, 147, 196);
+    --n3ds-software-bg: rgb(252, 233, 233);
+    --n3ds-software-color: rgb(206, 24, 30);
+    --vc-software-bg: rgb(236, 236, 236);
+    --vc-software-color: rgb(120, 120, 120);
+
+    --settings-input-border: rgb(170, 170, 170);
+    --settings-input-background: rgb(253, 253, 253);
 }
 
 .trigger {
@@ -516,6 +525,19 @@ footer .footer-wrapper div a:hover {
     padding-bottom: 85px;
 }
 
+.main-column {
+    width: 625px;
+    margin-top: 15px;
+    box-sizing: border-box;
+}
+
+.main-column.fill {
+    background-color: var(--community-info-bg);
+    border: 1px solid var(--community-info-border-color);
+    border-bottom: 2px solid var(--community-info-border-color);
+    border-radius: 5px;
+}
+
 .center {
     display: flex;
     justify-content: center;
@@ -883,8 +905,9 @@ span.error-text::before {
 }
 
 .communities > .user-menu {
-    margin-top: 5px;
     width: 100%;
+    box-sizing: border-box;
+    margin-top: 15px;
 }
 
 .communities > h1,
@@ -1154,7 +1177,7 @@ form.search input[type="submit"] {
 
 .communities div .community {
     margin-right: 6px;
-    margin-bottom: 15px;
+    margin-bottom: 8px;
 
     width: 307px;
 
@@ -1301,6 +1324,10 @@ div > .community:nth-child(even) {
     background-image: url("/img/platform/platform-tag-both.png");
 }
 
+.platform.vc::before {
+    width: 0px;
+}
+
 .community-wrapper {
     display: flex;
 
@@ -1437,9 +1464,8 @@ div > .community:nth-child(even) {
 }
 
 .community-actions .favorite-button,
-.recent-posts {
+.common-button {
     display: block;
-    width: 85%;
     height: 43px;
 
     border: 1px solid var(--common-button-border);
@@ -1449,19 +1475,23 @@ div > .community:nth-child(even) {
     text-decoration: none;
 }
 
+.favorite-button {
+    width: 100%;
+}
+
 .favorite-button:disabled span {
     color: var(--common-disabled-text-color);
 }
 
 .favorite-button:not(:disabled):hover,
-.recent-posts:hover {
+.common-button:hover {
     cursor: pointer;
     box-shadow: 0px 1px 5px rgb(209, 209, 209);
     transition: box-shadow 0.1s;
 }
 
 .favorite-button span,
-.recent-posts span {
+.common-button span {
     color: var(--common-text-color);
     vertical-align: middle;
     font-family: Arial, Helvetica, sans-serif;
@@ -1483,14 +1513,25 @@ div > .community:nth-child(even) {
     content: "s";
 }
 
-.recent-posts {
+.common-button {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 50%;
-    height: 50px;
+    max-width: 400px;
+    width: 100%;
     margin: 0 auto;
     margin-bottom: 15px;
+    border: 1px solid var(--common-button-border);
+    border-bottom: 2px solid var(--common-button-border);
+    border-radius: 5px;
+
+    background-color: var(--common-button-bg);
+    text-decoration: none;
+}
+
+.see-more,
+.recent-posts {
+    margin-bottom: 25px;
 }
 
 .recent-posts span::before {
@@ -1637,7 +1678,7 @@ div > .community:nth-child(even) {
 .community-post-list.guest {
     background-color: var(--community-content-bg);
 
-    margin-bottom: 15px;
+    margin-bottom: 12px;
     border-radius: 5px;
     border: 1px solid var(--community-info-border-color);
     border-bottom: 2px solid var(--community-info-border-color);
@@ -1914,6 +1955,7 @@ div > .community:nth-child(even) {
 
 .drawing .user-icon {
     width: 36px;
+    height: 36px;
     border: 1px solid var(--community-info-border-color);
     border-radius: 4px;
     background-color: var(--community-info-bg);
@@ -2259,10 +2301,12 @@ button.empathy span::before {
     display: flex;
     justify-content: center;
 
+    min-width: 960px;
     width: 95%;
     height: fit-content;
 
     margin: 0 auto;
+    align-items: start;
 }
 
 .user-info-wrapper {
@@ -2278,6 +2322,7 @@ button.empathy span::before {
     border-radius: 5px;
 
     align-self: flex-start;
+    box-sizing: border-box;
 }
 
 .user-info-wrapper .user-info {
@@ -2346,12 +2391,12 @@ button.empathy span::before {
     box-sizing: border-box;
 }
 
-.guide-wrapper .spacer {
+.main-column.guide .spacer {
     padding: 15px;
     padding-top: 15px;
 }
 
-.guide-wrapper h1.opening {
+.main-column.guide h1.opening {
     font-size: 15px;
     margin-top: 0;
     margin-bottom: 0;
@@ -2365,11 +2410,11 @@ button.empathy span::before {
     color: var(--rules-header-text-color);
 }
 
-.guide-wrapper h2:nth-child(2) {
+.main-column.guide h2:nth-child(2) {
     margin-top: 10px;
 }
 
-.guide-wrapper h2 {
+.main-column.guide h2 {
     font-size: 15px;
     margin-top: 0;
     margin-bottom: 0;
@@ -2379,35 +2424,35 @@ button.empathy span::before {
     font-weight: normal;
 }
 
-.guide-wrapper h2.num1 {
+.main-column.guide h2.num1 {
     color: var(--rules-header-opening);
     border-bottom: 2px solid var(--rules-header-opening);
 }
 
-.guide-wrapper h2.num2 {
+.main-column.guide h2.num2 {
     color: var(--rules-header-num2);
     border-bottom: 2px solid var(--rules-header-num2);
 }
 
-.guide-wrapper h2.num3 {
+.main-column.guide h2.num3 {
     color: var(--rules-header-num3);
     border-bottom: 2px solid var(--rules-header-num3);
 }
 
-.guide-wrapper h2.num4 {
+.main-column.guide h2.num4 {
     color: var(--rules-header-num4);
     border-bottom: 2px solid var(--rules-header-num4);
 }
 
-.guide-wrapper p,
-.guide-wrapper code {
+.main-column.guide p,
+.main-column.guide code {
     padding: 5px;
     margin-top: 5px;
     font-size: 14px;
     line-height: 1.5;
 }
 
-.guide-wrapper code {
+.main-column.guide code {
     display: block;
 
     border-radius: 5px;
@@ -2423,11 +2468,11 @@ button.empathy span::before {
     word-break: break-all;
 }
 
-.guide-wrapper p:last-child {
+.main-column.guide p:last-child {
     margin-bottom: 0;
 }
 
-.guide-wrapper img {
+.main-column.guide img {
     display: block;
     width: 100%;
     border-radius: 5px;
@@ -2436,12 +2481,12 @@ button.empathy span::before {
     margin: 0 auto;
 }
 
-.guide-wrapper ul {
+.main-column.guide ul {
     list-style: square;
     font-size: 14px;
 }
 
-.guide-wrapper ul li {
+.main-column.guide ul li {
     margin-bottom: 5px;
 }
 
@@ -2618,6 +2663,12 @@ button.empathy span::before {
     border-radius: 5px;
 }
 
+.main-column.fill .user-posts {
+    border: none;
+    border-radius: 0;
+    background-color: transparent;
+}
+
 .user-info .user-stats {
     display: flex;
     background-color: var(--user-stats-background-color);
@@ -2685,6 +2736,8 @@ button.empathy span::before {
     margin-top: 10px;
 
     color: var(--common-text-color);
+    font-size: 14px;
+    text-decoration: none;
 }
 
 .user-info .profile-settings::before {
@@ -2726,7 +2779,7 @@ button.empathy span::before {
     border-bottom: 2px solid var(--community-info-border-color);
 }
 
-.user-menu a {
+.user-menu > a {
     display: flex;
     align-items: center;
     text-decoration: none;
@@ -2735,30 +2788,30 @@ button.empathy span::before {
     border-bottom: 1px solid var(--community-info-border-color);
 }
 
-.user-menu a.trigger:hover {
+.user-menu > a.trigger:hover {
     text-decoration: none;
 }
 
-.user-menu a:first-child {
+.user-menu > a:first-child {
     border-top-left-radius: 3.5px;
     border-top-right-radius: 3.5px;
 }
 
-.user-menu a:last-child {
+.user-menu > a:last-child {
     border-bottom: none;
     border-bottom-left-radius: 3.5px;
     border-bottom-right-radius: 3.5px;
 }
 
-.user-menu a.selected {
+.user-menu > a.selected {
     background-color: var(--community-hover-bg);
 }
 
-.user-menu a.selected span:not(.number) {
+.user-menu > a.selected span:not(.number) {
     font-weight: bold;
 }
 
-.user-menu a span {
+.user-menu > a span {
     display: block;
     width: fit-content;
     font-size: 14px;
@@ -2766,7 +2819,11 @@ button.empathy span::before {
     color: var(--common-text-color);
 }
 
-.user-menu a .number {
+.user-menu > a.no-class span {
+    margin-left: 15px;
+}
+
+.user-menu > a .number {
     display: block;
     margin-left: auto;
 
@@ -2782,7 +2839,7 @@ button.empathy span::before {
     color: var(--community-app-name-color);
 }
 
-.user-menu a::after {
+.user-menu > a::after {
     display: block;
     content: "A";
     margin-left: auto;
@@ -2792,11 +2849,11 @@ button.empathy span::before {
     color: var(--community-app-name-color);
 }
 
-.user-menu a:has(.number)::after {
+.user-menu > a:has(.number)::after {
     margin-left: 0;
 }
 
-.user-menu a::before {
+.user-menu > a::before {
     display: block;
     height: fit-content;
     width: 27px;
@@ -2838,12 +2895,18 @@ button.empathy span::before {
     color: var(--community-ingame-color);
 }
 
+.user-menu a.favorites::before {
+    content: "s";
+    color: var(--community-favorite-color);
+}
+
 a.all-posts span,
 a.empathies span {
     margin-left: 0;
 }
 
-.user-sidebar {
+.user-sidebar,
+.sidebar {
     display: flex;
     flex-direction: column;
     height: 100%;
@@ -3109,6 +3172,7 @@ a.empathies span {
 
 .reply .reply-content-wrapper a:has(.user-icon) .user-icon {
     width: 50px;
+    height: 50px;
     display: block;
 }
 
@@ -3356,12 +3420,266 @@ a.empathies span {
     min-height: 0;
 }
 
+.main-column.communities {
+    background-color: var(--community-info-bg);
+    border: 1px solid var(--community-info-border-color);
+    border-bottom: 2px solid var(--community-info-border-color);
+    border-radius: 5px;
+}
+
+.main-column .header {
+    box-sizing: border-box;
+    width: 100% !important;
+    position: relative;
+    padding-top: 12px;
+    padding-bottom: 12px;
+    padding-left: 15px;
+    align-items: center;
+}
+
+.main-column > .header.wiiu::after {
+    display: block;
+    background-image: url("/img/platform/wiiu-logo.png");
+    background-repeat: no-repeat;
+    width: 121px;
+    height: 21px;
+    content: "";
+    background-size: contain;
+    margin-left: auto;
+}
+
+.main-column > .header.vc::after {
+    display: block;
+    background-image: url("/img/platform/vc-logo.png");
+    background-repeat: no-repeat;
+    width: 167px;
+    height: 21px;
+    content: "";
+    background-size: contain;
+    margin-left: auto;
+}
+
+.main-column > .header.n3ds::after {
+    display: block;
+    background-image: url("/img/platform/3ds-logo.png");
+    background-repeat: no-repeat;
+    width: 120px;
+    height: 21px;
+    content: "";
+    background-size: contain;
+    margin-left: auto;
+}
+
+.main-column.communities > .header span::before {
+    display: none;
+}
+
+.main-column.communities > .software-header {
+    width: 100%;
+    height: 35px;
+    display: flex;
+    align-items: center;
+    box-sizing: border-box;
+    border-bottom: 1px solid var(--community-info-border-color);
+}
+
+.main-column.communities > .list {
+    flex-wrap: nowrap;
+    flex-direction: column;
+    width: 100%;
+}
+
+.main-column.communities > .list > div {
+    width: 100%;
+    margin: 0;
+    border: none;
+    border-bottom: 1px solid var(--community-info-border-color);
+}
+
+.main-column.communities > .list > div:last-child {
+    border-bottom: 0;
+}
+
+.main-column.communities > .list > div:last-child .community-info {
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+.main-column.communities > .list > div > .community-info {
+    border: none;
+    border-radius: 0;
+}
+
+.main-column.communities > .list > div > .community-info > .community-meta .name,
+.main-column.communities > .list > div > .community-info > .community-meta {
+    width: 100%;
+}
+
+.main-column.communities > .software-header.wiiu {
+    background-color: var(--wiiu-software-bg);
+    color: var(--wiiu-software-color);
+}
+
+.main-column.communities > .software-header.n3ds {
+    background-color: var(--n3ds-software-bg);
+    color: var(--n3ds-software-color);
+}
+
+.main-column.communities > .software-header.vc {
+    background-color: var(--vc-software-bg);
+    color: var(--vc-software-color);
+}
+
+.main-column.communities > .software-header > span {
+    font-weight: bold;
+    font-size: 14px;
+    display: block;
+    width: 100%;
+    height: fit-content;
+    padding-left: 15px;
+    box-sizing: border-box;
+}
+
+.main-column > .settings-wrapper {
+    padding: 15px;
+}
+
+.main-column > .settings-wrapper div {
+    width: 100%;
+    height: fit-content;
+    padding-bottom: 15px;
+    border-bottom: 2px solid var(--community-info-border-color);
+}
+
+.main-column > .settings-wrapper div label {
+    display: block;
+    font-size: 14px;
+    margin-bottom: 5px;
+    margin-top: 12px;
+}
+
+.main-column > .settings-wrapper form > div:first-child label {
+    margin-top: 0;
+}
+
+.main-column > .settings-wrapper div input:not([type="file"]),
+.main-column > .settings-wrapper div textarea {
+    display: block;
+    width: 100%;
+    height: 35px;
+    font-size: 18px;
+    box-sizing: border-box;
+    background-color: var(--settings-input-background);
+    border: 1px solid var(--settings-input-border);
+    border-radius: 3px;
+    padding-left: 5px;
+}
+
+.main-column > .settings-wrapper div textarea {
+    resize: vertical;
+    font-family: Arial, Helvetica, sans-serif;
+    min-height: 120px;
+    max-height: 300px;
+    padding: 10px;
+    font-size: 16px;
+}
+
+.main-column > .settings-wrapper div p {
+    display: block;
+    width: 100%;
+    margin-top: 6px;
+    margin-bottom: 0;
+    font-size: 13px;
+    color: var(--community-app-name-color);
+    line-height: 1.4;
+}
+
+.main-column > .settings-wrapper div select {
+    width: 300px;
+    height: 25px;
+    font-size: 15px;
+    border-radius: 3px;
+    background-color: var(--settings-input-background);
+    border: 1px solid var(--settings-input-border);
+    margin-left: auto;
+    display: block;
+    word-spacing: -1px;
+}
+
+.main-column > .settings-wrapper .black-button {
+    margin: 0 auto;
+    margin-top: 15px;
+    margin-bottom: 5px;
+    display: block;
+}
+
+.user-menu .favorites-wrapper > div {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    height: fit-content;
+    padding: 5px;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    box-sizing: border-box;
+}
+
+.user-menu .favorites-wrapper a {
+    width: 18%;
+    min-width: 9%;
+    height: fit-content;
+    margin-left: 3px;
+    margin-right: 3px;
+}
+
+.user-menu .favorites-wrapper img.icon {
+    width: 100%;
+    border-radius: 5px;
+    border: 1px solid var(--community-info-border-color);
+    box-sizing: border-box;
+}
+
+.favorites-wrapper .platform {
+    display: block;
+    width: 100%;
+    height: auto;
+    position: relative;
+    margin-bottom: 3px;
+    margin-top: -1px;
+}
+
+.favorites-wrapper .platform.wiiu {
+    content: url("/img/platform/platform-tag-wiiu.png");
+}
+
+.favorites-wrapper .platform.\33 ds {
+    content: url("/img/platform/platform-tag-3ds.png");
+}
+
+.favorites-wrapper .platform.topic {
+    content: url("/img/platform/platform-tag-general.png");
+}
+
+.favorites-wrapper .platform.both {
+    content: url("/img/platform/platform-tag-both.png");
+}
+
+.favorites-wrapper span.no-posts {
+    padding: 25px;
+    font-size: 15px;
+}
+
 @media (max-width: 660px) {
     .communities > div:not(.community-favorites) {
         flex-direction: column;
         align-items: center;
 
         width: 100%;
+    }
+
+    .main-column > .header {
+        flex-direction: row !important;
+        justify-content: left !important;
     }
 
     .index-communities-wrapper .communities {
@@ -3417,6 +3735,30 @@ a.empathies span {
     .full-post .community a span {
         font-size: 15px;
     }
+
+    .common-button span {
+        font-size: 14px;
+    }
+
+    .common-button {
+        max-width: 400px;
+        width: 85%;
+    }
+
+    .user-menu .favorites-wrapper > div {
+        margin: 0 auto;
+        max-width: 305px;
+        min-width: 272px;
+        width: 98%;
+        padding: 0;
+        padding-bottom: 15px;
+        padding-top: 15px;
+    }
+
+    .user-menu .favorites-wrapper a {
+        width: 17% !important;
+        min-width: 44px !important;
+    }
 }
 
 @media (max-width: 970px) {
@@ -3436,6 +3778,13 @@ a.empathies span {
 
     menu li.logo:not(:only-child) {
         display: none;
+    }
+
+    .main-column {
+        width: 100%;
+        margin: 0 auto;
+        max-width: 650px;
+        margin-top: 15px;
     }
 
     .login-wrapper {
@@ -3486,7 +3835,7 @@ a.empathies span {
         margin: 0 auto;
     }
 
-    .communities > div {
+    .communities > div:not(.header) {
         justify-content: center;
     }
 
@@ -3599,6 +3948,7 @@ a.empathies span {
     .user-wrapper {
         flex-direction: column;
         justify-content: center;
+        min-width: 0;
     }
 
     .user-info-wrapper {
@@ -3654,7 +4004,8 @@ a.empathies span {
         margin-right: 0;
     }
 
-    .user-sidebar {
+    .user-sidebar,
+    .sidebar {
         width: 100%;
         margin: 0 auto;
     }
@@ -3677,9 +4028,7 @@ a.empathies span {
 
     .user-menu.extend {
         flex-direction: row;
-        border-radius: 0;
-        border-bottom-left-radius: 5px;
-        border-bottom-right-radius: 5px;
+        border-radius: 5px;
     }
 
     .user-menu.extend a {
@@ -3731,5 +4080,17 @@ a.empathies span {
 
     .user-sidebar .user-menu {
         width: auto;
+    }
+
+    .user-menu .favorites-wrapper {
+        flex-flow: row;
+    }
+
+    .user-menu .favorites-wrapper a {
+        width: 9%;
+    }
+
+    .user-menu .favorites-wrapper > div {
+        justify-content: center;
     }
 }

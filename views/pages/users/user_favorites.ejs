@@ -1,0 +1,42 @@
+<%- include("../../partials/header.ejs", {
+    image_url : `${view_user.cdn_profile_normal_image_url}`,
+    title : `Aquamarine - ${view_user.mii_name}'s Favorite Communities`,
+	description : ""
+}) -%>
+
+<body>
+	<%- include("../../partials/elements/navbar.ejs") -%>
+
+	<div class="wrapper">
+		<div class="user-wrapper">
+			<%- include("../../partials/elements/ugc/user_sidebar.ejs", {
+				view_user : view_user,
+				view_user_stats : view_user_stats,
+                all_posts : false,
+                all_empathies : false
+			}) -%>
+
+			<div class="main-column fill communities">
+				<div class="header guide">
+					<span>Favorite Communities</span>
+				</div>
+
+				<div class="list">
+					<% for (const community of communities) { %>
+					<%- include("../../partials/elements/database-elements/community.ejs", {
+						community : community,
+						include_banner : false
+					}) %>
+					<% } %>
+
+					<% if (!communities.length) { %>
+					<span class="no-posts">No favorites exist yet.</span>
+					<% } %>
+				</div>
+				<span class="loading none"></span>
+			</div>
+		</div>
+	</div>
+
+	<%- include("../../partials/elements/footer.ejs") -%>
+</body>

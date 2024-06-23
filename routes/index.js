@@ -1,5 +1,10 @@
 module.exports = [
     {
+        path: "/api/settings",
+        route: require("./api/settings")
+    },
+
+    {
         path: "/api/oauth",
         route: require("./api/oauth"),
     },

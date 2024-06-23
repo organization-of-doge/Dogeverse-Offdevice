@@ -1,0 +1,48 @@
+<%- include("../../../partials/header.ejs", { image_url : "" , title : "Aquamarine - Nintendo 3DS Communities" , description : "" }) -%>
+
+<body>
+	<%- include("../../../partials/elements/navbar.ejs") %>
+
+	<div class="wrapper">
+		<div class="user-wrapper">
+			<div class="sidebar">
+				<div class="user-menu">
+					<a class="no-class trigger" href="/communities/categories/wiiu">
+						<span>Wii U Games</span>
+					</a>
+
+					<a class="selected no-class trigger" href="/communities/categories/3ds">
+						<span>Nintendo 3DS Games</span>
+					</a>
+
+					<a class="no-class trigger" href="/communities/categories/vc">
+						<span>Virtual Console Games</span>
+					</a>
+				</div>
+			</div>
+
+			<div class="main-column normal communities">
+				<div class="header n3ds">
+					<span>Communities</span>
+				</div>
+
+				<div class="software-header n3ds">
+					<span>Nintendo 3DS Games</span>
+				</div>
+
+				<div class="list">
+					<% for (const community of communities) { %>
+					<%- include("../../../partials/elements/database-elements/community.ejs", {
+						community : community,
+						include_banner : false
+					}) %>
+					<% } %>
+				</div>
+
+				<span class="loading none"></span>
+			</div>
+		</div>
+	</div>
+
+	<%- include("../../../partials/elements/footer.ejs") -%>
+</body>

@@ -6,12 +6,15 @@ const ejs = require("ejs");
 const db_con = require("../../utils/database_con");
 const common_querys = require("../../utils/common_querys");
 const generate_partial = require("../utils/generate_partial");
+const disallow_guest = require("../../middleware/disallow_guest")
 
 async function get_user_data(req, res, next) {
+    const username = req.params.username || res.locals.user.username
+
     //Setting all this information, since all pages here will require it, and repeating code is messy.
     res.locals.view_user = await db_con
         .account_db("accounts")
-        .where({ username: req.params.username })
+        .where({ username: username })
         .first();
 
     if (!res.locals.view_user) {
@@ -23,20 +26,9 @@ async function get_user_data(req, res, next) {
         .get_user_stats(res.locals.view_user.id)
         .clone();
 
-    res.locals.view_user_favorites = await db_con
-        .env_db("favorites")
-        .select(
-            "communities.name as community_name",
-            "communities.cdn_icon_url",
-            "communities.id as community_id"
-        )
+    res.locals.view_user_favorites = await common_querys.get_user_favorites
+        .clone()
         .where({ "favorites.account_id": res.locals.view_user.id })
-        .innerJoin(
-            "communities",
-            "communities.id",
-            "=",
-            "favorites.community_id"
-        );
 
     if (!res.locals.guest_mode) {
         res.locals.relationships_with_user = await db_con
@@ -164,5 +156,33 @@ route.get("/:username/empathies", get_user_data, async (req, res) => {
         view_user_stats: res.locals.view_user_stats,
     });
 });
+
+route.get("/:username/favorites", get_user_data, async (req, res) => {
+    const limit = req.query["limit"] || 15
+    const offset = req.query["offset"] || 0
+    const raw = req.query["raw"]
+
+    const communities = await db_con.env_db("communities")
+        .where({ "favorites.account_id": res.locals.view_user.id })
+        .leftJoin("favorites", "favorites.community_id", "=", "communities.id")
+        .orderBy("favorites.create_time", "desc")
+        .limit(limit)
+        .offset(offset)
+
+    if (raw) {
+        if (!communities.length) { res.sendStatus(204); return; }
+
+        generate_partial.generate_community_partial(res, communities, false);
+        return;
+    }
+
+    res.render("pages/users/user_favorites", {
+        communities: communities
+    })
+})
+
+route.get("/@me/settings", disallow_guest, get_user_data, async (req, res) => {
+    res.render("pages/users/user_settings.ejs");
+})
 
 module.exports = route;

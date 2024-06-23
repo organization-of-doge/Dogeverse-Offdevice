@@ -10,9 +10,9 @@
 	</div>
 	<% if (!locals.guest_mode) { %>
 	<% if (account.id === locals.user.id) { %>
-	<button class="profile-settings">Profile Settings</button>
+	<a class="profile-settings" href="/users/@me/settings">Profile Settings</a>
 	<% } else { %>
-	<button class="profile-settings">Add Friend</button>
+	<a class="profile-settings">Add Friend</a>
 	<% } %>
 	<% } %>
 

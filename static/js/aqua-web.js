@@ -381,6 +381,35 @@ const aquamarine = {
             }
         },
 
+        download_communities: async function (selector, query) {
+            const community_list = document.querySelector(selector);
+
+            if (!this.can_download(selector)) {
+                aquamarine.logger.log_error("Could not download!")
+                return;
+            }
+
+            this.set_loading_state(true)
+
+            try {
+                const communities_request = await fetch(query);
+
+                if (communities_request.status === 200) {
+                    const communities_html = await communities_request.text();
+                    community_list.innerHTML += communities_html;
+
+                    aquamarine.init.initialize_href();
+                } else {
+                    aquamarine.logger.log_info(`No more communities to download! ${communities_request.status}`)
+                }
+
+                this.last_request_status = communities_request.status
+                this.set_loading_state(false);
+            } catch (error) {
+                aquamarine.logger.log_error(error)
+            }
+        },
+
         can_download: function (selector) {
             const post_list = document.querySelector(selector);
             const loading = document.querySelector(".loading");
@@ -609,6 +638,19 @@ aquamarine.router.connect("^/users/(\\S*)/empathies$", async (user_name) => {
     });
 });
 
+aquamarine.router.connect("^/users/(\\S*)/favorites$", async (user_name) => {
+    aquamarine.init.initialize_empathies();
+
+    document.addEventListener("aquamarine:scroll_end", async (ev) => {
+        const community_list = document.querySelector(".list");
+        const offset = community_list.children.length;
+        await aquamarine.actions.download_communities(
+            ".list",
+            `?raw=1&offset=${offset}&limit=25`
+        );
+    });
+});
+
 aquamarine.router.connect("^/posts/([^/]+)$", async (post_id) => {
     const textarea = document.querySelector("textarea");
     const file_upload = document.querySelector('input[type="file"]');
@@ -716,4 +758,15 @@ aquamarine.router.connect(/^\/communities\/\d+\/(\w+)$/, async (tab) => {
 
     aquamarine.init.initialize_empathies();
     aquamarine.init.initialize_favorite_button()
+})
+
+aquamarine.router.connect(/^\/communities\/categories\/(\w+)$/, async (platform) => {
+    document.addEventListener("aquamarine:scroll_end", async () => {
+        const offset = document.querySelector(".list").children.length;
+
+        await aquamarine.actions.download_communities(
+            ".list",
+            `?raw=1&offset=${offset}&limit=25`
+        );
+    })
 })

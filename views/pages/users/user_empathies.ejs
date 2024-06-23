@@ -1,5 +1,5 @@
 <%- include("../../partials/header.ejs", {
-    image_url : `https://mii-secure.cdn.nintendo.net/${view_user.mii_hash}_normal_face.png`,
+    image_url : `${view_user.cdn_profile_normal_image_url}`,
     title : `Aquamarine - ${view_user.mii_name}'s Yeahs`,
 	description : view_user.bio
 }) -%>
@@ -16,7 +16,7 @@
                 all_empathies : true
 			}) -%>
 
-			<div class="user-main-wrapper">
+			<div class="main-column fill">
 				<div class="user-posts">
 					<div class="header guide">
 						<span>Yeahs</span>
